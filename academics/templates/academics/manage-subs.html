@@ -1,0 +1,64 @@
+{% extends 'portals/admin_dashboard.html' %}
+
+{% block content %}
+<main class="flex-1 min-h-screen overflow-y-auto">
+
+  <!-- Top bar -->
+  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-100 px-10 h-16 flex items-center justify-between">
+    <div>
+      <h1 class="text-sm font-semibold text-slate-800">Subjects</h1>
+      <p class="text-[10px] text-slate-400 uppercase tracking-widest">Manage subjects per class level</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="bg-slate-100 rounded-xl px-4 py-2 flex items-center gap-2">
+        <p class="text-[10px] uppercase tracking-widest text-slate-400">Total Subjects</p>
+        <p class="text-sm font-semibold text-slate-800" id="school-stats">{{ total_arms }}</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="p-10">
+
+    <!-- categories tabs -->
+    <div class="flex items-center gap-2 mb-8 overflow-x-auto pb-1">
+      {% for category in categories%}
+        <button
+          class="tab-btn flex-shrink-0 px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest font-medium transition-all border border-transparent text-slate-500 hover:text-slate-800 hover:bg-white hover:border-slate-200 hover:shadow-sm"
+          hx-get="{% url 'acad:load-sub' category %}"
+          hx-target="#active-level-content"
+          hx-on:click="document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active-tab')); this.classList.add('active-tab');"
+        >
+          {{ category }}
+        </button>
+      {% endfor %}
+    </div>
+
+    <!-- Content area -->
+    <div id="active-level-content" class="min-h-96">
+      <!-- Empty state -->
+      <div class="flex flex-col items-center justify-center h-80 rounded-2xl border-2 border-dashed border-slate-200">
+        <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v4M7 7h10"/>
+          </svg>
+        </div>
+        <p class="text-xs uppercase tracking-widest text-slate-400 font-medium">Select a category to begin</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<style>
+  .active-tab {
+    background: #0f172a;
+    color: white;
+    border-color: #0f172a;
+  }
+  .active-tab:hover {
+    background: #0f172a;
+    color: white;
+  }
+</style>
+
+{% endblock %}

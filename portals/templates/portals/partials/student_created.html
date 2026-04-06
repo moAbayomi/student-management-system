@@ -1,0 +1,35 @@
+
+<div class="animate-in fade-in zoom-in-95 duration-200 bg-white rounded-2xl border border-slate-100 shadow-sm p-10 max-w-md">
+
+  <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl font-bold mb-6">
+    {{ student.first_name }}
+  </div>
+
+  <h2 class="text-lg font-semibold text-slate-800 mb-1">Account Created</h2>
+  <p class="text-sm text-slate-400 mb-8">Hand these credentials to the student. The password is shown once.</p>
+
+  <div class="space-y-4 mb-8">
+    <div class="flex justify-between items-center py-3 border-b border-slate-50">
+      <span class="text-xs uppercase tracking-widest text-slate-400">Full Name</span>
+      <span class="text-sm font-medium text-slate-800">{{ student.get_full_name }}</span>
+    </div>
+    <div class="flex justify-between items-center py-3 border-b border-slate-50">
+      <span class="text-xs uppercase tracking-widest text-slate-400">Username</span>
+      <span class="text-sm font-mono text-slate-800">{{ student.username }}</span>
+    </div>
+    <div class="flex justify-between items-center py-3 border-b border-slate-50">
+      <span class="text-xs uppercase tracking-widest text-slate-400">Temp Password</span>
+      <span class="text-sm font-mono font-bold text-slate-800 bg-yellow-50 px-3 py-1 rounded-lg">{{ temp_password }}</span>
+    </div>
+  </div>
+
+  <a href="{% url 'portal:add-student' %}"
+     class="block text-center bg-slate-900 text-white px-6 py-3 rounded-xl text-xs uppercase tracking-widest hover:bg-slate-700 transition-colors mb-3">
+    Add Another Student
+  </a>
+  <a href="{% url 'portal:man-students' %}"
+     class="block text-center text-xs uppercase tracking-widest text-slate-400 hover:text-slate-800 transition-colors py-3">
+    Back to Student List
+  </a>
+
+</div>

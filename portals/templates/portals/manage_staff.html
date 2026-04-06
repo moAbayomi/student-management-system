@@ -1,0 +1,48 @@
+{% extends 'portals/admin_dashboard.html' %}
+
+{% block content %}
+<main class="flex-1 min-h-screen overflow-y-auto">
+
+  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-100 px-10 h-16 flex items-center justify-between">
+    <div>
+      <h1 class="text-sm font-semibold text-slate-800">Staff Management</h1>
+      <p class="text-[10px] text-slate-400 uppercase tracking-widest">All teaching staff</p>
+    </div>
+    <a href="{% url 'portal:add-teacher' %}"
+       class="flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest hover:bg-slate-700 transition-colors">
+      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+      </svg>
+      Add Teacher
+    </a>
+  </header>
+
+  <div class="p-10">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-slate-100">
+            <th class="text-left px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Teacher</th>
+            <th class="text-left px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Subjects</th>
+            <th class="text-left px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Class Arms</th>
+            <th class="text-left px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Status</th>
+            <th class="w-16"></th>
+          </tr>
+        </thead>
+        <tbody id="teachers-tbody">
+          {% for teacher in teachers %}
+            {% include 'portals/partials/teacher_row.html' with teacher=teacher %}
+          {% empty %}
+            <tr>
+              <td colspan="5" class="px-6 py-16 text-center text-xs text-slate-300 uppercase tracking-widest">
+                No teachers yet — add one to get started
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+{% endblock %}

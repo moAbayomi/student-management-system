@@ -1,0 +1,187 @@
+{% extends 'portals/base.html' %}
+
+{% block title %}Teacher Portal{% endblock %}
+
+{% block aside %}
+<aside class="w-72 min-h-screen bg-slate-900 text-white flex flex-col sticky top-0 h-screen">
+
+  <!-- School identity -->
+  <div class="px-8 py-8 border-b border-white/5">
+    <p class="text-[10px] tracking-[0.2em] uppercase text-slate-500 mb-1">School Portal</p>
+    <h2 class="text-lg font-semibold text-white tracking-tight leading-tight">{{ school.name }}</h2>
+  </div>
+
+  <!-- User info -->
+  <div class="px-8 py-5 border-b border-white/5 flex items-center gap-3">
+    <div class="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-sm font-semibold flex-shrink-0">
+      {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+    </div>
+    <div class="min-w-0">
+      <p class="text-sm font-medium text-white truncate">{{ user.get_full_name|default:user.username }}</p>
+      <p class="text-[10px] text-slate-500 uppercase tracking-widest">Teacher</p>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+
+    <p class="text-[9px] tracking-[0.2em] uppercase text-slate-600 px-4 mb-3">Main</p>
+
+    <a href="{#}"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all text-sm group">
+      <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+      </svg>
+      Overview
+    </a>
+
+    <p class="text-[9px] tracking-[0.2em] uppercase text-slate-600 px-4 mb-3 mt-6">My Classes</p>
+
+    <a href="{%url 'portal:man-students' %}"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all text-sm group">
+      <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+      My Students
+    </a>
+
+    <a href="{%url 'portal:add-student' %}"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all text-sm group">
+      <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+      </svg>
+      Add Student
+    </a>
+
+  </nav>
+
+  <!-- Logout -->
+  <div class="px-6 py-6 border-t border-white/5">
+    <form action="{% url 'users:logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit"
+              class="flex items-center gap-2 text-slate-500 hover:text-red-400 transition-colors text-xs uppercase tracking-widest w-full">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+        </svg>
+        Sign Out
+      </button>
+    </form>
+  </div>
+
+</aside>
+{% endblock %}
+
+{% block content %}
+<main class="flex-1 min-h-screen overflow-y-auto">
+
+  <!-- Top bar -->
+  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-100 px-10 h-16 flex items-center justify-between">
+    <div>
+      <h1 class="text-sm font-semibold text-slate-800">Welcome, {{ user.first_name }}</h1>
+      <p class="text-[10px] text-slate-400 uppercase tracking-widest">Teacher Dashboard</p>
+    </div>
+    <a href="{% url 'portal:add-student' %}"
+       class="flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest hover:bg-slate-700 transition-colors">
+      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+      </svg>
+      Add Student
+    </a>
+  </header>
+
+  <div class="p-10">
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">My Students</p>
+        <p class="text-4xl font-light text-slate-800">{{ student_count|default:"0" }}</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Class Arms</p>
+        <p class="text-4xl font-light text-slate-800">{{ arm_count|default:"0" }}</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Subjects</p>
+        <p class="text-4xl font-light text-slate-800">{{ subject_count|default:"0" }}</p>
+      </div>
+    </div>
+
+    <!-- Assigned class arms -->
+    <div class="mb-10">
+      <h2 class="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-5">My Class Arms</h2>
+      {% if class_arms %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {% for arm in class_arms %}
+            <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md hover:border-slate-200 transition-all">
+              <div class="flex items-start justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center text-lg font-bold">
+                  {{ arm.name|first|upper }}
+                </div>
+                {% if arm.class_teacher == user %}
+                  <span class="text-[9px] uppercase tracking-widest text-emerald-500 font-semibold bg-emerald-50 px-2 py-1 rounded-lg">
+                    Form Teacher
+                  </span>
+                {% endif %}
+              </div>
+              <p class="text-lg font-bold text-slate-800">{{ arm }}</p>
+              <p class="text-xs text-slate-400 mt-1">
+                {{ arm.studentprofile_set.count }} student{{ arm.studentprofile_set.count|pluralize }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="flex flex-col items-center justify-center h-40 rounded-2xl border-2 border-dashed border-slate-200">
+          <p class="text-xs uppercase tracking-widest text-slate-300">No class arms assigned yet</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Recent students -->
+    <div>
+      <h2 class="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-5">Recent Students</h2>
+      {% if recent_students %}
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-slate-100">
+                <th class="text-left px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Student</th>
+                <th class="text-left px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Admission No.</th>
+                <th class="text-left px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Class Arm</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for student in recent_students %}
+                <tr class="border-b border-slate-50 last:border-0 hover:bg-slate-50/60 transition-colors">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-semibold">
+                        {{ student.user.first_name|first|upper }}{{ student.user.last_name|first|upper }}
+                      </div>
+                      <p class="text-sm font-medium text-slate-800">{{ student.user.get_full_name }}</p>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="text-xs font-mono text-slate-500">{{ student.admission_number }}</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-md">{{ student.class_arm }}</span>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="flex flex-col items-center justify-center h-40 rounded-2xl border-2 border-dashed border-slate-200">
+          <p class="text-xs uppercase tracking-widest text-slate-300">No students yet</p>
+          <a href="{% url 'portal:add-student' %}" class="text-xs text-slate-400 hover:text-slate-800 mt-2 transition-colors">Add your first student →</a>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</main>
+{% endblock %}

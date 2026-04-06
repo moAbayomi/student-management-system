@@ -1,0 +1,44 @@
+<div class="animate-in fade-in slide-in-from-bottom-1 duration-200">
+
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h2 class="text-xl font-semibold text-slate-800">{{ level.name }}</h2>
+      <p class="text-xs text-slate-400 mt-0.5">{{ arm_count }} section{{ arm_count|pluralize }} configured</p>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+    <table class="w-full">
+      <thead>
+        <tr class="border-b border-slate-100">
+          <th class="text-left px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-semibold w-24">Arm</th>
+          <th class="text-left px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Form Teacher</th>
+          <th class="w-16"></th>
+        </tr>
+      </thead>
+
+      <tbody id="arms-tbody">
+        {% for arm in arms %}
+          {% include 'academics/partials/arm_row.html' with arm=arm level=level %}
+        {% empty %}
+          <tr id="empty-row">
+            <td colspan="3" class="px-6 py-10 text-center text-xs text-slate-300 uppercase tracking-widest">
+              No arms yet — add one below
+            </td>
+          </tr>
+        {% endfor %}
+
+       
+      </tbody>
+
+        <tbody>
+        {% include 'academics/partials/arm_add_row.html' with level=level teachers=teachers %}
+        </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% if total_arms is not None %}
+<div id="school-stats" hx-swap-oob="true">{{ total_arms }}</div>
+{% endif %}

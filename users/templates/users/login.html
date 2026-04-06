@@ -1,0 +1,55 @@
+{% extends "users/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center px-4" style="background: #f0ece4;">
+
+  <div class="w-full max-w-sm">
+
+    <!-- Logo / school name -->
+    <div class="text-center mb-10">
+      <p class="text-xs tracking-widest uppercase text-gray-400 mb-2">Student Portal</p>
+      <h1 class="text-2xl font-semibold text-gray-900">Sign in</h1>
+    </div>
+
+    <!-- Form -->
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <div class="flex flex-col gap-4">
+
+        <!-- Username -->
+        <div>
+          {{ form.username }}
+          {% if form.username.errors %}
+            <p class="text-xs text-red-500 mt-1">{{ form.username.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Password -->
+        <div>
+          {{ form.password }}
+          {% if form.password.errors %}
+            <p class="text-xs text-red-500 mt-1">{{ form.password.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Non-field errors (wrong credentials) -->
+        {% if form.non_field_errors %}
+          <p class="text-xs text-red-500">{{ form.non_field_errors.0 }}</p>
+        {% endif %}
+
+        <!-- Submit -->
+        <button type="submit"
+                class="w-full py-3 rounded-lg bg-gray-900 text-white text-sm tracking-widest uppercase hover:bg-gray-700 transition-colors duration-200 mt-2">
+          Sign in
+        </button>
+
+      </div>
+    </form>
+
+  </div>
+
+</div>
+{% endblock %}

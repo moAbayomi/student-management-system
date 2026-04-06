@@ -1,0 +1,36 @@
+<tr id="arm-add-row" class="border-t-2 border-dashed border-slate-100">
+  <td colspan="3" class="px-4 py-3">
+    <form hx-post="{% url 'acad:create-class-arm' %}"
+          hx-target="#arms-tbody"
+          hx-swap="beforeend"
+          hx-on::after-request="if(event.detail.successful) this.reset(); document.getElementById('empty-row')?.remove();"
+          class="flex items-center gap-3">
+      {% csrf_token %}
+      <input type="hidden" name="level_id" value="{{ level.id }}">
+
+      <span class="text-sm font-semibold text-slate-400 flex-shrink-0">{{ level.name }}</span>
+
+      <input type="text"
+             name="name"
+             autocomplete="off"
+             placeholder="e.g. A or Gold"
+             class="w-32 px-4 py-2 text-sm text-black bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all placeholder:text-slate-300" />
+
+      <select name="class_teacher"
+              class="flex-1 max-w-xs px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all text-slate-600">
+        <option value="">— No teacher yet —</option>
+        {% for teacher in teachers %}
+          <option value="{{ teacher.pk }}">{{ teacher.get_full_name|default:teacher.username }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit"
+              class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center hover:bg-slate-700 transition-colors flex-shrink-0">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+      </button>
+
+    </form>
+  </td>
+</tr>

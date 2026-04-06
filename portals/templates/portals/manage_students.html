@@ -1,0 +1,12 @@
+{% extends 'portals/teacher_dashboard.html' %}
+
+{% block content %}
+<main class="flex-1 min-h-screen overflow-y-auto text-black">
+    <p>
+     student list here
+    </p>
+    {%for student in students%}
+    <p>hello, {{student.user.first_name}} | {{student.date_of_birth}} </p>
+    {%endfor%}
+</main>
+{% endblock %}

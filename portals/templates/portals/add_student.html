@@ -1,0 +1,73 @@
+{% extends 'portals/teacher_dashboard.html' %}
+
+{% block content %}
+<main class="flex-1 text-black min-h-screen overflow-y-auto">
+
+  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-100 px-10 h-16 flex items-center justify-between">
+    <div>
+      <h1 class="text-sm font-semibold text-slate-800">Add Student</h1>
+      <p class="text-[10px] text-slate-400 uppercase tracking-widest">Create a new student account</p>
+    </div>
+    <a href="{% url 'portal:man-students' %}"
+       class="text-xs uppercase tracking-widest text-slate-400 hover:text-slate-800 transition-colors">
+      ← Back to Students List
+    </a>
+  </header>
+
+  <div class="p-10 max-w-3xl">
+
+    <div id="form-area">
+      <form method="post" class="space-y-8">
+        {% csrf_token %}
+
+        <!-- Personal details -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
+          <h2 class="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-6">Personal Details</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+            <div>
+              <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2">First Name</label>
+              {{ form.first_name }}
+              {% if form.first_name.errors %}<p class="text-xs text-red-500 mt-1">{{ form.first_name.errors.0 }}</p>{% endif %}
+            </div>
+
+            <div>
+              <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2">Last Name</label>
+              {{ form.last_name }}
+              {% if form.last_name.errors %}<p class="text-xs text-red-500 mt-1">{{ form.last_name.errors.0 }}</p>{% endif %}
+            </div>
+
+            <div>
+              <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2">Username</label>
+              {{ form.username }}
+              {% if form.username.errors %}<p class="text-xs text-red-500 mt-1">{{ form.username.errors.0 }}</p>{% endif %}
+            </div>
+
+            <div>
+              <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2">Email <span class="text-slate-300">(optional)</span></label>
+              {{ form.email }}
+            </div>
+
+            <div>
+              <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2">Date of Birth</label>
+              {{ form.date_of_birth }}
+            </div>
+
+            
+
+          </div>
+        </div>
+
+
+        <button type="submit"
+                class="bg-slate-900 text-white px-8 py-3 rounded-xl text-xs uppercase tracking-widest hover:bg-slate-700 transition-colors font-medium">
+          Create Student Account
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+
+</main>
+{% endblock %}

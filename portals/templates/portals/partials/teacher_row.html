@@ -1,0 +1,65 @@
+<tr id="teacher-row-{{ teacher.id }}"
+    class="border-b border-slate-50 last:border-0 group hover:bg-slate-50/60 transition-colors">
+
+  <!-- Name -->
+  <td class="px-6 py-4">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-sm font-semibold flex-shrink-0">
+        {{ teacher.user.first_name|first|upper }}{{ teacher.user.last_name|first|upper }}
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-slate-800">{{ teacher.user.get_full_name }}</p>
+        <p class="text-xs text-slate-400">{{ teacher.user.username }}{% if teacher.employee_id %} · {{ teacher.employee_id }}{% endif %}</p>
+      </div>
+    </div>
+  </td>
+
+  <!-- Subjects -->
+  <td class="px-6 py-4">
+    <div class="flex flex-wrap gap-1">
+      {% for subject in teacher.subjects.all %}
+        <span class="text-[10px] uppercase tracking-wide bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md">
+          {{ subject.code }}
+        </span>
+      {% empty %}
+        <span class="text-xs text-slate-300 italic">None assigned</span>
+      {% endfor %}
+    </div>
+  </td>
+
+  <!-- Class arms -->
+  <td class="px-6 py-4">
+    <div class="flex flex-wrap gap-1">
+      {% for arm in teacher.class_arms.all %}
+        <span class="text-[10px] uppercase tracking-wide bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-md">
+          {{ arm }}
+        </span>
+      {% empty %}
+        <span class="text-xs text-slate-300 italic">None assigned</span>
+      {% endfor %}
+    </div>
+  </td>
+
+  <!-- Status -->
+  <td class="px-6 py-4">
+    {% if teacher.user.is_active %}
+      <span class="text-[10px] uppercase tracking-widest text-emerald-600 font-semibold">Active</span>
+    {% else %}
+      <span class="text-[10px] uppercase tracking-widest text-slate-300 font-semibold">Inactive</span>
+    {% endif %}
+  </td>
+
+  <!-- Deactivate -->
+  <td class="px-4 py-4 text-right">
+    {% if teacher.user.is_active %}
+      <button class="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] uppercase tracking-widest text-slate-400 hover:text-red-400 transition-colors"
+              hx-post="{% url 'portal:deactivate-teacher' teacher.id %}"
+              hx-target="#teacher-row-{{ teacher.id }}"
+              hx-swap="outerHTML"
+              hx-confirm="Deactivate {{ teacher.user.get_full_name }}? They will lose portal access.">
+        Deactivate
+      </button>
+    {% endif %}
+  </td>
+
+</tr>

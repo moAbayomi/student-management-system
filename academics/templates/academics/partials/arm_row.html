@@ -1,0 +1,43 @@
+<tr id="arm-row-{{ arm.id }}" class="border-b border-slate-50 last:border-0 group hover:bg-slate-50/60 transition-colors">
+
+  <!-- Arm name -->
+  <td class="px-6 py-4">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+        {{ arm.name|first|upper }}
+      </div>
+      <span class="font-semibold text-slate-800">{{ level.name }}{{ arm.name }}</span>
+    </div>
+  </td>
+
+  <!-- Form teacher -->
+  <td class="px-6 py-4">
+    {% if arm.class_teacher %}
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold">
+        </div>
+        <span class="text-sm text-black">{{ arm.class_teacher }}</span>
+      </div>
+    {% else %}
+      <span class="text-xs text-slate-300 italic">Unassigned</span>
+    {% endif %}
+  </td>
+
+  <!-- Delete -->
+  <td class="px-4 py-4 text-right">
+    <button class="opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 hover:text-red-400 hover:bg-red-50 ml-auto"
+            hx-post="{% url 'acad:delete-arm' arm.id %}"
+            hx-target="#arm-row-{{ arm.id }}"
+            hx-swap="outerHTML"
+            hx-confirm="Delete {{ level.name }}{{ arm.name }}?">
+      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </td>
+
+</tr>
+
+{% if total_arms is not None %}
+<div id="school-stats" hx-swap-oob="true">{{ total_arms }}</div>
+{% endif %}
