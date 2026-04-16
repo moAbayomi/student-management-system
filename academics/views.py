@@ -42,7 +42,6 @@ def create_class_arm(request):
 def load_arms(request, level_id):
     level = get_object_or_404(Class, id=level_id, school=request.user.school)
     
-    # 2. Get all Arms for this level
     arms = ClassArm.objects.filter(
         class_level=level, 
         school=request.user.school
@@ -50,7 +49,6 @@ def load_arms(request, level_id):
     teachers = User.objects.filter(role='TEACHER', school=request.user.school)
 
     
-    # 3. Return the "Stage" partial
     return render(request, 'academics/partials/arms_stage.html', {
         'level': level,
         'arms': arms,

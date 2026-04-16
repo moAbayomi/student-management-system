@@ -1,0 +1,15 @@
+{% extends 'portals/admin_dashboard.html' %}
+
+{%block content%}
+<main class="text-black">
+
+    <form action="" method="post">
+        {%csrf_token%}
+        <input hx-post="{% url 'portal:search' %}" hx-trigger="keyup changed delay:200ms" hx-target="#matches" name="name" type="text">
+    </form>
+    <div id="matches">
+    
+</div>
+</main>
+
+{%endblock%}

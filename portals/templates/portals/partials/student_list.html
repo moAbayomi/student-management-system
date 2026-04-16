@@ -1,0 +1,5 @@
+<div>
+    {%for match in matches %}
+        <a href="{%url 'portal:view-student' match.id %}"><p>{{match.user.first_name}} {{match.user.last_name}}</p></a>
+    {%endfor%}
+</div>

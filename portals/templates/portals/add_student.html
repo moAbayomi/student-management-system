@@ -1,4 +1,4 @@
-{% extends 'portals/teacher_dashboard.html' %}
+{% extends base_template %}
 
 {% block content %}
 <main class="flex-1 text-black min-h-screen overflow-y-auto">
@@ -46,6 +46,17 @@
             <div>
               <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2">Email <span class="text-slate-300">(optional)</span></label>
               {{ form.email }}
+            </div>
+
+            <div>
+              <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2">Class Arm <span class="text-slate-300">(optional)</span></label>
+              {{ form.class_arm }}
+
+              {% if is_admin %}
+                  <p class="text-sm text-slate-500">Admin Mode: Please select a class for the student.</p>
+              {% else %}
+                  <p class="text-sm text-slate-500">Adding student to: <strong>{{teacher_arm.class_level}}{{ teacher_arm.name }}</strong></p>
+              {% endif %}
             </div>
 
             <div>

@@ -1,0 +1,37 @@
+
+<main class="flex-1 min-h-screen overflow-y-auto">
+
+  <!-- Top bar -->
+  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-100 px-10 h-16 flex items-center justify-between">
+    <div>
+      <h1 class="text-sm font-semibold text-slate-800">Principal's Console</h1>
+      <p class="text-[10px] text-slate-400 uppercase tracking-widest">Admin Dashboard</p>
+    </div>
+    
+  </header>
+
+  <div class="p-10">
+
+    <!-- Stats row -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Total Staff</p>
+        <p class="text-4xl font-light text-slate-800">{{ staff_count|default:"0" }}</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Students</p>
+        <p class="text-4xl font-light text-slate-800">0</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Class Arms</p>
+        <p class="text-4xl font-light text-slate-800" id="school-stats">0</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Current Term</p>
+        <p class="text-lg font-light text-slate-800 mt-2">—</p>
+      </div>
+    </div>
+
+  </div>
+
+</main>

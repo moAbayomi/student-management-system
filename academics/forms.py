@@ -28,8 +28,6 @@ class ClassArmForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Production Polish: Ensure only Teachers appear in the dropdown
-        # (Though your model handles this, explicitly filtering here is best practice)
         self.fields['class_teacher'].queryset = User.objects.filter(role='TEACHER')
 
 

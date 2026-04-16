@@ -3,16 +3,18 @@
 
   <!-- Name -->
   <td class="px-6 py-4">
-    <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-sm font-semibold flex-shrink-0">
-        {{ teacher.user.first_name|first|upper }}{{ teacher.user.last_name|first|upper }}
-      </div>
-      <div>
-        <p class="text-sm font-semibold text-slate-800">{{ teacher.user.get_full_name }}</p>
-        <p class="text-xs text-slate-400">{{ teacher.user.username }}{% if teacher.employee_id %} · {{ teacher.employee_id }}{% endif %}</p>
-      </div>
-    </div>
-  </td>
+       <a href="{%url 'portal:view-teacher' id=teacher.id %}" class="cursor-pointer">
+       <div class="flex items-center gap-3">
+         <div class="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-sm font-semibold flex-shrink-0">
+           {{ teacher.user.first_name|first|upper }}{{ teacher.user.last_name|first|upper }}
+         </div>
+         <div>
+           <p class="text-sm font-semibold text-slate-800">{{ teacher.user.get_full_name }}</p>
+           <p class="text-xs text-slate-400">{{ teacher.user.username }}{% if teacher.employee_id %} · {{ teacher.employee_id }}{% endif %}</p>
+         </div>
+       </div>
+      </a>
+     </td>
 
   <!-- Subjects -->
   <td class="px-6 py-4">

@@ -5,6 +5,7 @@ from .base import *
 DEBUG = os.getenv('DEBUG')
 SECRET_KEY =  os.getenv('SECRET_KEY')
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 DATABASES = {
     'default': {

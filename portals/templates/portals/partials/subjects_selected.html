@@ -1,0 +1,13 @@
+{%extends 'portals/student_dashboard.html' %}
+
+{%block content%}
+<main class="text-black">
+
+    these are your subjects. that have been registered successfully. 
+    please check to confirm.
+    <hr>
+    {%for subject in subjects%}
+    <span>{{subject}}. </span> 
+    {%endfor%}
+</main>
+{%endblock%}

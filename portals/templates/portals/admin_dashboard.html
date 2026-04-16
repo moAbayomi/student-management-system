@@ -27,7 +27,7 @@
 
     <p class="text-[9px] tracking-[0.2em] uppercase text-slate-600 px-4 mb-3">Main</p>
 
-    <a href="#"
+    <a href="{%url 'portal:admin' %}"
        class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all text-sm group">
       <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
       Overview
@@ -42,7 +42,7 @@
     <p class="text-[9px] tracking-[0.2em] uppercase text-slate-600 px-4 mb-3 mt-6">Academics</p>
 
     <a href="{% url 'acad:manage-arms' %}"
-       class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/8 text-white text-sm group transition-all">
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all text-sm group">
       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v4M7 7h10"/></svg>
       Class Arms
     </a>
@@ -53,7 +53,13 @@
       Subjects
     </a>
 
-    <a href="#"
+    <a href="{% url 'portal:all-students' %}"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all text-sm group">
+      <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      Students
+    </a>
+
+    <a href="{%url 'portal:add-student' %}"
        class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all text-sm group">
       <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
       Student Onboarding
@@ -85,43 +91,5 @@
 {% endblock %}
 
 {% block content %}
-<main class="flex-1 min-h-screen overflow-y-auto">
-
-  <!-- Top bar -->
-  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-100 px-10 h-16 flex items-center justify-between">
-    <div>
-      <h1 class="text-sm font-semibold text-slate-800">Principal's Console</h1>
-      <p class="text-[10px] text-slate-400 uppercase tracking-widest">Admin Dashboard</p>
-    </div>
-    <button class="flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest hover:bg-slate-700 transition-colors">
-      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-      Add Staff
-    </button>
-  </header>
-
-  <div class="p-10">
-
-    <!-- Stats row -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Total Staff</p>
-        <p class="text-4xl font-light text-slate-800">{{ staff_count|default:"0" }}</p>
-      </div>
-      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Students</p>
-        <p class="text-4xl font-light text-slate-800">0</p>
-      </div>
-      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Class Arms</p>
-        <p class="text-4xl font-light text-slate-800" id="school-stats">0</p>
-      </div>
-      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-        <p class="text-[10px] uppercase tracking-widest text-slate-400 mb-3">Current Term</p>
-        <p class="text-lg font-light text-slate-800 mt-2">—</p>
-      </div>
-    </div>
-
-  </div>
-
-</main>
+{%include 'portals/partials/admin_overview.html' %}
 {% endblock %}

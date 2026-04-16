@@ -1,0 +1,88 @@
+<main class="flex-1 min-h-screen overflow-y-auto">
+
+  <!-- Top bar -->
+  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-100 px-10 h-16 flex items-center justify-between">
+    <div>
+      <h1 class="text-sm font-semibold text-slate-800">Welcome, {{ user.first_name }}</h1>
+      <p class="text-[10px] text-slate-400 uppercase tracking-widest">Student Dashboard</p>
+    </div>
+  </header>
+
+  <div class="p-10">
+
+    <!-- Student identity card -->
+    <div class="bg-slate-900 rounded-2xl p-8 mb-8 flex items-center gap-8">
+      <div class="w-16 h-16 rounded-2xl bg-white/10 text-white flex items-center justify-center text-2xl font-bold flex-shrink-0">
+        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+      </div>
+      <div class="flex-1 min-w-0">
+        <h2 class="text-xl font-semibold text-white">{{ user.get_full_name }}</h2>
+        <p class="text-slate-400 text-sm mt-1">{{ profile.class_arm }} &mdash; {{ profile.admission_number }}</p>
+      </div>
+      <div class="hidden md:grid grid-cols-2 gap-6 text-right">
+        <div>
+          <p class="text-[10px] uppercase tracking-widest text-slate-500 mb-1">Class Arm</p>
+          <p class="text-white font-semibold">{{ profile.class_arm }}</p>
+        </div>
+        <div>
+          <p class="text-[10px] uppercase tracking-widest text-slate-500 mb-1">Form Teacher</p>
+          <p class="text-white font-semibold">
+            {% if profile.class_arm.class_teacher %}
+              {{ profile.class_arm.class_teacher.get_full_name }}
+            {% else %}
+              <span class="text-slate-500 italic font-normal">Unassigned</span>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coming soon cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      <!-- Results -->
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm opacity-60">
+        <div class="flex items-center justify-between mb-6">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+            <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <span class="text-[9px] uppercase tracking-widest text-slate-400 border border-slate-200 px-2 py-1 rounded-lg">Coming Soon</span>
+        </div>
+        <h3 class="text-sm font-semibold text-slate-800 mb-1">Results</h3>
+        <p class="text-xs text-slate-400">View your term results and report cards.</p>
+      </div>
+
+      <!-- Timetable -->
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm opacity-60">
+        <div class="flex items-center justify-between mb-6">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+            <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <span class="text-[9px] uppercase tracking-widest text-slate-400 border border-slate-200 px-2 py-1 rounded-lg">Coming Soon</span>
+        </div>
+        <h3 class="text-sm font-semibold text-slate-800 mb-1">Timetable</h3>
+        <p class="text-xs text-slate-400">Your weekly class schedule.</p>
+      </div>
+
+      <!-- Attendance -->
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm opacity-60">
+        <div class="flex items-center justify-between mb-6">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+            <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+          </div>
+          <span class="text-[9px] uppercase tracking-widest text-slate-400 border border-slate-200 px-2 py-1 rounded-lg">Coming Soon</span>
+        </div>
+        <h3 class="text-sm font-semibold text-slate-800 mb-1">Attendance</h3>
+        <p class="text-xs text-slate-400">Track your attendance record this term.</p>
+      </div>
+
+    </div>
+
+  </div>
+</main>

@@ -25,3 +25,12 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.get_full_name()}"
+    
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs) 
+        if is_new and self.class_arm:
+            arm_subjects = self.class_arm.subjects.all()
+            if arm_subjects.exists():
+                self.subjects.set(arm_subjects)

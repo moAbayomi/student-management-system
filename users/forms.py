@@ -1,5 +1,7 @@
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django import forms
+
+INPUT_CLASSES = "w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 bg-slate-50/50 transition-all text-sm text-black"
 
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
@@ -20,3 +22,19 @@ class LoginForm(AuthenticationForm):
         })
     )
 
+class StyledPasswordResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({
+            'class': INPUT_CLASSES,
+            'placeholder': 'Enter your registered email'
+        })
+
+class StyledSetPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({
+                'class': INPUT_CLASSES,
+                'placeholder': '••••••••'
+            })

@@ -1,0 +1,49 @@
+{%extends 'portals/student_dashboard.html' %}
+
+{%block content%}
+<main class="text-black">
+    
+
+<form method="POST" class="space-y-6">
+    {% csrf_token %}
+    
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-bold mb-4">Select Your Subjects</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for checkbox in form.subjects %}
+                <div class="flex items-start p-4 border rounded-md {% if checkbox.data.value in form.core_ids %}bg-gray-50{% endif %}">
+                    <div class="flex items-center h-5">
+                        <input type="checkbox" 
+                               name="{{ checkbox.data.name }}" 
+                               value="{{ checkbox.data.value }}"
+                               {% if checkbox.data.selected %}checked{% endif %}
+                               {% if checkbox.data.value in form.core_ids %}disabled{% endif %}
+                               class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                        
+                        {# Hidden input ensures disabled values are still sent in POST if needed, #}
+                        {# though our view logic handles re-adding CORE subjects anyway. #}
+                        {% if checkbox.data.value in form.core_ids %}
+                            <input type="hidden" name="{{ checkbox.data.name }}" value="{{ checkbox.data.value }}">
+                        {% endif %}
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label class="font-medium text-gray-700">
+                            {{ checkbox.choice_label }}
+                        </label>
+                        {% if checkbox.data.value in form.core_ids %}
+                            <span class="block text-xs text-gray-400 italic">Compulsory Core</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <button type="submit" class="w-full bg-indigo-600 text-black py-3 rounded-md font-bold hover:bg-indigo-700">
+        Confirm Subject Selection
+    </button>
+</form>
+    
+</main>
+{%endblock%}

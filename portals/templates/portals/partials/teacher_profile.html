@@ -1,0 +1,95 @@
+{% extends 'portals/admin_dashboard.html' %}
+
+{% block content %}
+<main class="p-6 bg-slate-50 min-h-screen">
+    <div class="flex items-center justify-between mb-8 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold">
+                {{ teacher.user.first_name|first }}{{ teacher.user.last_name|first }}
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-slate-800">{{ teacher.user.get_full_name }}</h1>
+                <p class="text-slate-500">Teacher Profile • {{ teacher.user.email }}</p>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <button class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 font-medium">Edit Details</button>
+            <button class="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 font-medium border border-red-100">Suspend Access</button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Quick Stats</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between">
+                        <span class="text-slate-600">Total Subjects</span>
+                        <span class="font-semibold text-slate-800">{{ teacher.subjects.count }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-600">Assigned Arms</span>
+                        <span class="font-semibold text-slate-800">{{ teacher.class_arms.count }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-600">Joined Date</span>
+                        <span class="font-semibold text-slate-800">{{ teacher.user.date_joined|date:"M Y" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
+                    <h2 class="font-bold text-slate-800">Assigned Subjects</h2>
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2">
+                        {% for subject in teacher.subjects.all %}
+                            <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium border border-blue-100">
+                                {{ subject.name }} ({{ subject.code }})
+                            </span>
+                        {% empty %}
+                            <p class="text-slate-400 italic">No subjects assigned yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
+                    <h2 class="font-bold text-slate-800">Class Arm Responsibility</h2>
+                </div>
+                <div class="p-0">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
+                            <tr>
+                                <th class="px-6 py-3">Class Level</th>
+                                <th class="px-6 py-3">Arm</th>
+                                <th class="px-6 py-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            {% for arm in teacher.class_arms.all %}
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-medium text-slate-800">{{ arm.class_level.get_name_display }}</td>
+                                <td class="px-6 py-4 text-slate-600">{{ arm.name }}</td>
+                                <td class="px-6 py-4 text-right">
+                                    <a href="#" class="text-blue-600 hover:underline text-sm">View Class</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="px-6 py-8 text-center text-slate-400 italic">This teacher is not a class teacher for any arm.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
