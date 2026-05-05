@@ -1,0 +1,64 @@
+<h1>Attendance management for {{class_arm}}</h1>
+
+<form method="POST" action="{%url 'portal:save-attendance' class_arm.id %}">
+    {%csrf_token%}
+
+<div class="overflow-x-auto shadow-sm border border-slate-200 rounded-xl">
+    <table class="w-full text-sm text-left">
+        <thead class="bg-slate-50 border-b border-slate-200">
+            <tr>
+                <th class="px-6 py-4 font-semibold text-slate-900 sticky left-0 bg-slate-50">Student Name</th>
+                {% for day in week_dates %}
+                <th class="px-4 py-4 text-center border-l border-slate-200">
+                    <span class="block text-xs text-slate-500 uppercase">{{ day|date:"D" }}</span>
+                    <span class="block text-slate-900">{{ day|date:"M d" }}</span>
+                    <button type="button" onclick="toggleColumn('{{ forloop.counter }}')" 
+                            class="mt-2 text-[10px] bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded">
+                        Check All
+                    </button>
+                </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+            {% for student in students %}
+            <tr class="hover:bg-blue-50/30 transition-colors">
+                <td class="px-6 py-4 font-medium text-slate-900 sticky left-0 bg-white">
+                    {{ student.user.get_full_name }}
+                    <input type="hidden" name="student_ids" value="{{ student.id }}">
+                </td>
+                
+                {% for day in week_dates %}
+                <td class="px-4 py-4 text-center border-l border-slate-100">
+                    <input type="checkbox" 
+                           name="att_{{ student.id }}_{{ day|date:'Y-m-d' }}" 
+                           class="col-{{ forloop.counter }} w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                           {% if day|date:'Y-m-d' in student.present_dates %}
+                            checked
+                            {% endif %}
+                           >
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-6 flex justify-end">
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 shadow-md transition-all">
+            Save Weekly Attendance
+        </button>
+    </div>
+</div>
+
+<script>
+function toggleColumn(colIndex) {
+    const checkboxes = document.querySelectorAll(`.col-${colIndex}`);
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    checkboxes.forEach(cb => cb.checked = !allChecked);
+}
+</script>
+
+</form>
+
+

@@ -73,5 +73,5 @@
 {% endblock %}
 
 {% block content %}
-{%include 'portals/partials/teacher_overview.html' with teacher=teacher arm_count=arm_count class_arm=class_arm subjects=subjects subject_count=subject_count %}
+{%include 'portals/partials/teacher_overview.html' with teacher=teacher teacher_assignments=teacher_assignments arm_count=arm_count class_arms=class_arms subjects=subjects subject_count=subject_count %}
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
-from academics.models import Class, ClassArm, Subject, SubjectAssignment, AcademicSession
+from academics.models import Class, ClassArm, Subject, SubjectAssignment
+from schools.models import AcademicSession
 
 
 # Which subject categories belong to which class level type

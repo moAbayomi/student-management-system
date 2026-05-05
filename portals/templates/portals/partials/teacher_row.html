@@ -32,7 +32,7 @@
   <!-- Class arms -->
   <td class="px-6 py-4">
     <div class="flex flex-wrap gap-1">
-      {% for arm in teacher.class_arms.all %}
+      {% for arm in teacher.user.class_teacher_of.all %}
         <span class="text-[10px] uppercase tracking-wide bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-md">
           {{ arm }}
         </span>

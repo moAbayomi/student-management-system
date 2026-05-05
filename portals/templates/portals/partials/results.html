@@ -1,0 +1,53 @@
+<div class="overflow-hidden border border-slate-200 rounded-lg shadow-sm">
+    <table class="w-full text-sm text-left text-slate-700">
+        <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase text-xs font-semibold">
+            <tr>
+                <th class="px-6 py-4">Subject</th>
+                <th class="px-6 py-4 text-center">CA (40)</th>
+                <th class="px-6 py-4 text-center">Exam (60)</th>
+                <th class="px-6 py-4 text-center">Total</th>
+                <th class="px-6 py-4 text-center">Grade</th>
+                <th class="px-6 py-4">Remark</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 bg-white">
+            {% for r in results %}
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-6 py-4 font-medium text-slate-900">
+                        {{ r.subject_assignment.subject.name|default:"Unknown Subject" }}
+                        <span class="block text-xs text-slate-500 font-normal">
+                            Teacher: {{ r.subject_assignment.teacher.user.get_full_name }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-center">{{ r.ca_score }}</td>
+                    <td class="px-6 py-4 text-center">{{ r.exam_score }}</td>
+                    <td class="px-6 py-4 text-center font-bold">
+                        {{ r.total_score }}
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="px-2.5 py-1 rounded-full font-bold 
+                            {% if r.grade == 'A' %}bg-green-100 text-green-700
+                            {% elif r.grade == 'F' %}bg-red-100 text-red-700
+                            {% else %}bg-blue-100 text-blue-700{% endif %}">
+                            {{ r.grade|default:"-" }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="text-xs italic text-slate-500">{{ r.remark }}</span>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="px-6 py-10 text-center text-slate-400">
+                        <div class="flex flex-col items-center">
+                            <svg class="w-8 h-8 mb-2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <p>No results found for this selection.</p>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,17 @@
+<form method="post" class="space-y-8">
+    {% csrf_token %}
+    
+    {% for form in forms %}
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h3 class="text-lg font-bold text-slate-800 mb-4">{{ form.instance|title }} Details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {{ form.as_p }}
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="flex justify-end gap-4">
+        <a href="{% url 'portal:view-teacher' teacher.teacherprofile.id %}" class="px-6 py-3 text-slate-500 font-bold uppercase text-xs">Cancel</a>
+        <button type="submit" class="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold uppercase text-xs">Update Teacher</button>
+    </div>
+</form>

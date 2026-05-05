@@ -6,8 +6,6 @@ from academics.models import Subject, ClassArm
 class TeacherProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
-    subjects = models.ManyToManyField(Subject, blank=True)
-    class_arms = models.ManyToManyField(ClassArm, blank=True)
     employee_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
     date_joined = models.DateField(null=True, blank=True)
 

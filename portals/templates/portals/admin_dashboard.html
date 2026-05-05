@@ -2,6 +2,7 @@
 
 {% block title %}Admin Console{% endblock %}
 
+
 {% block aside %}
 <aside class="w-72 min-h-screen bg-slate-900 text-white flex flex-col sticky top-0 h-screen">
 
@@ -91,5 +92,5 @@
 {% endblock %}
 
 {% block content %}
-{%include 'portals/partials/admin_overview.html' %}
+{%include 'portals/partials/admin_overview.html' with t_teachers=total_teachers t_students=total_students t_class_arms=total_class_arms curr_term=curr_term %}
 {% endblock %}

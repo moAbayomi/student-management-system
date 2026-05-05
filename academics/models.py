@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
 
 class Class(models.Model):
 
@@ -41,7 +42,8 @@ class ClassArm(models.Model):
 class Subject(models.Model):
 
     CATEGORY_CHOICES = [
-        ('CORE', 'General Core'),
+        ('JNR_CORE', 'Junior Core'),
+        ('SNR_CORE', 'Senior Core'),
         ('JUNIOR', 'Junior Secondary'),
         ('SCIENCE', 'Senior Science'),
         ('ARTS', 'Senior Arts'),
@@ -49,9 +51,12 @@ class Subject(models.Model):
     ]
 
     school = models.ForeignKey('schools.School', on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     code = models.CharField(max_length=20, unique=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='CORE')
+
+    class Meta:
+        unique_together = ('name', 'code', 'school')
 
     def __str__(self):
         return f"{self.name}"
@@ -63,10 +68,10 @@ class SubjectAssignment(models.Model):
     subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
     session = models.ForeignKey('schools.AcademicSession', on_delete=models.CASCADE)
     teacher = models.ForeignKey(
-        'users.User',
+        'profiles.TeacherProfile',
         on_delete=models.SET_NULL,
-        null=True, blank=True,
-        limit_choices_to={'role': 'TEACHER'}
+        null=True, blank=True, 
+        related_name='assignments'
     )
 
     class Meta:
@@ -76,9 +81,8 @@ class SubjectAssignment(models.Model):
         return f"{self.subject.name} — {self.class_arm}"
     
 class Result(models.Model):
-    student = models.ForeignKey('profiles.StudentProfile', on_delete=models.CASCADE, related_name='results')
-    subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
-    session = models.ForeignKey('schools.AcademicSession', on_delete=models.CASCADE)
+    student = models.ForeignKey('profiles.StudentProfile', on_delete=models.CASCADE, related_name='student')
+    subject_assignment = models.ForeignKey('SubjectAssignment', on_delete=models.CASCADE, related_name='result')
     term = models.ForeignKey('schools.AcademicTerm', on_delete=models.CASCADE)
 
     ca_score = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(40)])   
@@ -89,7 +93,7 @@ class Result(models.Model):
     remark = models.CharField(max_length=100, blank=True)
 
     class Meta:
-        unique_together = ('student', 'subject', 'session', 'term')
+        unique_together = ('student', 'subject_assignment', 'term')
 
     def save(self, *args, **kwargs):
         self.total_score = (self.ca_score or 0) + (self.exam_score or 0)
@@ -116,5 +120,44 @@ class Result(models.Model):
         else:
             self.grade, self.remark = 'F9', 'Fail'
         super().save(*args, **kwargs)
+
+    
+    def clean(self):
+        if (self.ca_score or 0) + (self.exam_score or 0) > 100:
+            raise ValidationError('Total must not be more than 100')
+        
+class DailyAttendance(models.Model):
+
+    PRESENT = 'P'
+    ABSENT = 'A'
+    EXCUSED = 'E'
+    LATE = 'L'
+
+    STATUS_CHOICES = [
+        (PRESENT, 'Present'),
+        (ABSENT, 'Absent'),
+        (EXCUSED, 'Excused'),
+        (LATE, 'Late')
+    ]
+
+    student = models.ForeignKey('profiles.StudentProfile', on_delete=models.CASCADE, related_name='attendance_records')
+    class_arm = models.ForeignKey('academics.ClassArm', on_delete=models.CASCADE)
+    date = models.DateField()
+    term = models.ForeignKey('schools.AcademicTerm', on_delete=models.CASCADE)
+
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PRESENT)
+    remarks = models.CharField(max_length=255, blank=True, null=True)
+    
+
+    class Meta:
+        unique_together = ('student', 'date')
+        verbose_name_plural = 'Daily Attendance'
+
+    def __str__(self):
+        return f'{self.student.user.get_full_name()} - {self.date}'
+    
+
+
+    
 
     

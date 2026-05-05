@@ -1,0 +1,46 @@
+{% extends "portals/admin_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-12 px-4">
+    <div class="bg-white shadow-2xl rounded-3xl border border-slate-200 overflow-hidden">
+        
+        <div class="p-8 border-b border-slate-100 bg-slate-50">
+            <h1 class="text-2xl font-black text-slate-900">Manage Class Assignments</h1>
+            <p class="text-slate-500 font-medium">Assigning classes to: <strong>{{ teacher.user.get_full_name }}</strong></p>
+        </div>
+
+        <form method="post" class="p-8 space-y-8">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for checkbox in form.classes %}
+                    <label class="flex items-center p-4 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-50 hover:border-indigo-500 transition-all shadow-sm">
+                        <div class="mr-4 scale-125">
+                            {{ checkbox.tag }}
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-sm font-black text-slate-800">{{ checkbox.choice_label }}</span>
+                            <span class="text-[10px] uppercase text-slate-400 font-bold tracking-widest">Class Arm</span>
+                        </div>
+                    </label>
+                {% endfor %}
+            </div>
+
+            {% if form.classes.errors %}
+                <div class="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-bold">
+                    {{ form.classes.errors }}
+                </div>
+            {% endif %}
+
+            <div class="flex items-center justify-between pt-6 border-t border-slate-100">
+                <a href="{% url 'portal:view-teacher' teacher.id %}" class="text-sm font-black text-slate-400 hover:text-slate-600 uppercase tracking-widest">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-slate-900 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-black transition-all shadow-lg">
+                    Update Classes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

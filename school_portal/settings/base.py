@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'django_htmx',
+    'plotly',
     'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -1,0 +1,35 @@
+{%extends 'portals/teacher_dashboard.html' %}
+
+{%block content%}
+<div class="text-black">
+
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Admission No.</th>
+                    <th>CA (40)</th>
+                    <th>Exam (60)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in formset %}
+                    <tr>
+                        <td>
+                            {{ form.id }} {{ form.instance.student.user.get_full_name }}
+                        </td>
+                        <td>{{ form.instance.student.admission_number }}</td>
+                        <td>{{ form.ca_score }}</td>
+                        <td>{{ form.exam_score }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Save All Grades</button>
+    </form>
+</div>
+{%endblock%}

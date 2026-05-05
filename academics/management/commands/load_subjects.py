@@ -11,7 +11,6 @@ class Command(BaseCommand):
         if not school:
             self.stdout.write(self.style.ERROR("No School found! Create a school record first."))
             return
-        # Format: 'Category': [('Name', 'Code'), ...]
         curriculum = {
             'JNR_CORE': [
                 ('Mathematics', 'MTH1'), ('English Language', 'ENG1'), 
@@ -72,8 +71,8 @@ class Command(BaseCommand):
                 obj, created = Subject.objects.get_or_create(
                     name=name,
                     school=school,
+                    code=final_code,
                     defaults={
-                        'code': final_code,
                         'category': category
                     }
                 )

@@ -92,6 +92,7 @@ class AcademicTerm(models.Model):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     is_current = models.BooleanField(default=False)
+    result_published = models.BooleanField(default=False)
 
     class Meta:
         # A session can't have two of the same term type

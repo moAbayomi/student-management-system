@@ -1,12 +1,16 @@
 from django import forms
+from django.db import transaction
+from django.forms import inlineformset_factory
 from users.models import User
-from academics.models import Subject, ClassArm
+from profiles.models import TeacherProfile
+from academics.models import Subject, ClassArm, SubjectAssignment
 import random
 import string
 
 
 def generate_temp_password():
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+    """ return ''.join(random.choices(string.ascii_letters + string.digits, k=10)) """
+    return 'pswdtakbir1234'
 
 
 class TeacherCreationForm(forms.Form):
@@ -143,4 +147,67 @@ class SubjectEnrollmentForm(forms.Form):
             # If it's a brand new student, just check the Core ones
             self.fields['subjects'].initial = self.core_ids
 
+
+class SubjectAssignmentForm(forms.ModelForm):
+    all_arms = forms.BooleanField(required=False, label='assign to all arms')
+
+    class Meta:
+        model = SubjectAssignment
+        fields = ['subject', 'class_arm', 'session', 'all_arms']
+        widgets = {
+            'subject': forms.Select(attrs={'class': 'form-select'}),
+            'class_arm': forms.Select(attrs={'class': 'form-select'}),
+            'session': forms.Select(attrs={'class': 'form-select'}),
+        }
+    
+SubjectAssignmentFormSet = inlineformset_factory(
+    TeacherProfile,
+    SubjectAssignment,
+    form=SubjectAssignmentForm,
+    extra=3,
+    can_delete=True,
+)
+    
+class ChangeClassTeacher(forms.Form):
+    classes = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=ClassArm.objects.all(),
+        widget=forms.CheckboxSelectMultiple(attrs={
+            'class': 'space-y-2'
+        }),
+        label="Assigned Class Arms"
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.teacher_profile = kwargs.pop('teacher_profile', None)
+        super().__init__(*args, **kwargs)
+
+        if self.teacher_profile:
+            self.fields['classes'].initial = ClassArm.objects.filter(class_teacher=self.teacher_profile)
+
+    def save(self):
+        selected_classes = self.cleaned_data.get('classes')
+        teacher_user = self.teacher_profile 
+
+        with transaction.atomic():
+            ClassArm.objects.filter(class_teacher=teacher_user).update(class_teacher=None)
+
+            if selected_classes:
+                for arm in selected_classes:
+                    arm.class_teacher = teacher_user
+                    arm.save()
+                    
+        return selected_classes
+    
+
+class UserIdentityForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+class TeacherWorkInfoForm(forms.ModelForm):
+    class Meta:
+        model = TeacherProfile
+        fields = ['date_joined']
+    
 

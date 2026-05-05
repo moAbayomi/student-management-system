@@ -1,0 +1,37 @@
+{%extends 'portals/admin_dashboard.html' %}
+{% load portals_extras %}
+
+{%block content%}
+<div class="broadsheet-container text-black" style="overflow-x: auto;">
+    <table class="table table-bordered text-black">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                {% for subject in subjects %}
+                    <th class="text-black">{{ subject.subject.name }}</th>
+                {% endfor %}
+                <th class="bg-light text-black">Average</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student_id, data in matrix.items %}
+                <tr>
+                    <td><strong>{{ data.student_name }}</strong></td>
+                    
+                    {% for subject in subjects %}
+                        <td>
+                            {% if subject.subject.id in data.scores %}
+                                {{ data.scores|get_item:subject.subject.id }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                        
+                    <td class="table-primary">{{ data.average|floatformat:2 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{%endblock%}

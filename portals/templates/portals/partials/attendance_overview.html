@@ -1,0 +1,15 @@
+{%extends 'portals/student_dashboard.html' %}
+
+{%block content%}
+<div class="text-black">
+
+    <h1>WElcomE to the your attendance. you beautiful and sexy student baby. so nice so wonderfuly baby</h1>
+    <p>Name: {{student.user.username}}</p>
+    {%for days in days_present%}
+        <p>{{days}}</p>
+    {%endfor%}
+    <div class="flex flex-wrap gap-8 p-6 bg-white rounded-xl shadow-inner">
+    {{heatmap|safe}}
+</div>
+</div>
+{%endblock%}

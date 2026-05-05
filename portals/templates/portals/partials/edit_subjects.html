@@ -1,0 +1,53 @@
+<form method="post">
+    {% csrf_token %}
+    
+    <h2>Managing Assignments for {{ teacher.user.get_full_name }}</h2>
+
+    {{ formset.management_form }}
+    Total forms: {{ formset.total_form_count }}
+    {{ formset.non_form_errors }}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Class Arm</th>
+                <th>All Arms?</th>
+                <th>Session</th>
+                <th>Delete?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in formset %}
+                <tr class="assignment-row">
+                    {{ form.id }}
+                    
+                    <td>
+                        {{ form.subject }}
+                        {{ form.subject.errors }}
+                    </td>
+                    <td>
+                        {{ form.class_arm }}
+                        {{ form.class_arm.errors }}
+                    </td>
+                    <td class="text-center">
+                {{ form.all_arms }}
+                <small class="text-muted d-block">Apply to all arms?</small>
+                {{ form.all_arms.errors }}
+            </td>
+                    <td>
+                        {{ form.session }}
+                        {{ form.session.errors }}
+                    </td>
+                    <td>
+                        {% if form.instance.pk %}
+                            {{ form.DELETE }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save Assignments</button>
+</form>

@@ -42,6 +42,7 @@ def create_class_arm(request):
 def load_arms(request, level_id):
     level = get_object_or_404(Class, id=level_id, school=request.user.school)
     
+    
     arms = ClassArm.objects.filter(
         class_level=level, 
         school=request.user.school
@@ -61,7 +62,7 @@ def load_arms(request, level_id):
 def manage_arms(request):
     school = request.user.school
 
-    levels = Class.objects.filter(school=school).order_by('order')
+    levels = Class.objects.all().order_by('order')
     total_arms = ClassArm.objects.filter(school=school).count()
     context = {
         'levels': levels,
