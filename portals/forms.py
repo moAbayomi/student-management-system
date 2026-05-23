@@ -1,9 +1,10 @@
 from django import forms
 from django.db import transaction
 from django.forms import inlineformset_factory
+from django.core.validators import EmailValidator
 from users.models import User
-from profiles.models import TeacherProfile
-from academics.models import Subject, ClassArm, SubjectAssignment
+from profiles.models import TeacherProfile, TeacherRole
+from academics.models import Subject, Class, ClassArm, SubjectAssignment
 import random
 import string
 
@@ -12,99 +13,101 @@ def generate_temp_password():
     """ return ''.join(random.choices(string.ascii_letters + string.digits, k=10)) """
     return 'pswdtakbir1234'
 
-
 class TeacherCreationForm(forms.Form):
-    first_name   = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-        'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'First name'
-    }))
-    last_name    = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-        'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'Last name'
-    }))
-    username     = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-        'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'Username'
-    }))
-    email        = forms.EmailField(required=False, widget=forms.EmailInput(attrs={
-        'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'Email (optional)'
-    }))
-    employee_id  = forms.CharField(required=False, max_length=20, widget=forms.TextInput(attrs={
-        'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'e.g. TCH001'
-    }))
-    subjects     = forms.ModelMultipleChoiceField(
-        queryset=Subject.objects.none(),
-        required=False,
-        widget=forms.CheckboxSelectMultiple()
-    )
-    class_arms   = forms.ModelMultipleChoiceField(
-        queryset=ClassArm.objects.none(),
-        required=False,
-        widget=forms.CheckboxSelectMultiple()
-    )
 
-    def __init__(self, school=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['subjects'].queryset = Subject.objects.all().order_by('name')
-        self.fields['class_arms'].queryset = ClassArm.objects.all().order_by('class_level__order', 'name')
+    # ── Biographical Info ──
+    first_name = forms.CharField(max_length=150, required=True)
+    last_name = forms.CharField(max_length=150, required=True)
+    middle_name = forms.CharField(max_length=150, required=False)
+    email = forms.EmailField(required=True, validators=[EmailValidator()])
+    phone = forms.CharField(max_length=20, required=True)
+    gender = forms.ChoiceField(choices=[('M', 'Male'), ('F', 'Female')], required=True)
+    dob = forms.DateField(required=True, widget=forms.DateInput(attrs={'type': 'date'}))
+    address = forms.CharField(widget=forms.Textarea, required=False)
+    religion = forms.CharField(required=False)
+    state_of_origin = forms.CharField(required=False)
 
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError('This username is already taken.')
-        return username
+    photo = forms.ImageField(required=False)
+
+    # ── Professional Profiles ──
+    qualification = forms.ChoiceField(
+        choices=[
+            ('B.Ed', 'B.Ed'), ('B.Sc', 'B.Sc'), ('B.A', 'B.A'),
+            ('B.Tech', 'B.Tech'), ('M.Sc', 'M.Sc'), ('M.A', 'M.A'),
+            ('M.Ed', 'M.Ed'), ('PGDE', 'PGDE'), ('Ph.D', 'Ph.D'),
+            ('NCE', 'NCE'), ('Other', 'Other')
+        ],
+        required=True
+    )
+    years_of_exp = forms.IntegerField(min_value=0, max_value=50, required=False)
     
-
-class StudentCreationForm(forms.Form):
-    first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-        'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'First name'
-    }))
-
-    last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-        'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'Last name'
-    }))
-
-    username     = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-        'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'Username'
-    }))
-    email        = forms.EmailField(required=False, widget=forms.EmailInput(attrs={
-        'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'Email (optional)'
-    }))
-
-    class_arm = forms.ModelChoiceField(
-        queryset=ClassArm.objects.none(),
-        required=False, # Important: False because Teachers won't see/fill it
-        label="Select Class Arm",
-        widget=forms.Select(attrs={'class': 'w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 focus:bg-white transition-all',
-        'placeholder': 'Choose class arm'})
+    # ── Institutional Scoping ──
+    department = forms.ChoiceField(
+        choices=TeacherProfile.Department.choices,
+        required=True,
+        label="Primary Department"
     )
-
-    date_of_birth = forms.DateField(
-    required=True, 
-    widget=forms.DateInput(
-        format='%Y-%m-%d',
-        attrs={
-        'type': 'date',           
-        'class': 'form-input',     
-        'max': '2026-04-04',       
-    }))
+    subjects = forms.ModelMultipleChoiceField(
+        queryset=Subject.objects.none(),
+        required=True,
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'flex flex-wrap gap-1.5'})
+    )
+    max_weekly_hours = forms.IntegerField(min_value=1, max_value=40, initial=30, required=False)
+    
+    save_mode = forms.CharField(widget=forms.HiddenInput(), initial='complete')
 
     def __init__(self, *args, **kwargs):
-        user_role = kwargs.pop('user_role', None)
         super().__init__(*args, **kwargs)
+        self.fields['subjects'].queryset = Subject.objects.all()
 
-        if user_role == 'ADMIN':
-            self.fields['class_arm'].queryset = ClassArm.objects.all()
-            self.fields['class_arm'].required = True
 
-        else:
-            self.fields['class_arm'].widget = forms.HiddenInput()
+class StudentCreationForm(forms.Form):
+    first_name = forms.CharField(max_length=50, required=True)
+    middle_name = forms.CharField(max_length=50, required=False)
+    last_name = forms.CharField(max_length=50, required=True)
+    dob = forms.DateField(required=True)
+    gender = forms.ChoiceField(choices=[('M', 'Male'), ('F', 'Female')], required=True)
+    state_of_origin = forms.CharField(required=False)
+    religion = forms.CharField(required=False)
+    address = forms.CharField(widget=forms.Textarea, required=False)
+
+    # Step 2: Academic
+    admission_type = forms.CharField(initial='New Admission')
+    entry_term = forms.CharField(initial='2nd Term 2026')
+    fee_plan = forms.CharField(initial='Full Payment')
+    previous_school = forms.CharField(max_length=255, required=False)
+    previous_class = forms.CharField(max_length=50, required=False)
+
+    # Step 3: Guardian
+    guardian_first_name = forms.CharField(required=False)
+    guardian_last_name = forms.CharField(required=False)
+    guardian_relationship = forms.CharField(required=False)
+    guardian_phone = forms.CharField(required=False)
+    guardian_email = forms.EmailField(required=False)
+    guardian_occupation = forms.CharField(max_length=100, required=False)
+    guardian_nin = forms.CharField(max_length=50, required=False)
+    guardian_address = forms.CharField(widget=forms.Textarea, required=False)
+
+    
+    emergency_name = forms.CharField(max_length=200, required=False)
+
+    # Step 4: Medical / Notes
+    blood_group = forms.CharField(required=False)
+    genotype = forms.CharField(required=False)
+    emergency_phone = forms.CharField(max_length=20, required=False)
+    allergies = forms.CharField(widget=forms.Textarea, required=False)
+    medical_conditions = forms.CharField(widget=forms.Textarea, required=False)
+    disability = forms.CharField(required=False)
+    admin_notes = forms.CharField(widget=forms.Textarea, required=False)
+
+    def clean(self):
+        """
+        Production Custom Validation Hook
+        """
+        cleaned_data = super().clean()
+        # You can add conditional checks here if save_mode == 'complete'
+        return cleaned_data
+    
 
 
 class ClassArmForm(forms.Form):
@@ -200,14 +203,4 @@ class ChangeClassTeacher(forms.Form):
         return selected_classes
     
 
-class UserIdentityForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email']
-
-class TeacherWorkInfoForm(forms.ModelForm):
-    class Meta:
-        model = TeacherProfile
-        fields = ['date_joined']
-    
 

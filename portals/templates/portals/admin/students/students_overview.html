@@ -1,0 +1,153 @@
+<!-- ── STUDENT DIRECTORY MAIN CONTAINER ── -->
+<div
+	class="p-lg space-y-lg bg-[var(--color-background)] min-h-screen font-sans">
+	<!-- ── UTILITY HEADER ── -->
+	<div class="flex flex-wrap items-center justify-between gap-md">
+		<div class="flex-1 min-w-[200px]">
+			<h1 class="text-[20px] font-bold text-[var(--color-main)] leading-none">
+				Students
+			</h1>
+			<p class="text-[11.5px] text-[var(--color-muted)] mt-1">
+				{{total_students}} enrolled · 2nd Term 2026 · Updated today 9:14 AM
+			</p>
+		</div>
+
+		<div class="flex items-center gap-xs flex-wrap">
+			<button
+				class="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--color-border)] rounded-[var(--radius-md)] bg-[var(--color-surface)] text-[12px] font-semibold text-[var(--color-muted)] hover:bg-[var(--color-background)] transition-colors">
+				<svg
+					class="w-3.5 h-3.5"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					viewBox="0 0 24 24">
+					<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+					<polyline points="7 10 12 15 17 10" />
+					<line x1="12" y1="15" x2="12" y2="3" />
+				</svg>
+				Export CSV
+			</button>
+			<button
+			@click="openModal=true"
+				hx-get="{%url 'portal:create-student' %}"
+				hx-target="#modal-container"
+
+				class="flex items-center gap-1.5 px-4 py-1.5 bg-[var(--color-surface-dark)] text-white rounded-[var(--radius-md)] text-[12px] font-semibold hover:opacity-90 transition-opacity">
+				<svg
+					class="w-3.5 h-3.5"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					viewBox="0 0 24 24">
+					<line x1="12" y1="5" x2="12" y2="19" />
+					<line x1="5" y1="12" x2="19" y2="12" />
+				</svg>
+				Register Student
+			</button>
+		</div>
+	</div>
+
+	<!-- ── ANALYTICS STRIP ── -->
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+		<!-- Total Enrolled -->
+		<div
+			class="p-md bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] shadow-sm">
+			<div class="flex justify-between items-center mb-1">
+				<span
+					class="text-[10px] font-bold text-[var(--color-muted)] uppercase tracking-widest"
+					>Total Enrolled</span
+				>
+				<span
+					class="px-1.5 py-0.5 rounded-full bg-[var(--color-success-light)] text-[var(--color-success)] text-[9.5px] font-bold"
+					>↑ 3.2%</span
+				>
+			</div>
+			<div class="text-[26px] font-bold leading-none text-[var(--color-main)]">
+				{{total_students}}
+			</div>
+			<div class="text-[10.5px] text-[var(--color-muted)] mt-1">
+				420 male · 422 female
+			</div>
+		</div>
+
+		<!-- Attendance Trend -->
+		<div
+			class="p-md bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] shadow-sm">
+			<div class="flex justify-between items-center mb-1">
+				<span
+					class="text-[10px] font-bold text-[var(--color-muted)] uppercase tracking-widest"
+					>Attendance</span
+				>
+				<span
+					class="px-1.5 py-0.5 rounded-full bg-[var(--color-warning-light)] text-[var(--color-warning)] text-[9.5px] font-bold"
+					>↓ 2.1%</span
+				>
+			</div>
+			<div class="flex items-end gap-1 h-7 mb-1">
+				<div
+					class="w-3.5 h-[90%] bg-[var(--color-success-light)] rounded-t-sm"></div>
+				<div
+					class="w-3.5 h-[95%] bg-[var(--color-success)] opacity-60 rounded-t-sm"></div>
+				<div
+					class="w-3.5 h-[88%] bg-[var(--color-success)] opacity-80 rounded-t-sm"></div>
+				<div class="w-3.5 h-[92%] bg-[var(--color-success)] rounded-t-sm"></div>
+			</div>
+			<div class="text-[10.5px] text-[var(--color-muted)]">
+				Avg: <span class="font-bold text-[var(--color-main)]">87.4%</span>
+			</div>
+		</div>
+
+		<!-- Fee Clearance -->
+		<div
+			class="p-md bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] shadow-sm">
+			<div class="flex justify-between items-center mb-1">
+				<span
+					class="text-[10px] font-bold text-[var(--color-muted)] uppercase tracking-widest"
+					>Fee Clearance</span
+				>
+				<span
+					class="px-1.5 py-0.5 rounded-full bg-[var(--color-danger-light)] text-[var(--color-danger)] text-[9.5px] font-bold"
+					>68 overdue</span
+				>
+			</div>
+			<div class="text-[26px] font-bold leading-none text-[var(--color-main)]">
+				73%
+			</div>
+			<div
+				class="w-full bg-[var(--color-background)] h-1.5 rounded-full mt-2 overflow-hidden">
+				<div class="bg-[var(--color-success)] h-full w-[73%]"></div>
+			</div>
+		</div>
+
+		<!-- At Risk -->
+		<div
+			class="p-md bg-[var(--color-surface)] border border-[var(--color-danger)]/20 rounded-[var(--radius-lg)] shadow-sm">
+			<div class="flex justify-between items-center mb-1">
+				<span
+					class="text-[10px] font-bold text-[var(--color-danger)] uppercase tracking-widest"
+					>At Risk</span
+				>
+				<span
+					class="px-1.5 py-0.5 rounded-full bg-[var(--color-danger-light)] text-[var(--color-danger)] text-[9.5px] font-bold"
+					>Needs Action</span
+				>
+			</div>
+			<div
+				class="text-[26px] font-bold leading-none text-[var(--color-danger)]">
+				47
+			</div>
+			<div class="text-[10.5px] text-[var(--color-muted)] mt-1">
+				Low Grades <span class="text-[var(--color-danger)] font-bold">31</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── FILTER BAR ── -->
+   {%include 'portals/admin/students/partials/filter_bar.html'%}
+	
+    <div id="student-list-container">
+      <!-- ── DENSE TABLE ── -->
+      {%include 'portals/admin/students/partials/students_table.html'%}
+      <!-- ── PAGINATION ── -->
+    </div>
+</div>

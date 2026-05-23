@@ -1,0 +1,173 @@
+<aside
+	class="h-screen bg-surface flex flex-col sticky top-0 overflow-y-auto custom-scrollbar">
+	<div
+		id="teacher-card-right-sidebar"
+		class="p-lg bg-amber-50 border-b-2 border-secondary"
+		x-show="selectedRow != null"
+		x-cloak>
+		
+	</div>
+	<!-- ── ADD TEACHER WORKFLOW ── -->
+	<div class="p-lg border-b border-border-light">
+		<h3 class="text-[13px] font-bold text-main mb-3">Add Teacher — Steps</h3>
+		<div class="space-y-0">
+			<!-- Step 1 -->
+			<div class="flex gap-3">
+				<div class="flex flex-col items-center">
+					<div
+						class="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-bold">
+						1
+					</div>
+					<div class="w-px h-4 bg-border-light"></div>
+				</div>
+				<div>
+					<div class="text-[12px] font-bold text-main leading-tight">
+						Personal Profile
+					</div>
+					<div class="text-[10.5px] text-muted">Name, contact, photo</div>
+				</div>
+			</div>
+			<!-- Step 2 -->
+			<div class="flex gap-3">
+				<div class="flex flex-col items-center">
+					<div
+						class="w-5 h-5 rounded-full bg-background border border-border text-muted flex items-center justify-center text-[10px] font-bold">
+						2
+					</div>
+				</div>
+				<div>
+					<div class="text-[12px] font-bold text-muted leading-tight">
+						Academic Assignment
+					</div>
+					<div class="text-[10.5px] text-muted">Dept, subjects, HOD status</div>
+				</div>
+			</div>
+		</div>
+		<button
+			class="w-full mt-4 py-2 bg-primary/10 text-primary border border-primary/20 rounded-md text-[11.5px] font-bold hover:bg-primary/20 transition-all flex items-center justify-center gap-2">
+			<svg
+				class="w-3.5 h-3.5"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.5"
+				viewBox="0 0 24 24">
+				<line x1="12" y1="5" x2="12" y2="19" />
+				<line x1="5" y1="12" x2="19" y2="12" />
+			</svg>
+			Start Onboarding
+		</button>
+	</div>
+
+	<!-- ── ADVANCED FILTERS ── -->
+	<div class="p-lg border-b border-border-light bg-background/30">
+		<h3 class="text-[13px] font-bold text-main mb-3">Advanced Filters</h3>
+
+		<!-- Availability Grid -->
+		<div class="mb-4">
+			<label
+				class="text-[10px] font-bold text-muted uppercase tracking-widest block mb-2"
+				>Free During Period</label
+			>
+			<div class="grid grid-cols-7 gap-1 items-center">
+				<div class="col-start-2 text-[9px] font-bold text-dim text-center">
+					P1
+				</div>
+				<div class="text-[9px] font-bold text-dim text-center">P2</div>
+				<div class="text-[9px] font-bold text-dim text-center">P3</div>
+				<div class="text-[9px] font-bold text-dim text-center">P4</div>
+				<div class="text-[9px] font-bold text-dim text-center">P5</div>
+				<div class="text-[9px] font-bold text-dim text-center">P6</div>
+
+				<div class="text-[9px] font-bold text-muted text-right pr-1">Mon</div>
+				<div
+					class="aspect-square rounded-[2px] bg-success-light border border-success/20 flex items-center justify-center text-[8px] text-success">
+					·
+				</div>
+				<div
+					class="aspect-square rounded-[2px] bg-danger-light border border-danger/20 flex items-center justify-center text-[8px] text-danger">
+					✕
+				</div>
+				<div
+					class="aspect-square rounded-[2px] bg-success-light border border-success/20 flex items-center justify-center text-[8px] text-success">
+					·
+				</div>
+				<div
+					class="aspect-square rounded-[2px] bg-surface-dark border border-surface-dark flex items-center justify-center text-[8px] text-white">
+					✓
+				</div>
+				<div
+					class="aspect-square rounded-[2px] bg-success-light border border-success/20 flex items-center justify-center text-[8px] text-success">
+					·
+				</div>
+				<div
+					class="aspect-square rounded-[2px] bg-danger-light border border-danger/20 flex items-center justify-center text-[8px] text-danger">
+					✕
+				</div>
+			</div>
+		</div>
+
+		<!-- Checkbox List (Qualification) -->
+		<div class="space-y-1">
+			<label
+				class="text-[10px] font-bold text-muted uppercase tracking-widest block mb-2"
+				>Qualification</label
+			>
+			<div class="flex items-center justify-between group cursor-pointer">
+				<label
+					class="flex items-center gap-2 text-[11.5px] text-main cursor-pointer">
+					<input type="checkbox" class="accent-main" checked /> M.Sc
+				</label>
+				<span
+					class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-background border border-border-light text-muted"
+					>11</span
+				>
+			</div>
+			<div class="flex items-center justify-between group cursor-pointer">
+				<label
+					class="flex items-center gap-2 text-[11.5px] text-main cursor-pointer">
+					<input type="checkbox" class="accent-main" /> B.Ed
+				</label>
+				<span
+					class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-background border border-border-light text-muted"
+					>18</span
+				>
+			</div>
+		</div>
+
+		<button
+			class="w-full mt-4 py-2 bg-surface-dark text-white rounded-md text-[11.5px] font-bold">
+			Apply Filters
+		</button>
+	</div>
+
+	<!-- ── DEPARTMENT BREAKDOWN ── -->
+	<div class="p-lg">
+		<h3 class="text-[13px] font-bold text-main mb-3">By Department</h3>
+		<div class="space-y-3">
+			<div>
+				<div class="flex justify-between items-center mb-1">
+					<span
+						class="px-1.5 py-0.5 bg-info-light text-info rounded text-[9px] font-bold uppercase"
+						>Sciences</span
+					>
+					<span class="text-[11px] font-bold text-main">14</span>
+				</div>
+				<div class="h-1.5 w-full bg-background rounded-full overflow-hidden">
+					<div class="h-full bg-primary" style="width: 26%"></div>
+				</div>
+			</div>
+			<div>
+				<div class="flex justify-between items-center mb-1">
+					<span
+						class="px-1.5 py-0.5 bg-success-light text-success rounded text-[9px] font-bold uppercase"
+						>Humanities</span
+					>
+					<span class="text-[11px] font-bold text-main">12</span>
+				</div>
+				<div class="h-1.5 w-full bg-background rounded-full overflow-hidden">
+					<div class="h-full bg-success" style="width: 22%"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</aside>

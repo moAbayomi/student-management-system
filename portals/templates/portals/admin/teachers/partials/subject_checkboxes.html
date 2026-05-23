@@ -1,0 +1,9 @@
+    {% for subject in subjects %}
+	<button
+		type="button"
+		class="px-2.5 py-1 rounded-md text-xs font-bold border transition-all duration-200 select-none cursor-pointer"
+		:class="selectedSubjects.includes('{{ subject.id }}') ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-50'"
+		@click="toggleSubject('{{ subject.id }}')">
+		{{ subject.name }}
+	</button>
+	{% endfor %}

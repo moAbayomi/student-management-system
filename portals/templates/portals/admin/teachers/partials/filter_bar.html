@@ -1,0 +1,23 @@
+ <div
+ x-data="{search: ''}"
+ class="flex flex-wrap items-center gap-sm p-sm bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] shadow-sm">
+    <div class="relative flex-1 min-w-[200px]">
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--color-dim)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input 
+      id="teachers-search"
+      name="search"
+      x-model="search"
+      hx-get="{%url 'portal:manage-teachers' %}"
+      hx-target="#teachers-list-container"
+      hx-trigger="keyup changed delay:500ms"
+      hx-preserve="true"
+      type="text" placeholder="Search staff, dept, email..." class="w-full pl-9 pr-4 py-2 bg-[var(--color-background)] border border-[var(--color-border-light)] rounded-[var(--radius-md)] text-xs outline-none focus:border-[var(--color-primary)] transition-all">
+    </div>
+    
+    <select class="px-3 py-2 bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-md)] text-[11.5px] font-semibold text-[var(--color-muted)] outline-none cursor-pointer">
+      <option>All Departments</option>
+      <option>Sciences</option><option>Humanities</option>
+    </select>
+    
+    <button class="ml-auto text-[11.5px] font-semibold text-[var(--color-muted)] px-2 py-1 hover:text-[var(--color-main)]">✕ Clear</button>
+  </div>

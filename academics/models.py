@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 
@@ -12,7 +13,6 @@ class Class(models.Model):
         SSS2 = 'SSS2', 'SSS 2'
         SSS3 = 'SSS3', 'SSS 3'
 
-    school = models.ForeignKey('schools.School', on_delete=models.CASCADE)
     name = models.CharField(max_length=20, choices=Level.choices)
     order = models.PositiveIntegerField(default=10)
 
@@ -23,8 +23,7 @@ class Class(models.Model):
         return self.get_name_display()
 
 class ClassArm(models.Model):
-    school = models.ForeignKey('schools.School', on_delete=models.CASCADE)
-    class_level = models.ForeignKey('Class', on_delete=models.CASCADE)
+    class_level = models.ForeignKey(Class, on_delete=models.CASCADE)
     name = models.CharField(max_length=10)
     class_teacher = models.ForeignKey(
         'users.User',
@@ -48,15 +47,15 @@ class Subject(models.Model):
         ('SCIENCE', 'Senior Science'),
         ('ARTS', 'Senior Arts'),
         ('COMMERCIAL', 'Senior Commercial'),
+        ('VOCATIONAL_TRADE', 'Vocational Trade')
     ]
 
-    school = models.ForeignKey('schools.School', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=20, unique=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='CORE')
 
     class Meta:
-        unique_together = ('name', 'code', 'school')
+        unique_together = ('name', 'code')
 
     def __str__(self):
         return f"{self.name}"
@@ -64,8 +63,8 @@ class Subject(models.Model):
     
 
 class SubjectAssignment(models.Model):
-    class_arm = models.ForeignKey('ClassArm', on_delete=models.CASCADE, related_name='subject_assignments')
-    subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
+    class_arm = models.ForeignKey(ClassArm, on_delete=models.CASCADE, related_name='subject_assignments')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     session = models.ForeignKey('schools.AcademicSession', on_delete=models.CASCADE)
     teacher = models.ForeignKey(
         'profiles.TeacherProfile',
@@ -82,49 +81,79 @@ class SubjectAssignment(models.Model):
     
 class Result(models.Model):
     student = models.ForeignKey('profiles.StudentProfile', on_delete=models.CASCADE, related_name='student')
-    subject_assignment = models.ForeignKey('SubjectAssignment', on_delete=models.CASCADE, related_name='result')
+    subject_assignment = models.ForeignKey(SubjectAssignment, on_delete=models.CASCADE, related_name='results')
     term = models.ForeignKey('schools.AcademicTerm', on_delete=models.CASCADE)
-
-    ca_score = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(40)])   
-    exam_score = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(60)]) 
+ 
     total_score = models.FloatField(editable=False, validators=[MinValueValidator(0), MaxValueValidator(100)]) 
-    
     grade = models.CharField(max_length=2, blank=True)
     remark = models.CharField(max_length=100, blank=True)
 
     class Meta:
         unique_together = ('student', 'subject_assignment', 'term')
-
-    def save(self, *args, **kwargs):
-        self.total_score = (self.ca_score or 0) + (self.exam_score or 0)
-
-        if self.total_score > 100:
-            raise ValueError("Total score cannot exceed 100.")
-        # A1 (75–100), B2 (70–74), B3 (65–69), C4 (60–64), C5 55–59), C6 (50–54), D7 (45–49), E8 (40–44), F9 (0–39)
-        if self.total_score >= 75:
-            self.grade, self.remark = 'A1', 'Excellent'
-        elif self.total_score >= 70:
-            self.grade, self.remark = 'B2', 'Very Good'
-        elif self.total_score >= 65:
-            self.grade, self.remark = 'B3', 'Good'
-        elif self.total_score >= 60:
-            self.grade, self.remark = 'C4', 'Upper Credit'
-        elif self.total_score >= 55:
-            self.grade, self.remark = 'C5', 'Credit'
-        elif self.total_score >= 50:
-            self.grade, self.remark = 'C6', 'Lower Credit'
-        elif self.total_score >= 45:
-            self.grade, self.remark = 'D7', 'Pass'
-        elif self.total_score >= 40:
-            self.grade, self.remark = 'E8', 'Weak Pass'
-        else:
-            self.grade, self.remark = 'F9', 'Fail'
-        super().save(*args, **kwargs)
-
     
     def clean(self):
-        if (self.ca_score or 0) + (self.exam_score or 0) > 100:
+        if (self.total_score or 0) > 100:
             raise ValidationError('Total must not be more than 100')
+
+class GradeComponent(models.Model):
+    name = models.CharField(max_length=50)
+    max_score = models.FloatField()
+    is_exam = models.BooleanField(default=False)
+
+class ResultEntry(models.Model):
+    result = models.ForeignKey(Result, on_delete=models.CASCADE, related_name='entries')
+    component = models.ForeignKey(GradeComponent, on_delete=models.CASCADE)
+    score = models.FloatField(default=0)
+
+    def clean(self):
+        if self.score > self.component.max_score:
+            raise ValidationError(
+                f"Score {self.score} exceeds maximum allowed ({self.component.max_score}) for {self.component.name}"
+            )
+        
+    class Meta:
+        unique_together = ('result', 'component')
+
+class ReportCard(models.Model):
+    # Core Links
+    student = models.ForeignKey('profiles.StudentProfile', on_delete=models.CASCADE, related_name='report_cards')
+    term = models.ForeignKey('schools.AcademicTerm', on_delete=models.CASCADE)
+    class_arm = models.ForeignKey('academics.ClassArm', on_delete=models.CASCADE)
+    
+    # Aggregated Academic Stats
+    total_obtained = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    total_attainable = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    average = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    position = models.PositiveIntegerField(null=True, blank=True)
+    
+    # Attendance Summary (Auto-calculated from DailyAttendance)
+    days_present = models.PositiveIntegerField(default=0)
+    days_absent = models.PositiveIntegerField(default=0)
+    days_school_opened = models.PositiveIntegerField(default=0)
+
+    # Comments (The "Principal's Office" section)
+    form_teacher_comment = models.TextField(blank=True)
+    principal_comment = models.TextField(blank=True)
+    
+    # Nigerian Standard: Affective & Psychomotor Domains (1-5 Scale)
+    # You can move these to a separate model if the school has 20+ traits,
+    # but for a standard school, these columns work best.
+    punctuality = models.PositiveSmallIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    neatness = models.PositiveSmallIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    honesty = models.PositiveSmallIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    self_control = models.PositiveSmallIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    handwriting = models.PositiveSmallIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    sports = models.PositiveSmallIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+
+    # Status
+    is_locked = models.BooleanField(default=False, help_text="Once locked, grades cannot be changed.")
+    
+    class Meta:
+        unique_together = ('student', 'term')
+        ordering = ['-average'] # Automatically ranks them by average
+
+    def __str__(self):
+        return f"Report Card: {self.student.user.get_full_name()} - {self.term}"
         
 class DailyAttendance(models.Model):
 
@@ -147,6 +176,13 @@ class DailyAttendance(models.Model):
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PRESENT)
     remarks = models.CharField(max_length=255, blank=True, null=True)
+
+    updated_by = models.ForeignKey(
+    settings.AUTH_USER_MODEL, 
+    on_delete=models.SET_NULL, 
+    null=True, 
+    blank=True
+)
     
 
     class Meta:
@@ -155,6 +191,34 @@ class DailyAttendance(models.Model):
 
     def __str__(self):
         return f'{self.student.user.get_full_name()} - {self.date}'
+    
+
+class Period(models.Model):
+    name = models.CharField(max_length=50)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    is_academic = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['start_time']
+    
+
+class TimeTableSlot(models.Model):
+    class DayChoices(models.TextChoices):
+        MONDAY = "MON", "Monday"
+        TUESDAY = "TUE", "Tuesday"
+        WEDNESDAY = "WED", "Wednesday"
+        THURSDAY = "THU", "Thursday"
+        FRIDAY = "FRI", "Friday"
+        SATURDAY = "SAT", "Saturday"
+    
+    day = models.CharField(max_length=3, choices=DayChoices.choices)
+    period = models.ForeignKey(Period, on_delete=models.CASCADE)
+    class_arm = models.ForeignKey(ClassArm, on_delete=models.CASCADE)
+    subject_assignment = models.ForeignKey(SubjectAssignment, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        unique_together = ('day', 'period', 'class_arm')
     
 
 

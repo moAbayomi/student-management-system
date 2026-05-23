@@ -1,0 +1,499 @@
+<div
+	x-data="{
+        step: 1,
+        total: 2,
+        saveMode: 'complete',
+		firstName: '{{ teacher.user.first_name|default:'' }}',
+		middleName: '{{ teacher.user.middle_name|default:'' }}',
+		lastName: '{{ teacher.user.last_name|default:'' }}',
+		email: '{{ teacher.user.email|default:'' }}',
+		phone: '{{ teacher.user.phone_number|default:'' }}',
+		gender: '{{ teacher.user.gender|default:'' }}',
+		religion: '{{teacher.user.religion|default:'' }}',
+		address: '{{teacher.user.address|default:'' }}',
+		stateOfOrigin: '{{teacher.user.state_of_origin|default:'' }}',
+		dob: '{{ teacher.date_of_birth|date:'Y-m-d'|default:'' }}',
+
+		// ── Professional Profile ──
+		qualification: '{{ teacher.qualification|default:'' }}',
+		yearsOfExp: '{{ teacher.years_of_exp|default:'' }}',
+
+		// ── Institutional Scoping ──
+		department: '{{ teacher.department|default:'' }}',
+		hours: '{{teacher.max_weekly_hours|default:'' }}',
+        selectedSubjects: [{% if teacher %}{% for sub in teacher.subjects.all %}'{{ sub.id }}'{% if not forloop.last %},{% endif %}{% endfor %}{% endif %}],
+        toggleSubject(id) { this.selectedSubjects.includes(id) ? this.selectedSubjects.splice(this.selectedSubjects.indexOf(id), 1) : this.selectedSubjects.push(id) },
+        next() { if(this.step < this.total) this.step++ },
+        back() { if(this.step > 1) this.step-- },
+        closeModal() { document.getElementById('modal-container').innerHTML = ''; },
+        submitForm(mode) {
+            this.saveMode = mode;
+            this.$nextTick(() => { htmx.trigger('#teacher-form', 'submit'); });
+        }
+    }"
+	id="modal-container"
+	class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
+	role="dialog"
+	aria-modal="true"
+	aria-labelledby="modal-title">
+	<div
+		class="bg-white border border-neutral-200 rounded-xl w-full max-w-4xl shadow-2xl flex flex-col my-auto max-h-[85vh] animate-in fade-in zoom-in-95 duration-200">
+		<!-- ── HEADER ── -->
+		<div
+			class="flex items-center justify-between px-8 py-5 border-b border-neutral-200 shrink-0">
+			<div class="flex items-center gap-4">
+				<div
+					class="w-10 h-10 bg-purple-50 border border-purple-200 rounded-lg flex items-center justify-center">
+					<svg
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="#7C3AED"
+						stroke-width="2"
+						stroke-linecap="round">
+						<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+						<circle cx="9" cy="7" r="4" />
+						<line x1="19" y1="8" x2="19" y2="14" />
+						<line x1="22" y1="11" x2="16" y2="11" />
+					</svg>
+				</div>
+				<div>
+					<h3 class="text-base font-bold text-neutral-900" id="modal-title">
+						{%if edit%}
+						Edit Teacher
+						{%else%}
+						Add New Teacher
+						{%endif%}
+					</h3>
+					<p class="text-xs text-neutral-500 mt-0.5">
+						Fill in the staff details to create an account
+					</p>
+				</div>
+			</div>
+			<button
+				type="button"
+				@click="closeModal()"
+				class="w-8 h-8 rounded-lg border border-neutral-200 bg-neutral-50 flex items-center justify-center cursor-pointer text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 transition-colors"
+				aria-label="Close modal">
+				<svg
+					width="14"
+					height="14"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					stroke-linecap="round">
+					<line x1="18" y1="6" x2="6" y2="18" />
+					<line x1="6" y1="6" x2="18" y2="18" />
+				</svg>
+			</button>
+		</div>
+
+		<!-- ── STEP BAR ── -->
+		<div class="bg-neutral-50 border-b border-neutral-200 px-8 shrink-0">
+			<ul class="steps w-full py-4">
+				<li
+					class="step text-xs font-semibold"
+					:class="step >= 1 ? 'step-primary font-bold text-neutral-900' : 'text-neutral-400'">
+					Personal
+				</li>
+				<li
+					class="step text-xs font-semibold"
+					:class="step >= 2 ? 'step-primary font-bold text-neutral-900' : 'text-neutral-400'">
+					Academic
+				</li>
+				
+			</ul>
+		</div>
+
+		<!-- ── FORM BODY ── -->
+		<form
+			id="teacher-form"
+			method="POST"
+			{%if edit%}
+			hx-post="{%url 'portal:edit-teacher' teacher.id%}"
+			{%else%}
+			hx-post="{% url 'portal:create-teacher' %}"
+			{%endif%}
+			class="flex flex-col flex-1 overflow-hidden bg-background"
+			novalidate>
+			{% csrf_token %}
+			<input type="hidden" name="save_mode" :value="saveMode" />
+			<template x-for="id in selectedSubjects">
+				<input type="hidden" name="subjects" :value="id" />
+			</template>
+
+			<div class="px-8 py-6 overflow-y-auto space-y-6 flex-1 min-h-0">
+				<!-- ═══ STEP 1: PERSONAL PROFILE ═══ -->
+				<div
+					x-show="step === 1"
+					x-transition.opacity.duration.200ms
+					class="space-y-5">
+					<!-- Avatar -->
+					<div
+						class="flex items-center gap-4 p-4 bg-neutral-50 border border-dashed border-neutral-300 rounded-xl">
+						<div
+							class="w-14 h-14 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xl font-black shrink-0">
+							?
+						</div>
+						<div class="flex-1">
+							<p class="text-xs font-bold text-neutral-900">Teacher Photo</p>
+							<p class="text-[11px] text-neutral-500 mt-0.5">
+								JPG or PNG, max 2 MB · Used on ID card and profile page
+							</p>
+						</div>
+						<button
+							type="button"
+							class="px-4 py-2 border border-neutral-200 rounded-lg text-xs font-semibold text-neutral-700 bg-white hover:bg-neutral-50 transition-colors">
+							Upload Photo
+						</button>
+					</div>
+
+					<div
+						class="text-[10px] font-extrabold text-neutral-400 tracking-wider uppercase pb-2 border-b border-neutral-200">
+						Personal Information
+					</div>
+
+					<!-- Names -->
+					<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>First Name <span class="text-red-500">*</span></label
+							>
+							<input
+								type="text"
+								name="first_name"
+								x-model="firstName"
+								placeholder="e.g. Femi"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Middle Name</label
+							>
+							<input
+								type="text"
+								name="middle_name"
+								x-model="middleName"
+								placeholder="Optional"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Last Name <span class="text-red-500">*</span></label
+							>
+							<input
+								type="text"
+								name="last_name"
+								x-model="lastName"
+								placeholder="e.g. Oladele"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+					</div>
+
+					<!-- Demographics -->
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Gender <span class="text-red-500">*</span></label
+							>
+							<select
+								name="gender"
+								x-model="gender"
+								class="select select-bordered w-full rounded-lg text-sm font-medium bg-white">
+								<option value="">Select gender</option>
+								<option value="M">Male</option>
+								<option value="F">Female</option>
+							</select>
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Date of Birth <span class="text-red-500">*</span></label
+							>
+							<input
+								type="date"
+								name="dob"
+								x-model="dob"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Religion</label
+							>
+							<select
+								name="religion"
+								x-model="religion"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option value="">Select…</option>
+								<option value="Christianity">Christianity</option>
+								<option value="Islam">Islam</option>
+								<option value="Traditional">Traditional</option>
+								<option value="Other">Other</option>
+							</select>
+						</div>
+
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>State of Origin</label
+							>
+							<select
+								name="state_of_origin"
+								x-model="stateOfOrigin"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option value="">Select state…</option>
+								<option value="Abia">Abia</option>
+								<option value="Anambra">Anambra</option>
+								<option value="Enugu">Enugu</option>
+								<option value="Lagos">Lagos</option>
+								<option value="Oyo">Oyo</option>
+								<option value="Rivers">Rivers</option>
+							</select>
+						</div>
+
+						<div class="form-control w-full">
+						<label
+							class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+							>Home Address</label
+						>
+						<textarea
+							name="address"
+							x-model="address"
+							placeholder="Full residential address of teacher"
+							class="textarea textarea-bordered rounded-lg text-sm font-medium h-20 focus:outline-offset-0 focus:outline-primary bg-white w-full"></textarea
+						>
+					</div>
+					</div>
+
+					<!-- Contact -->
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Phone Number <span class="text-red-500">*</span></label
+							>
+							<input
+								type="tel"
+								name="phone"
+								x-model="phone"
+								placeholder="+234 800 000 0000"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Email Address <span class="text-red-500">*</span></label
+							>
+							<input
+								type="email"
+								name="email"
+								x-model="email"
+								placeholder="femi@school.edu.ng"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+							<span
+								class="text-[11px] font-medium text-neutral-400 mt-0.5 block"
+								>This will be the portal login email</span
+							>
+						</div>
+					</div>
+
+					<!-- Qualification -->
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Qualification <span class="text-red-500">*</span></label
+							>
+							<select
+								name="qualification"
+								x-model="qualification"
+								class="select select-bordered w-full rounded-lg text-sm font-medium bg-white">
+								<option value="">Select qualification</option>
+								<option>B.Ed</option>
+								<option>B.Sc</option>
+								<option>B.A</option>
+								<option>B.Tech</option>
+								<option>M.Sc</option>
+								<option>M.A</option>
+								<option>M.Ed</option>
+								<option>PGDE</option>
+								<option>Ph.D</option>
+								<option>NCE</option>
+								<option>Other</option>
+							</select>
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Years of Experience</label
+							>
+							<input
+								type="number"
+								name="years_of_exp"
+								x-model="yearsOfExp"
+								placeholder="e.g. 5"
+								min="0"
+								max="50"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+					</div>
+				</div>
+
+				<!-- ═══ STEP 2: ACADEMIC PLACEMENT ═══ -->
+				<div
+					x-show="step === 2"
+					x-transition.opacity.duration.200ms
+					class="space-y-5">
+					<div
+						class="text-[10px] font-extrabold text-neutral-400 tracking-wider uppercase pb-2 border-b border-neutral-200">
+						Academic Placement
+					</div>
+
+					<!-- Section -->
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Category <span class="text-red-500">*</span></label
+							>
+							<select
+                            name="department"
+							x-model="department"
+                            id="id_department"
+                            hx-get="{%url 'portal:load-subjects' %}"
+                            hx-target="#subject-buttons-container"
+                            hx-trigger="change"
+                            @change="selectedSubjects=[]"
+                            class="select select-bordered w-full rounded-lg text-sm font-medium bg-white">
+                            <option value="">Select section</option>
+                            {%for value, label in departments%}
+								<option value="{{value}}"
+                                {% if teacher.department == value %}
+                                selected
+                                {%endif%}
+                                >{{label}}
+                                </option>
+                                {%endfor%}
+							</select>
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Max Weekly Hours</label
+							>
+							<input
+								type="number"
+								name="max_weekly_hours"
+								x-model="hours"
+								value="30"
+								min="1"
+								max="40"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+							<span
+								class="text-[11px] font-medium text-neutral-400 mt-0.5 block"
+								>School-wide default is 30 hrs/wk</span
+							>
+						</div>
+					</div>
+
+					<!-- Subjects -->
+					<div class="form-control w-full">
+						<label
+							class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+							>Subjects <span class="text-red-500">*</span></label
+						>
+						<span class="text-[11px] font-medium text-neutral-400 -mt-1 block"
+							>Select all subjects this teacher can teach</span
+						>
+						<div id="subject-buttons-container" class="flex flex-wrap gap-1.5 mt-2">
+							{%if edit%}
+							 {% for subject in subjects %}
+							<button type="button"
+							class="px-2.5 py-1 rounded-md text-xs font-bold border transition-all duration-200 select-none cursor-pointer"
+							:class="selectedSubjects.includes('{{ subject.id }}') ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-50'"
+							@click="toggleSubject('{{ subject.id }}')">
+							{{ subject.name }}
+							</button>
+
+  							{% endfor %}
+							{%endif%}
+                        </div>
+					</div>
+				</div>
+
+				
+			</div>
+
+			<!-- ── FOOTER ── -->
+			<div
+				class="px-8 py-4 border-t border-neutral-200 bg-neutral-50 flex items-center justify-between shrink-0">
+				<div class="flex items-center gap-3">
+					<button
+						type="button"
+						x-show="step > 1"
+						@click="back()"
+						class="btn btn-sm btn-outline border-neutral-200 bg-white rounded-md text-xs font-semibold text-neutral-600 hover:bg-neutral-50 transition-all">
+						← Back
+					</button>
+					<button
+						type="button"
+						@click="submitForm('draft')"
+						class="btn btn-sm btn-outline border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-md font-bold text-xs px-4">
+						Save &amp; Exit (Draft)
+					</button>
+				</div>
+				<div class="flex items-center gap-4">
+					<span
+						class="text-xs font-bold text-neutral-400"
+						x-text="`Step ${step} of ${total}`"></span>
+					<button
+						type="button"
+						x-show="step < total"
+						@click="next()"
+						class="btn btn-sm btn-neutral text-white rounded-md font-bold text-xs px-5 flex items-center gap-2">
+						Continue
+						<svg
+							width="12"
+							height="12"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2.5"
+							stroke-linecap="round">
+							<polyline points="9 18 15 12 9 6" />
+						</svg>
+					</button>
+					<button
+						type="button"
+						x-show="step === total"
+						@click="submitForm('complete')"
+						class="btn btn-sm btn-success text-white rounded-md font-bold text-xs px-5 flex items-center gap-2">
+						<svg
+							width="13"
+							height="13"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2.5"
+							stroke-linecap="round">
+							<polyline points="20 6 9 17 4 12" />
+						</svg>
+						{%if edit%}
+						Save Changes
+						{%else%}
+						Create Teacher Account
+						{%endif%}
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

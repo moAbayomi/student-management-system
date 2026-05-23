@@ -1,0 +1,108 @@
+{% extends 'portals/base.html' %}
+
+{% block title %}Student Portal{% endblock %}
+
+{% block aside %}
+  
+  <!-- Logo & User Profile Section -->
+<div class="p-lg pb-md">
+  <div class="flex items-center gap-sm mb-lg">
+    <!-- Using primary color and custom radius-md -->
+    <div class="w-8 h-8 bg-primary rounded-md flex items-center justify-center shadow-lg shadow-primary/20">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    </div>
+    <span class="text-xl font-bold text-white tracking-tight">EduCore</span>
+  </div>
+
+  <!-- Student Info Card: Using primary/10 for the subtle tint -->
+  <div class="bg-primary/10 border border-primary/25 rounded-md p-sm flex items-center gap-sm">
+    <div class="avatar placeholder">
+      <div class="bg-primary text-white rounded-md w-10 h-10 text-xs font-bold flex items-center justify-center">
+        CJ
+      </div>
+    </div>
+    <div class="overflow-hidden">
+      <div class="text-white text-[13px] font-bold truncate">Chukwuemeka Jide</div>
+      <div class="text-primary-dark text-[11px] font-semibold truncate">SS 2A · #EDU-0421</div>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="flex-1 px-sm space-y-xs">
+  
+  <!-- Section: My School -->
+  <div class="px-sm py-xs text-[10px] font-bold uppercase tracking-widest text-dim">My School</div>
+  
+  <!-- Active Link using Primary -->
+  <a href="#" class="flex items-center gap-sm px-sm py-2.5 rounded-md text-sm font-medium transition-all bg-primary text-white shadow-md shadow-primary/10">
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+    Dashboard
+  </a>
+
+  <!-- Inactive Link using Dim/Muted colors -->
+  <a href="#" class="flex items-center gap-sm px-sm py-2.5 rounded-md text-sm font-medium text-dim hover:bg-white/5 hover:text-white transition-all group">
+    <svg class="w-5 h-5 group-hover:text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+    </svg>
+    My Timetable
+  </a>
+
+  <a href="#" class="flex items-center gap-sm px-sm py-2.5 rounded-md text-sm font-medium text-dim hover:bg-white/5 hover:text-white transition-all group">
+    <svg class="w-5 h-5 group-hover:text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
+    </svg>
+    Assignments
+    <span class="ml-auto bg-danger/10 text-danger text-[10px] font-bold px-2 py-0.5 rounded-full border border-danger/20">2 due</span>
+  </a>
+
+  <a href="#" class="flex items-center gap-sm px-sm py-2.5 rounded-md text-sm font-medium text-dim hover:bg-white/5 hover:text-white transition-all group">
+    <svg class="w-5 h-5 group-hover:text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+    </svg>
+    My Grades
+  </a>
+
+  <!-- Section: Communication -->
+  <div class="px-sm py-xs mt-lg text-[10px] font-bold uppercase tracking-widest text-dim">Communication</div>
+  
+  <a href="#" class="flex items-center gap-sm px-sm py-2.5 rounded-md text-sm font-medium text-dim hover:bg-white/5 hover:text-white transition-all group">
+    <svg class="w-5 h-5 group-hover:text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    Announcements
+    <span class="ml-auto bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full border border-primary/20">1 new</span>
+  </a>
+
+  <!-- Section: Account -->
+  <div class="px-sm py-xs mt-lg text-[10px] font-bold uppercase tracking-widest text-dim">Account</div>
+  
+  <a href="#" class="flex items-center gap-sm px-sm py-2.5 rounded-md text-sm font-medium text-dim hover:bg-white/5 hover:text-white transition-all group">
+    <svg class="w-5 h-5 group-hover:text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+    </svg>
+    Profile
+  </a>
+
+  <!-- Logout using Danger variables -->
+  <a href="#" class="flex items-center gap-sm px-sm py-2.5 rounded-md text-sm font-medium text-danger hover:bg-danger/10 transition-all">
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+    Logout
+  </a>
+</nav>
+
+{% endblock %}
+
+{% block content %}
+{% include 'portals/student/student_overview.html' %}
+{% endblock %}
+
+{%block right_sidebar %}
+{%include 'portals/student/right_sidebar.html' %}
+{%endblock%}

@@ -1,0 +1,99 @@
+<!-- ── SELECTED TEACHER PEEK ── -->
+<div
+	id="teacher-card-inner"
+	class="p-lg bg-amber-50 border-b-2 border-secondary">
+	<div
+		class="text-[9.5px] font-bold tracking-widest text-amber-700 uppercase mb-3">
+		Selected Teacher
+	</div>
+
+	<div class="flex items-center gap-3 mb-4">
+		<div
+			class="w-10 h-10 rounded-lg bg-info-light text-primary flex items-center justify-center font-bold text-sm shrink-0">
+			FO
+		</div>
+		<div class="min-w-0">
+			<div class="text-sm font-bold text-main truncate">
+				{{teacher.user.first_name}} {{teacher.user.last_name}}
+			</div>
+			<div class="text-[11px] text-muted truncate">
+				#TCH-001 · HOD, Sciences
+			</div>
+		</div>
+	</div>
+
+	<!-- Quick Stats Grid -->
+	<div class="grid grid-cols-2 gap-2 mb-4">
+		<div class="p-2 bg-surface border border-border-light rounded-md shadow-sm">
+			<div class="text-[9.5px] text-muted font-bold uppercase tracking-tight">
+				Workload
+			</div>
+			<div class="text-[17px] font-bold text-danger leading-tight">
+				28<span class="text-[11px] text-muted font-normal">/30h</span>
+			</div>
+		</div>
+		<div class="p-2 bg-surface border border-border-light rounded-md shadow-sm">
+			<div class="text-[9.5px] text-muted font-bold uppercase tracking-tight">
+				Classes
+			</div>
+			<div class="text-[17px] font-bold text-main leading-tight">3</div>
+		</div>
+		<div class="p-2 bg-surface border border-border-light rounded-md shadow-sm">
+			<div class="text-[9.5px] text-muted font-bold uppercase tracking-tight">
+				Form Class
+			</div>
+			<div class="text-[13px] font-bold text-main mt-0.5">SS 2A</div>
+		</div>
+		<div class="p-2 bg-surface border border-border-light rounded-md shadow-sm">
+			<div class="text-[9.5px] text-muted font-bold uppercase tracking-tight">
+				Qualification
+			</div>
+			<div class="mt-1">
+				<span
+					class="px-2 py-0.5 rounded-full bg-secondary-light text-secondary text-[10px] font-bold"
+					>M.Sc</span
+				>
+			</div>
+		</div>
+	</div>
+
+	<!-- Onboarding Progress -->
+	<div class="mb-4">
+		<div
+			class="text-[10px] font-bold text-muted uppercase tracking-widest mb-2">
+			Account Status
+		</div>
+		<div class="space-y-1.5">
+			<div class="flex items-center gap-2 text-[11.5px] text-main">
+				<div
+					class="w-4 h-4 rounded-full bg-success text-white flex items-center justify-center text-[9px]">
+					✓
+				</div>
+				<span>Profile set up</span>
+			</div>
+			<div class="flex items-center gap-2 text-[11.5px] text-main">
+				<div
+					class="w-4 h-4 rounded-full bg-success text-white flex items-center justify-center text-[9px]">
+					✓
+				</div>
+				<span>Classes assigned</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="flex gap-2">
+		<button
+			{%if teacher%}
+			hx-get="{%url 'portal:teacher-detail' teacher.id %}"
+			hx-target="main"
+			hx-swap="innerHTML"
+			{%endif%}
+			class="flex-1 py-2 bg-surface-dark text-white rounded-md text-[11.5px] font-bold hover:opacity-90 transition-opacity cursor-pointer">
+			View Profile
+		</button>
+		<button
+			class="flex-1 py-2 bg-surface border border-border text-main rounded-md text-[11.5px] font-bold hover:bg-background transition-colors cursor-pointer">
+			Timetable
+		</button>
+	</div>
+</div>

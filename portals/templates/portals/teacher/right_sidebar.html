@@ -1,0 +1,104 @@
+<aside class="sticky top-0 h-screen overflow-y-auto p-lg hidden lg:block bg-surface border-l border-border-light">
+
+    <!-- Search Bar -->
+    <div class="bg-background/50 border border-border-light rounded-md px-md py-sm flex items-center gap-sm mb-lg focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-dim" stroke-width="2.5" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" placeholder="Search students…" class="bg-transparent border-none text-sm text-main placeholder:text-dim focus:outline-none w-full">
+    </div>
+
+    <!-- Quick Stats Grid -->
+    <div class="grid grid-cols-2 gap-sm mb-lg">
+      <div class="bg-primary/10 rounded-lg p-md text-center border border-primary/5">
+        <div class="text-2xl font-black text-primary tracking-tighter">124</div>
+        <div class="text-[10px] text-primary font-bold uppercase">My Students</div>
+      </div>
+      <div class="bg-success-light/30 rounded-lg p-md text-center border border-success/5">
+        <div class="text-2xl font-black text-success tracking-tighter">85%</div>
+        <div class="text-[10px] text-success font-bold uppercase">Avg Attendance</div>
+      </div>
+      <div class="bg-warning/10 rounded-lg p-md text-center border border-warning/5">
+        <div class="text-2xl font-black text-warning tracking-tighter">5</div>
+        <div class="text-[10px] text-warning font-bold uppercase">To Grade</div>
+      </div>
+      <div class="bg-secondary/10 rounded-lg p-md text-center border border-secondary/5">
+        <div class="text-2xl font-black text-secondary tracking-tighter">71.2</div>
+        <div class="text-[10px] text-secondary font-bold uppercase">Avg Score</div>
+      </div>
+    </div>
+
+    <!-- Notifications Section -->
+    <div class="mb-lg">
+      <div class="flex items-center justify-between mb-md">
+        <h4 class="text-sm font-bold text-main">Notifications</h4>
+        <span class="badge badge-info badge-sm font-bold text-[10px]">2 new</span>
+      </div>
+      <div class="flex flex-col gap-sm">
+        <div class="bg-warning/10 border border-warning/20 rounded-lg p-md transition-all hover:border-warning/40">
+          <div class="text-[13px] font-bold text-warning">⚠ Assignment Overdue</div>
+          <p class="text-xs text-main/80 mt-0.5 font-medium">Mid-Term Test — SS2A grading was due May 5th</p>
+          <p class="text-[10px] text-dim mt-2 font-bold uppercase tracking-wider">2 days overdue</p>
+        </div>
+        <div class="bg-primary/5 border border-primary/20 rounded-lg p-md transition-all hover:border-primary/40">
+          <div class="text-[13px] font-bold text-primary">Attendance Reminder</div>
+          <p class="text-xs text-main/80 mt-0.5 font-medium">Don't forget to mark attendance for SS3B at 10AM</p>
+          <p class="text-[10px] text-dim mt-2 font-bold uppercase">Just now</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- School Announcements -->
+    <div class="mb-lg">
+      <h4 class="text-sm font-bold text-main mb-md">Announcements</h4>
+      <div class="flex flex-col gap-sm">
+        <div class="border border-warning/30 bg-warning/5 rounded-lg p-md group">
+          <div class="flex items-start gap-md">
+            <div class="w-1 min-h-[40px] bg-warning rounded-full shrink-0 mt-0.5"></div>
+            <div>
+              <h5 class="text-[13px] font-bold text-main leading-tight">Mid-Term Break</h5>
+              <p class="text-xs text-muted mt-0.5 leading-relaxed">School closes Friday 9th May. Resumes 19th May.</p>
+              <p class="text-[11px] text-dim mt-1.5 font-medium">Admin · Today</p>
+            </div>
+          </div>
+        </div>
+        <div class="border border-border-light rounded-lg p-md hover:bg-background transition-colors cursor-default">
+          <div class="flex items-start gap-md">
+            <div class="w-1 min-h-[40px] bg-secondary rounded-full shrink-0 mt-0.5"></div>
+            <div>
+              <h5 class="text-[13px] font-bold text-main">Staff Meeting</h5>
+              <p class="text-xs text-muted mt-0.5 leading-relaxed">All teachers — Friday 2PM, Staff Room</p>
+              <p class="text-[11px] text-dim mt-1.5 font-medium">Admin · 2 days ago</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Students needing attention -->
+    <div class="mb-lg">
+      <h4 class="text-sm font-bold text-main mb-md">Needs Attention</h4>
+      <div class="flex flex-col gap-sm">
+        <!-- Danger Student -->
+        <div class="border border-danger/20 rounded-lg p-md flex items-center gap-md hover:bg-danger/5 transition-all group">
+          <div class="avatar placeholder">
+            <div class="bg-danger/10 text-danger rounded-full w-9 h-9 text-[11px] font-black flex items-center justify-center border border-danger/10">KI</div>
+          </div>
+          <div class="flex-1">
+            <div class="text-[13px] font-bold text-main">Kelechi Ibe</div>
+            <div class="text-[11px] text-danger font-bold">51% attendance · Score: 39/100</div>
+          </div>
+        </div>
+        <!-- Warning Student -->
+        <div class="border border-warning/20 rounded-lg p-md flex items-center gap-md hover:bg-warning/5 transition-all group">
+          <div class="avatar placeholder">
+            <div class="bg-warning/10 text-warning rounded-full w-9 h-9 text-[11px] font-black flex items-center justify-center border border-warning/10">AM</div>
+          </div>
+          <div class="flex-1">
+            <div class="text-[13px] font-bold text-main">Amara Mensah</div>
+            <div class="text-[11px] text-warning font-bold">72% attendance · Score: 61/100</div>
+          </div>
+        </div>
+      </div>
+    </div>
+</aside>

@@ -1,0 +1,72 @@
+<!-- ── RIGHT SIDEBAR CONTAINER ── -->
+<aside
+	class="w-64 h-screen bg-surface border-l border-border-light flex flex-col sticky top-0 overflow-y-auto custom-scrollbar ">
+	<!-- bg-surface maps to --color-surface -->
+
+	<!-- Student Quick Peek — Selected State -->
+	<div
+		id="student-card-right-sidebar"
+		class="p-lg bg-amber-50 border-b-2 border-secondary"
+		x-show="selectedRow != null"
+		x-cloak>
+		{%include 'portals/admin/students/partials/student_card_right_sidebar.html'%}
+	</div>
+	<!-- At-Risk List -->
+	<div class="p-lg border-b border-border-light">
+		<div class="flex items-center justify-between mb-3">
+			<h3 class="text-[13px] font-bold text-main">At-Risk Students</h3>
+			<span
+				class="px-1.5 py-0.5 rounded bg-danger-light text-danger text-[10px] font-black"
+				>47</span
+			>
+		</div>
+
+		<div class="space-y-2">
+			<div
+				class="flex items-center gap-2 p-2.5 border border-danger/20 rounded-lg bg-danger-light/10">
+				<div
+					class="w-7 h-7 rounded bg-danger-light text-danger flex items-center justify-center font-bold text-[10px] shrink-0">
+					KI
+				</div>
+				<div class="min-w-0">
+					<div class="text-[12px] font-bold text-main truncate leading-none">
+						Kelechi Ibe
+					</div>
+					<div class="text-[10.5px] text-danger mt-1">
+						51% att · Score 43 · Overdue
+					</div>
+				</div>
+			</div>
+
+			<button
+				class="w-full py-2 bg-transparent border border-border rounded-md text-[11.5px] font-bold text-muted hover:bg-background transition-all mt-1">
+				View all 47 →
+			</button>
+		</div>
+	</div>
+	<!-- Fee Summary -->
+	<div class="p-lg border-b border-border-light">
+		<h3 class="text-[13px] font-bold text-main mb-3">Fee Summary</h3>
+		<div class="space-y-2.5">
+			<div class="flex justify-between items-center text-xs text-muted">
+				<span class="flex items-center gap-2 font-medium">
+					<span class="w-2 h-2 rounded-[2px] bg-success"></span> Paid
+				</span>
+				<span class="font-bold text-main">614</span>
+			</div>
+			<div class="flex justify-between items-center text-xs text-muted">
+				<span class="flex items-center gap-2 font-medium">
+					<span class="w-2 h-2 rounded-[2px] bg-danger"></span> Overdue
+				</span>
+				<span class="font-bold text-danger">68</span>
+			</div>
+
+			<div
+				class="h-2 w-full bg-background rounded-full overflow-hidden flex mt-2">
+				<div class="h-full bg-success" style="width: 73%"></div>
+				<div class="h-full bg-warning" style="width: 19%"></div>
+				<div class="h-full bg-danger" style="width: 8%"></div>
+			</div>
+		</div>
+	</div>
+</aside>

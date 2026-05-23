@@ -1,0 +1,803 @@
+<div
+	x-data="{ 
+    currentStep: 1, 
+    totalSteps: 4,
+    firstName: '{{ student.user.first_name|default:'' }}',
+    lastName: '{{ student.user.last_name|default:'' }}',
+	middleName: '{{student.user.middle_name|default:''}}',
+    dob: '{{ student.date_of_birth|date:'Y-m-d'|default:'' }}',
+    gender: '{{ student.user.gender|default:'M' }}',
+	stateOfOrigin: '{{student.user.state_of_origin|default:'' }}',
+	religion: '{{student.user.religion|default:'' }}',
+	address: '{{student.user.address|default:'' }}',
+	admissionType: '{{student.admission_type|default:'' }}',
+	entryTerm: '{{student.entry_term|default:'' }}',
+	prevSchool: '{{ student.previous_school|default:'' }}',
+	prevClass: '{{ student.previous_class|default:'' }}',
+	feePlan: '{{ student.fee_plan|default:'' }}',
+	guardianFirstName: '{{student.guardian_first_name|default:'' }}',
+	guardianLastName: '{{student.guardian_last_name|default:'' }}',
+	guardianRelationship: '{{student.guardian_relationship|default:'' }}',
+	guardianPhone: '{{student.guardian_phone|default:'' }}',
+	guardianEmail: '{{student.guardian_email|default:'' }}',
+	guardianOccupation: '{{ student.guardian_occupation|default:'' }}',
+	guardianNin: '{{ student.guardian_nin|default:'' }}',
+	guardianAddress: '{{ student.guardian_address|default:'' }}',
+	emergencyName: '{{ student.emergency_name|default:'' }}',
+	emergencyPhone: '{{ student.emergency_phone|default:'' }}',
+	bloodGroup: '{{student.blood_group|default:'' }}',
+	genotype: '{{student.genotype|default:'' }}',
+	disability: '{{student.disability|default:'' }}',
+	allergies: '{{ student.allergies|default:'' }}',
+	medicalConditions: '{{ student.medical_conditions|default:'' }}',
+	adminNotes: '{{ student.admin_notes|default:'' }}',
+    saveMode: 'complete',
+    
+    get initials() {
+      const f = this.firstName.trim()[0] || '';
+      const l = this.lastName.trim()[0] || '';
+      return (f + l).toUpperCase() || '?';
+    },
+    
+    // Quick validation check for mandatory draft fields
+    get hasMinimumDraftData() {
+      return this.firstName.trim() !== '' && 
+             this.lastName.trim() !== '' && 
+             this.dob.trim() !== '' && 
+             this.gender.trim() !== '' && 
+             this.classLevel.trim() !== '' &&
+             this.classArm.trim() !== '';
+    },
+    
+    goStep(step) {
+      if (step >= 1 && step <= this.totalSteps) {
+        this.currentStep = step;
+      }
+    },
+
+	previewPhoto(event) {
+    const file = event.target.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				document.getElementById('photo-preview').innerHTML = `<img src='${e.target.result}' class='w-14 h-14 rounded-full object-cover'/>`;
+			};
+			reader.readAsDataURL(file);
+		}
+	},
+    
+    submitForm(mode) {
+      this.saveMode = mode;
+      
+      if (mode === 'draft') {
+        if (!this.hasMinimumDraftData) {
+          alert('To Save & Exit, you must fill in at least: First Name, Last Name, Date of Birth, Gender, and Class Arm.');
+          return;
+        }
+      }
+      
+      // Deliberately trigger HTMX execution cleanly
+      this.$nextTick(() => {
+        htmx.trigger('#student-form', 'submit');
+      });
+    },
+    
+    closeModal() {
+      document.getElementById('modal-container').innerHTML = '';
+    }
+  }"
+	id="modal-container"
+	class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
+	role="dialog"
+	aria-modal="true"
+	aria-labelledby="modal-title">
+	<div
+		class="bg-white border border-neutral-200 rounded-xl w-full max-w-4xl shadow-2xl flex flex-col my-auto max-h-[85vh] animate-in fade-in zoom-in-95 duration-200">
+		<!-- ── HEADER ── -->
+		<div
+			class="flex items-center justify-between px-8 py-5 border-b border-neutral-200 shrink-0">
+			<div class="flex items-center gap-4">
+				<div
+					class="w-10 h-10 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-center">
+					<svg
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="#B45309"
+						stroke-width="2"
+						stroke-linecap="round">
+						<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+						<circle cx="9" cy="7" r="4" />
+						<line x1="19" y1="8" x2="19" y2="14" />
+						<line x1="22" y1="11" x2="16" y2="11" />
+					</svg>
+				</div>
+				<div>
+					<h3 class="text-base font-bold text-neutral-900" id="modal-title">
+						{% if edit %}Edit Student Profile{% else %}Register New
+						Student{%endif %}
+					</h3>
+					<p class="text-xs text-neutral-500 mt-0.5">
+						Fill in the student's information to complete enrollment
+					</p>
+				</div>
+			</div>
+			<button
+				type="button"
+				@click="closeModal()"
+				class="w-8 h-8 rounded-lg border border-neutral-200 bg-neutral-50 flex items-center justify-center cursor-pointer text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 transition-colors"
+				aria-label="Close modal">
+				<svg
+					width="14"
+					height="14"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					stroke-linecap="round">
+					<line x1="18" y1="6" x2="6" y2="18" />
+					<line x1="6" y1="6" x2="18" y2="18" />
+				</svg>
+			</button>
+		</div>
+
+		<!-- ── STEP BAR ── -->
+		<div class="bg-neutral-50 border-b border-neutral-200 px-8 shrink-0">
+			<ul class="steps w-full py-4">
+				<li
+					class="step text-xs font-semibold"
+					:class="currentStep >= 1 ? 'step-primary font-bold text-neutral-900' : 'text-neutral-400'">
+					Personal Info
+				</li>
+				<li
+					class="step text-xs font-semibold"
+					:class="currentStep >= 2 ? 'step-primary font-bold text-neutral-900' : 'text-neutral-400'">
+					Academic Placement
+				</li>
+				<li
+					class="step text-xs font-semibold"
+					:class="currentStep >= 3 ? 'step-primary font-bold text-neutral-900' : 'text-neutral-400'">
+					Guardian Details
+				</li>
+				<li
+					class="step text-xs font-semibold"
+					:class="currentStep >= 4 ? 'step-primary font-bold text-neutral-900' : 'text-neutral-400'">
+					Health &amp; Notes
+				</li>
+			</ul>
+		</div>
+
+		<!-- ── FORM BODY ── -->
+		<form
+			id="student-form"
+			method="POST"
+			{%if edit%}
+			hx-post="{% url 'portal:edit-student' student.id %}"
+			{%else%}
+			hx-post="{% url 'portal:create-student' %}"
+			{%endif%}
+			hx-encoding="multipart/form-data"
+			class="flex flex-col flex-1 overflow-hidden bg-background"
+			novalidate>
+			{% csrf_token %}
+
+			<!-- Hidden track input for backend processing -->
+			<input type="hidden" name="save_mode" :value="saveMode" />
+
+			<div class="px-8 py-6 overflow-y-auto space-y-6 flex-1 min-h-0">
+				<!-- ─── PANEL 1: Personal Info ─── -->
+				<div
+					x-show="currentStep === 1"
+					x-transition.opacity.duration.200ms
+					class="space-y-5">
+					<div
+						class="flex items-center gap-4 p-4 bg-neutral-50 border border-dashed border-neutral-300 rounded-xl">
+						<div
+							x-text="initials"
+							class="w-14 h-14 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xl font-black shrink-0">
+							?
+						</div>
+						<div class="flex-1">
+							<p class="text-xs font-bold text-neutral-900">Student Photo</p>
+							<p class="text-[11px] text-neutral-500 mt-0.5">
+								JPG or PNG, max 2 MB · Used on ID card and profile page
+							</p>
+						</div>
+						<label
+							type="button"
+							for="photo-input"
+							class="px-4 py-2 border border-neutral-200 rounded-lg text-xs font-semibold text-neutral-700 bg-white hover:bg-neutral-50 transition-colors">
+							Upload Photo
+							<input
+								type="file"
+								id="photo-input"
+								name="photo"
+								accept="image/*"
+								class="hidden"
+								@change="previewPhoto($event)" />
+						</label>
+					</div>
+
+					<div
+						class="text-[10px] font-extrabold text-neutral-400 tracking-wider uppercase pb-2 border-b border-neutral-200">
+						Personal Information
+					</div>
+
+					<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>First Name <span class="text-red-500">*</span></label
+							>
+							<input
+								type="text"
+								name="first_name"
+								x-model="firstName"
+								placeholder="e.g. Chukwuemeka"
+								autocomplete="given-name"
+								class="input input-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white bg-whitet" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Middle Name</label
+							>
+							<input
+								type="text"
+								name="middle_name"
+								value="{{ student.user.middle_name|default:'' }}"
+								placeholder="Optional"
+								class="input input-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Last Name <span class="text-red-500">*</span></label
+							>
+							<input
+								type="text"
+								name="last_name"
+								x-model="lastName"
+								placeholder="e.g. Okafor"
+								autocomplete="family-name"
+								class="input input-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white" />
+						</div>
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Date of Birth <span class="text-red-500">*</span></label
+							>
+							<input
+								type="date"
+								name="dob"
+								x-model="dob"
+								class="input input-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Gender <span class="text-red-500">*</span></label
+							>
+							<input type="hidden" name="gender" x-model="gender" :value="gender" />
+							<div class="join w-full">
+								<button
+									type="button"
+									@click="gender = 'M'"
+									class="btn join-item flex-1 text-xs"
+									:class="gender === 'M' ? 'btn-neutral text-white' : 'btn-outline border-neutral-200 text-neutral-500'">
+									Male
+								</button>
+								<button
+									type="button"
+									@click="gender = 'F'"
+									class="btn join-item flex-1 text-xs"
+									:class="gender === 'F' ? 'btn-neutral text-white' : 'btn-outline border-neutral-200 text-neutral-500'">
+									Female
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>State of Origin</label
+							>
+							<select
+								name="state_of_origin"
+								x-model="stateOfOrigin"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option value="">Select state…</option>
+								<option value="Abia">Abia</option>
+								<option value="Anambra">Anambra</option>
+								<option value="Enugu">Enugu</option>
+								<option value="Lagos">Lagos</option>
+								<option value="Oyo">Oyo</option>
+								<option value="Rivers">Rivers</option>
+							</select>
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Religion</label
+							>
+							<select
+								name="religion"
+								x-model="religion"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option value="">Select…</option>
+								<option value="Christianity">Christianity</option>
+								<option value="Islam">Islam</option>
+								<option value="Traditional">Traditional</option>
+								<option value="Other">Other</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-control w-full">
+						<label
+							class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+							>Home Address</label
+						>
+						<textarea
+							name="address"
+							placeholder="Full residential address of student"
+							class="textarea textarea-bordered rounded-lg text-sm font-medium h-20 focus:outline-offset-0 focus:outline-primary bg-white w-full">
+{{ student.user.address }}</textarea
+						>
+					</div>
+				</div>
+
+				<!-- ─── PANEL 2: Academic ─── -->
+				<div
+					x-show="currentStep === 2"
+					x-transition.opacity.duration.200ms
+					class="space-y-5">
+					<div
+						class="alert py-3 px-4 text-xs bg-blue-50 border border-blue-200 text-blue-700 font-semibold rounded-lg flex items-center gap-2">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2">
+							<circle cx="12" cy="12" r="10" />
+							<line x1="12" y1="8" x2="12" y2="12" />
+							<line x1="12" y1="16" x2="12.01" y2="16" />
+						</svg>
+						<span>Student ID will be auto-generated dynamically on save.</span>
+					</div>
+
+					<div
+						class="text-[10px] font-extrabold text-neutral-400 tracking-wider uppercase pb-2 border-b border-neutral-200">
+						Academic Placement
+					</div>
+
+					
+
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Admission Type</label
+							>
+							<select
+								name="admission_type"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option
+									{%
+									if
+									student.admission_type=""
+									="New Admission"
+									%}selected{%
+									endif
+									%}>
+									New Admission
+								</option>
+								<option
+									{%
+									if
+									student.admission_type=""
+									="Transfer In"
+									%}selected{%
+									endif
+									%}>
+									Transfer In
+								</option>
+								<option
+									{%
+									if
+									student.admission_type=""
+									="Re-admission"
+									%}selected{%
+									endif
+									%}>
+									Re-admission
+								</option>
+							</select>
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Entry Term <span class="text-red-500">*</span></label
+							>
+							<select
+								name="entry_term"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option>1st Term 2026</option>
+								<option selected>2nd Term 2026</option>
+								<option>3rd Term 2026</option>
+							</select>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<div class="form-control w-full">
+								<label
+									class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+									>Previous School</label
+								>
+								<input
+									type="text"
+									name="previous_school"
+									value="{{ student.previous_school|default:'' }}"
+									placeholder="Name of last attended school"
+									class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+							</div>
+							<div class="form-control w-full">
+								<label
+									class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+									>Previous Class</label
+								>
+								<input
+									type="text"
+									name="previous_class"
+									value="{{ student.previous_class|default:'' }}"
+									placeholder="e.g. JSS 1 Arm B"
+									class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+							</div>
+						</div>
+					</div>
+
+					<div
+						class="text-[10px] font-extrabold text-neutral-400 tracking-wider uppercase pt-2 pb-2 border-b border-neutral-200">
+						Fee &amp; Enrollment Status
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Fee Plan</label
+							>
+							<select
+								name="fee_plan"
+								x-model="feePlan"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option value="Full Payment">Full Payment</option>
+								<option value="Installment — 2 Parts">Installment — 2 Parts</option>
+								<option value="Installment — 2 Parts">Installment — 3 Parts</option>
+								<option value="Scholarship">Scholarship</option>
+								<option value="Bursary">Bursary</option>
+							</select>
+						</div>
+						
+					</div>
+				</div>
+
+				<!-- ─── PANEL 3: Guardian ─── -->
+				<div
+					x-show="currentStep === 3"
+					x-transition.opacity.duration.200ms
+					class="space-y-5">
+					<div
+						class="text-[10px] font-extrabold text-neutral-400 tracking-wider uppercase pb-2 border-b border-neutral-200">
+						Primary Guardian / Parent
+					</div>
+
+					<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>First Name <span class="text-red-500">*</span></label
+							>
+							<input
+								type="text"
+								name="guardian_first_name"
+								x-model="guardianFirstName"
+								value="{{ student.guardian_first_name|default:'' }}"
+								class="input input-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Last Name <span class="text-red-500">*</span></label
+							>
+							<input
+								type="text"
+								x-model="guardianLastName"
+								name="guardian_last_name"
+								value="{{ student.guardian_last_name|default:'' }}"
+								class="input input-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Relationship</label
+							>
+							<select
+								name="guardian_relationship"
+								x-model="guardianRelationship"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option value="Father">Father</option>
+								<option value="Mother">Mother</option>
+								<option value="Guardian">Guardian</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Phone Number <span class="text-red-500">*</span></label
+							>
+							<input
+								type="tel"
+								name="guardian_phone"
+								x-model="guardianPhone"
+								value="{{ student.guardian_phone|default:'' }}"
+								placeholder="+234 801 234 5678"
+								class="input input-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Email Address</label
+							>
+							<input
+								type="email"
+								name="guardian_email"
+								x-model="guardianEmail"
+								value="{{ student.guardian_email|default:'' }}"
+								placeholder="parent@email.com"
+								class="input input-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white" />
+						</div>
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Occupation</label
+							>
+							<input
+								type="text"
+								name="guardian_occupation"
+								x-model="guardianOccupation"
+								value="{{ student.guardian_occupation|default:'' }}"
+								placeholder="e.g. Civil Servant"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>NIN / ID Number</label
+							>
+							<input
+								type="text"
+								name="guardian_nin"
+								x-model="guardianNin"
+								value="{{ student.guardian_nin|default:'' }}"
+								placeholder="Optional"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+					</div>
+
+					<div class="form-control w-full">
+						<label
+							class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+							>Guardian Address (if different)</label
+						>
+						<textarea
+							x-model="guardianAddress"
+							name="guardian_address"
+							placeholder="If different from student's address"
+							class="textarea textarea-bordered rounded-lg text-sm font-medium h-16 bg-white">
+								{{ student.guardian_address|default:'' }}
+						</textarea
+						>
+					</div>
+
+					<div
+						class="text-[10px] font-extrabold text-neutral-400 tracking-wider uppercase pt-2 pb-2 border-b border-neutral-200 mt-4">
+						Emergency Contact
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Contact Name</label
+							>
+							<input
+								type="text"
+								x-model="emergencyName"
+								name="emergency_name"
+								value="{{ student.emergency_name|default:'' }}"
+								placeholder="e.g. Mrs. Rita Jide"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Phone</label
+							>
+							<input
+								type="tel"
+								name="emergency_phone"
+								x-model="emergencyPhone"
+								value="{{ student.emergency_phone|default:'' }}"
+								placeholder="+234 800 000 0000"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+					</div>
+				</div>
+
+				<!-- ─── PANEL 4: Health & Notes ─── -->
+				<div
+					x-show="currentStep === 4"
+					x-transition.opacity.duration.200ms
+					class="space-y-5">
+					<div
+						class="text-[10px] font-extrabold text-neutral-400 tracking-wider uppercase pb-2 border-b border-neutral-200">
+						Medical Information
+					</div>
+
+					<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Blood Group</label
+							>
+							<select
+								name="blood_group"
+								x-model="bloodGroup"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option value="">Unknown</option>
+								<option value="A+">A+</option>
+								<option value="O+">O+</option>
+								<option value="B+">B+</option>
+							</select>
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Genotype</label
+							>
+							<select
+								name="genotype"
+								x-model="genotype"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option value="">Unknown</option>
+								<option value="AA">AA</option>
+								<option value="AS">AS</option>
+								<option value="SS">SS</option>
+							</select>
+						</div>
+						<div class="form-control w-full">
+							<label
+								class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+								>Special Need</label
+							>
+							<select
+								name="disability"
+								x-model="disability"
+								class="select select-bordered w-full rounded-lg text-sm font-medium focus:outline-offset-0 focus:outline-primary bg-white">
+								<option value="">None</option>
+								<option value="Visual Impairment">Visual Impairment</option>
+							</select>
+						</div>
+
+						<div class="form-control w-full">
+							<label class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5">Known Allergies</label>
+							<input type="text" name="allergies"
+								x-model="allergies"
+								value="{{ student.allergies|default:'' }}"
+								placeholder="e.g. Penicillin, Peanuts — leave blank if none"
+								class="input input-bordered w-full rounded-lg text-sm font-medium bg-white" />
+						</div>
+
+						<div class="form-control w-full">
+							<label class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5">Medical Conditions</label>
+							<textarea name="medical_conditions" x-model="medicalConditions" placeholder="Asthma, epilepsy, sickle cell, etc. Leave blank if none."
+									class="textarea textarea-bordered rounded-lg text-sm font-medium h-20 bg-white">{{ student.medical_conditions|default:'' }}</textarea>
+						</div>
+					</div>
+
+					<div class="form-control w-full">
+						<label
+							class="label-text text-[11px] font-bold text-neutral-500 uppercase tracking-wide mb-1.5"
+							>Admin Notes</label
+						>
+						<textarea
+							name="admin_notes"
+							x-model="adminNotes"
+							placeholder="Scholarship details, bursary criteria, special structural conditions..."
+							class="textarea textarea-bordered rounded-lg text-sm font-medium h-24 w-full focus:outline-offset-0 focus:outline-primary bg-white">
+{{ student.admin_notes }}</textarea
+						>
+					</div>
+				</div>
+			</div>
+			<!-- /modal-body -->
+
+			<!-- ── FOOTER ── -->
+			<div
+				class="px-8 py-4 border-t border-neutral-200 bg-neutral-50 flex items-center justify-between shrink-0">
+				<!-- Left Side: Back navigation or Save Draft -->
+				<div class="flex items-center gap-3">
+					<button
+						type="button"
+						@click="currentStep > 1 ? goStep(currentStep - 1) : null"
+						class="btn btn-sm btn-outline border-neutral-200 bg-white rounded-md text-xs font-semibold text-neutral-600 hover:bg-neutral-50 transition-all"
+						:class="currentStep === 1 ? 'hidden' : 'block'">
+						← Back
+					</button>
+
+					<!-- Explicit Save & Exit Control -->
+					<button
+						type="button"
+						@click="submitForm('draft')"
+						class="btn btn-sm btn-outline border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-md font-bold text-xs px-4"
+						:class="hasMinimumDraftData ? 'opacity-100' : 'opacity-60 cursor-not-allowed'"
+						title="Saves basic profile details immediately without completing wizard steps.">
+						Save &amp; Exit (Draft)
+					</button>
+				</div>
+
+				<!-- Right Side: Continue Sequence / Final Submission -->
+				<div class="flex items-center gap-4">
+					<span
+						class="text-xs text-neutral-500 font-semibold"
+						x-text="`Step ${currentStep} of ${totalSteps}`"></span>
+
+					<button
+						type="button"
+						@click="currentStep < totalSteps ? goStep(currentStep + 1) : submitForm('complete')"
+						class="btn btn-sm btn-neutral text-white rounded-md font-bold text-xs px-5 flex items-center gap-2">
+						<span
+							x-text="currentStep === totalSteps ? '{% if edit %}Save Changes{% else %}Register Student{% endif %}' : 'Continue'"></span>
+						<svg
+							x-show="currentStep !== totalSteps"
+							width="12"
+							height="12"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2.5"
+							stroke-linecap="round">
+							<polyline points="9 18 15 12 9 6" />
+						</svg>
+						<svg
+							x-show="currentStep === totalSteps"
+							width="13"
+							height="13"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2.5"
+							stroke-linecap="round">
+							<polyline points="20 6 9 17 4 12" />
+						</svg>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

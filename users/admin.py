@@ -7,16 +7,16 @@ from .models import User
 class CustomUserAdmin(UserAdmin):
     # This adds your new fields to the 'Personal Info' section in the Admin
     fieldsets = UserAdmin.fieldsets + (
-        ('School Specific Data', {'fields': ('role', 'school', 'phone_number', 'address')}),
+        ('School Specific Data', {'fields': ('role', 'phone_number', 'address')}),
     )
     
     # This ensures the fields show up when YOU are creating a new user
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ('School Specific Data', {'fields': ('role', 'school', 'phone_number', 'address')}),
+        ('School Specific Data', {'fields': ('role', 'phone_number', 'address')}),
     )
 
     # This controls what you see in the "List View" (the table of all users)
-    list_display = ['username', 'email', 'role', 'school', 'is_staff']
+    list_display = ['username', 'email', 'role', 'is_staff']
     list_filter = ['role', 'is_staff', 'is_superuser']
 
 admin.site.register(User, CustomUserAdmin)

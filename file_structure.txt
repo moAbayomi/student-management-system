@@ -1,0 +1,418 @@
+.
+├── LICENSE
+├── README.md
+├── academics
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-314.pyc
+│   │   ├── admin.cpython-314.pyc
+│   │   ├── apps.cpython-314.pyc
+│   │   ├── forms.cpython-314.pyc
+│   │   ├── models.cpython-314.pyc
+│   │   ├── services.cpython-314.pyc
+│   │   ├── urls.cpython-314.pyc
+│   │   └── views.cpython-314.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── management
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   └── __init__.cpython-314.pyc
+│   │   └── commands
+│   │       ├── __init__.py
+│   │       ├── __pycache__
+│   │       │   ├── __init__.cpython-314.pyc
+│   │       │   ├── assign_core_subjects.cpython-314.pyc
+│   │       │   ├── load_subjects.cpython-314.pyc
+│   │       │   ├── seed_students.cpython-314.pyc
+│   │       │   └── student_subject_sync.cpython-314.pyc
+│   │       ├── assign_core_subjects.py
+│   │       ├── load_subjects.py
+│   │       ├── seed_students.py
+│   │       └── student_subject_sync.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_initial.py
+│   │   ├── 0003_alter_subject_name_alter_subject_unique_together.py
+│   │   ├── 0004_alter_subjectassignment_teacher.py
+│   │   ├── 0005_alter_result_student_alter_result_subject_assignment.py
+│   │   ├── 0006_dailyattendance.py
+│   │   ├── 0007_remove_result_ca_score_remove_result_exam_score_and_more.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-314.pyc
+│   │       ├── 0002_initial.cpython-314.pyc
+│   │       ├── 0003_alter_subject_name_alter_subject_unique_together.cpython-314.pyc
+│   │       ├── 0004_alter_subjectassignment_teacher.cpython-314.pyc
+│   │       ├── 0005_alter_result_student_alter_result_subject_assignment.cpython-314.pyc
+│   │       ├── 0006_dailyattendance.cpython-314.pyc
+│   │       ├── 0007_remove_result_ca_score_remove_result_exam_score_and_more.cpython-314.pyc
+│   │       └── __init__.cpython-314.pyc
+│   ├── models.py
+│   ├── services.py
+│   ├── templates
+│   │   └── academics
+│   │       ├── manage-arms.html
+│   │       ├── manage-subs.html
+│   │       └── partials
+│   │           ├── arm_add_row.html
+│   │           ├── arm_row.html
+│   │           ├── arms_stage.html
+│   │           ├── sub_row.html
+│   │           └── subs_stage.html
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── djlint.toml
+├── file_structure.txt
+├── finance
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-314.pyc
+│   │   ├── admin.cpython-314.pyc
+│   │   ├── apps.cpython-314.pyc
+│   │   └── models.cpython-314.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-314.pyc
+│   │       └── __init__.cpython-314.pyc
+│   ├── models.py
+│   ├── services.py
+│   ├── tests.py
+│   └── views.py
+├── manage.py
+├── notifications
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-314.pyc
+│   │   ├── admin.cpython-314.pyc
+│   │   ├── apps.cpython-314.pyc
+│   │   └── models.cpython-314.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-314.pyc
+│   │       └── __init__.cpython-314.pyc
+│   ├── models.py
+│   ├── services.py
+│   ├── tests.py
+│   └── views.py
+├── portals
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-314.pyc
+│   │   ├── admin.cpython-314.pyc
+│   │   ├── apps.cpython-314.pyc
+│   │   ├── decorators.cpython-314.pyc
+│   │   ├── forms.cpython-314.pyc
+│   │   ├── models.cpython-314.pyc
+│   │   ├── services.cpython-314.pyc
+│   │   ├── urls.cpython-314.pyc
+│   │   └── views.cpython-314.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── decorators.py
+│   ├── forms.py
+│   ├── migrations
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       └── __init__.cpython-314.pyc
+│   ├── models.py
+│   ├── services.py
+│   ├── templates
+│   │   └── portals
+│   │       ├── add_student.html
+│   │       ├── add_teacher.html
+│   │       ├── admin
+│   │       │   ├── admin.html
+│   │       │   ├── admin_dashboard.html
+│   │       │   ├── admin_overview.html
+│   │       │   ├── announcements
+│   │       │   │   ├── announcements.html
+│   │       │   │   ├── announcements_overview.html
+│   │       │   │   └── right_sidebar.html
+│   │       │   ├── attendance
+│   │       │   │   ├── attendance.html
+│   │       │   │   ├── attendance_overview.html
+│   │       │   │   └── right_sidebar.html
+│   │       │   ├── class_console
+│   │       │   │   ├── class_console.html
+│   │       │   │   ├── class_overview.html
+│   │       │   │   └── right_sidebar.html
+│   │       │   ├── fees
+│   │       │   │   ├── fees.html
+│   │       │   │   ├── fees_overview.html
+│   │       │   │   └── right_sidebar.html
+│   │       │   ├── manage_students.html
+│   │       │   ├── partials
+│   │       │   ├── results
+│   │       │   │   ├── results.html
+│   │       │   │   ├── results_overview.html
+│   │       │   │   └── right_sidebar.html
+│   │       │   ├── right_sidebar.html
+│   │       │   ├── settings
+│   │       │   │   ├── right_sidebar.html
+│   │       │   │   ├── settings.html
+│   │       │   │   └── settings_overview.html
+│   │       │   ├── students
+│   │       │   │   ├── partials
+│   │       │   │   │   ├── create-modal
+│   │       │   │   │   │   └── class-arm-options.html
+│   │       │   │   │   ├── create_student_modal.html
+│   │       │   │   │   ├── filter_bar.html
+│   │       │   │   │   ├── pagination.html
+│   │       │   │   │   ├── s_profile
+│   │       │   │   │   │   ├── profile_attendance.html
+│   │       │   │   │   │   ├── profile_fees.html
+│   │       │   │   │   │   ├── profile_guardian.html
+│   │       │   │   │   │   ├── profile_notes_and_history.html
+│   │       │   │   │   │   ├── profile_overview.html
+│   │       │   │   │   │   └── profile_results.html
+│   │       │   │   │   ├── student-table-row.html
+│   │       │   │   │   ├── student_card_right_sidebar.html
+│   │       │   │   │   └── students_table.html
+│   │       │   │   ├── right_sidebar.html
+│   │       │   │   ├── student_profile.html
+│   │       │   │   ├── students_directory.html
+│   │       │   │   └── students_overview.html
+│   │       │   └── teachers
+│   │       │       ├── partials
+│   │       │       │   ├── create_teacher_modal.html
+│   │       │       │   ├── filter_bar.html
+│   │       │       │   ├── pagination.html
+│   │       │       │   ├── t_profile
+│   │       │       │   │   ├── profile_attendance_log.html
+│   │       │       │   │   ├── profile_classes_and_subjects.html
+│   │       │       │   │   ├── profile_notes_and_history.html
+│   │       │       │   │   ├── profile_overview.html
+│   │       │       │   │   ├── profile_results_submitted.html
+│   │       │       │   │   └── profile_weekly_schedule.html
+│   │       │       │   ├── teacher_card_right_sidebar.html
+│   │       │       │   └── teachers_table.html
+│   │       │       ├── right_sidebar.html
+│   │       │       ├── teacher_profile.html
+│   │       │       ├── teachers_directory.html
+│   │       │       └── teachers_overview.html
+│   │       ├── base.html
+│   │       ├── header.html
+│   │       ├── manage_staff.html
+│   │       ├── partials
+│   │       │   ├── attendance.html
+│   │       │   ├── attendance_overview.html
+│   │       │   ├── broadsheet.html
+│   │       │   ├── bulk_grading.html
+│   │       │   ├── change_classteacher.html
+│   │       │   ├── edit_subjects.html
+│   │       │   ├── edit_teacher.html
+│   │       │   ├── icons
+│   │       │   │   ├── announcements.html
+│   │       │   │   ├── arrow-right.html
+│   │       │   │   ├── attendance.html
+│   │       │   │   ├── dashboard.html
+│   │       │   │   ├── grad-cap.html
+│   │       │   │   ├── grades.html
+│   │       │   │   ├── panel-left-open.html
+│   │       │   │   ├── users.html
+│   │       │   │   └── work.html
+│   │       │   ├── manage_subjects.html
+│   │       │   ├── results.html
+│   │       │   ├── student_created.html
+│   │       │   ├── student_list.html
+│   │       │   ├── student_profile.html
+│   │       │   ├── subject_form_inner.html
+│   │       │   ├── subjects_selected.html
+│   │       │   ├── teacher_created.html
+│   │       │   ├── teacher_profile.html
+│   │       │   ├── teacher_row.html
+│   │       │   └── test_chart.html
+│   │       ├── student
+│   │       │   ├── right_sidebar.html
+│   │       │   ├── student_dashboard.html
+│   │       │   └── student_overview.html
+│   │       └── teacher
+│   │           ├── right_sidebar.html
+│   │           ├── teacher_dashboard.html
+│   │           └── teacher_overview.html
+│   ├── templatetags
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-314.pyc
+│   │   │   └── portals_extras.cpython-314.pyc
+│   │   └── portals_extras.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── profiles
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-314.pyc
+│   │   ├── admin.cpython-314.pyc
+│   │   ├── apps.cpython-314.pyc
+│   │   ├── models.cpython-314.pyc
+│   │   └── services.cpython-314.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_initial.py
+│   │   ├── 0003_remove_teacherprofile_subjects.py
+│   │   ├── 0004_enrollment.py
+│   │   ├── 0005_studentprofile_status_teacherprofile_status.py
+│   │   ├── 0006_studentprofile_admin_notes_and_more.py
+│   │   ├── 0007_teacherrole_teacherprofile_assigned_class_arm_and_more.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-314.pyc
+│   │       ├── 0002_initial.cpython-314.pyc
+│   │       ├── 0003_remove_teacherprofile_subjects.cpython-314.pyc
+│   │       ├── 0004_enrollment.cpython-314.pyc
+│   │       ├── 0005_studentprofile_status_teacherprofile_status.cpython-314.pyc
+│   │       ├── 0006_studentprofile_admin_notes_and_more.cpython-314.pyc
+│   │       ├── 0007_teacherrole_teacherprofile_assigned_class_arm_and_more.cpython-314.pyc
+│   │       └── __init__.cpython-314.pyc
+│   ├── models.py
+│   ├── services.py
+│   ├── tests.py
+│   └── views.py
+├── public
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-314.pyc
+│   │   ├── admin.cpython-314.pyc
+│   │   ├── apps.cpython-314.pyc
+│   │   ├── models.cpython-314.pyc
+│   │   ├── urls.cpython-314.pyc
+│   │   └── views.cpython-314.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       └── __init__.cpython-314.pyc
+│   ├── models.py
+│   ├── templates
+│   │   └── public
+│   │       └── themes
+│   │           └── default
+│   │               ├── base.html
+│   │               └── portal.html
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── requirements.txt
+├── school_portal
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-314.pyc
+│   │   ├── urls.cpython-314.pyc
+│   │   └── wsgi.cpython-314.pyc
+│   ├── asgi.py
+│   ├── settings
+│   │   ├── __pycache__
+│   │   │   ├── base.cpython-314.pyc
+│   │   │   └── dev.cpython-314.pyc
+│   │   ├── base.py
+│   │   ├── dev.py
+│   │   └── prod.py
+│   ├── urls.py
+│   └── wsgi.py
+├── schools
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-314.pyc
+│   │   ├── admin.cpython-314.pyc
+│   │   ├── apps.cpython-314.pyc
+│   │   ├── middleware.cpython-314.pyc
+│   │   ├── models.cpython-314.pyc
+│   │   └── services.cpython-314.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── middleware.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_academicterm_result_published.py
+│   │   ├── 0003_academicsession_end_date_academicsession_start_date_and_more.py
+│   │   ├── 0004_activitylog_announcement.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-314.pyc
+│   │       ├── 0002_academicterm_result_published.cpython-314.pyc
+│   │       ├── 0003_academicsession_end_date_academicsession_start_date_and_more.cpython-314.pyc
+│   │       ├── 0004_activitylog_announcement.cpython-314.pyc
+│   │       └── __init__.cpython-314.pyc
+│   ├── models.py
+│   ├── services.py
+│   ├── tests.py
+│   └── views.py
+├── theme
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-314.pyc
+│   │   └── apps.cpython-314.pyc
+│   ├── apps.py
+│   ├── static
+│   │   ├── css
+│   │   │   └── dist
+│   │   │       └── styles.css
+│   │   ├── img
+│   │   │   └── hero.jpg
+│   │   └── js
+│   │       ├── htmx.min.js
+│   │       └── plotly-3.5.0.min.js
+│   ├── static_src
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   ├── postcss.config.js
+│   │   └── src
+│   │       └── styles.css
+│   └── templates
+│       └── base.html
+└── users
+    ├── __init__.py
+    ├── __pycache__
+    │   ├── __init__.cpython-314.pyc
+    │   ├── admin.cpython-314.pyc
+    │   ├── apps.cpython-314.pyc
+    │   ├── forms.cpython-314.pyc
+    │   ├── models.cpython-314.pyc
+    │   ├── services.cpython-314.pyc
+    │   ├── urls.cpython-314.pyc
+    │   └── views.cpython-314.pyc
+    ├── admin.py
+    ├── apps.py
+    ├── forms.py
+    ├── migrations
+    │   ├── 0001_initial.py
+    │   ├── 0002_user_created_at_user_gender_user_is_onboarded_and_more.py
+    │   ├── 0003_user_middle_name_user_religion_user_state_of_origin.py
+    │   ├── __init__.py
+    │   └── __pycache__
+    │       ├── 0001_initial.cpython-314.pyc
+    │       ├── 0002_user_created_at_user_gender_user_is_onboarded_and_more.cpython-314.pyc
+    │       ├── 0003_user_middle_name_user_religion_user_state_of_origin.cpython-314.pyc
+    │       └── __init__.cpython-314.pyc
+    ├── models.py
+    ├── services.py
+    ├── templates
+    │   └── users
+    │       ├── base.html
+    │       ├── login.html
+    │       ├── password_reset.html
+    │       ├── password_reset_complete.html
+    │       ├── password_reset_confirm.html
+    │       ├── password_reset_done.html
+    │       └── password_reset_email.html
+    ├── tests.py
+    ├── urls.py
+    └── views.py
+
+83 directories, 333 files

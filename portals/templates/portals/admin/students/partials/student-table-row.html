@@ -1,0 +1,89 @@
+<tr
+	id="student-row-{{std.id}}"
+	hx-get="{%url 'portal:student-detail' std.id%}"
+	hx-target="#student-card-inner"
+	{%if oob%}
+	hx-swap-oob="outerHTML:#student-row-{{std.id}}"
+	{%endif%}
+	hx-headers='{"Trigger-Source": "sidebar-update"}'
+	@click="selectedRow={{std.id}}, toggleRightBar = true"
+	:class="{ 'bg-[var(--color-background)]': selectedRow ===  {{std.id}}  }"
+	class="hover:bg-[var(--color-background)]/40 transition-colors group">
+	<td class="p-4">
+		<input type="checkbox" class="w-3.5 h-3.5 accent-[var(--color-warning)]" />
+	</td>
+	<td class="p-4">
+		<div class="flex items-center gap-3">
+			<div
+				class="w-8 h-8 rounded bg-[var(--color-info-light)] flex items-center justify-center font-bold text-[var(--color-info)] text-[11px]">
+				CJ
+			</div>
+			<div class="flex flex-col">
+				<span class="text-xs font-bold text-[var(--color-main)] leading-none"
+					>{{std.user.get_full_name}}</span
+				>
+				<span
+					class="text-[10px] font-bold text-[var(--color-dim)] mt-1 tracking-tight"
+					>#EDU-0421</span
+				>
+			</div>
+		</div>
+	</td>
+	<td class="p-4 text-xs font-bold text-[var(--color-muted)]">
+		{{std.class_arm.class_level.name}}
+		<span class="font-normal text-[var(--color-dim)]"
+			>Arm {{std.class_arm.name}}</span
+		>
+	</td>
+	<td class="p-4">
+		<span
+			class="px-2 py-0.5 rounded-full bg-[var(--color-success-light)] text-[var(--color-success)] text-[10px] font-bold"
+			>94%</span
+		>
+	</td>
+	<td class="p-4">
+		<span
+			class="flex items-center gap-1.5 text-[10px] font-bold text-[var(--color-success)] uppercase">
+			<span class="w-1.5 h-1.5 rounded-full bg-[var(--color-success)]"></span>
+			Paid
+		</span>
+	</td>
+	<td class="p-4 text-xs font-bold text-[var(--color-main)]">78.4</td>
+	<td class="p-4">
+		<span
+			class="px-2 py-0.5 rounded-full bg-[var(--color-success-light)] text-[var(--color-success)] text-[10px] font-bold"
+			>Active</span
+		>
+	</td>
+	<td class="p-4">
+		<div
+			class="flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+			<button
+				class="p-1.5 text-[var(--color-dim)] hover:text-[var(--color-primary)] transition-colors"
+				title="View">
+				<svg
+					class="w-3.5 h-3.5"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					viewBox="0 0 24 24">
+					<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+					<circle cx="12" cy="12" r="3" />
+				</svg>
+			</button>
+			<button
+				class="p-1.5 text-[var(--color-dim)] hover:text-[var(--color-main)] transition-colors"
+				title="Edit">
+				<svg
+					class="w-3.5 h-3.5"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					viewBox="0 0 24 24">
+					<path
+						d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7m7.5-9.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+				</svg>
+			</button>
+		</div>
+	</td>
+</tr>

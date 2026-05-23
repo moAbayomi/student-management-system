@@ -1,0 +1,126 @@
+<!-- ═════════════════════════════════
+       TAB: ATTENDANCE LOG
+  ═════════════════════════════════ -->
+<div class="content-area" id="tab-attendance">
+  <p class="text-[12.5px] text-gray-500 mb-3.5 leading-relaxed">This log tracks when Mr. Adeyemi submitted attendance for his classes each day. Missing entries show as "Not submitted" rather than absent students.</p>
+  
+  <!-- Attendance Log Card -->
+  <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+    <!-- Card Header -->
+    <div class="flex flex-col gap-2 border-b border-gray-100 bg-gray-50/50 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+      <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wide">Attendance Submission Log — 2nd Term 2026</h3>
+      <span class="inline-flex items-center self-start sm:self-auto rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20">96% submission rate</span>
+    </div>
+    
+    <!-- Table Wrapper for Responsiveness -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead>
+          <tr class="bg-gray-50/70 border-b border-gray-100 text-gray-500 font-bold">
+            <th class="px-4 py-3 whitespace-nowrap">Date</th>
+            <th class="px-4 py-3">Day</th>
+            <th class="px-4 py-3 whitespace-nowrap">Classes Due</th>
+            <th class="px-4 py-3">Submitted</th>
+            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3 min-w-[180px]">Note</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 text-gray-700 font-medium">
+          <!-- Mon, 5 May -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap">Mon, 5 May 2026</td>
+            <td class="px-4 py-3 text-gray-500">Monday</td>
+            <td class="px-4 py-3">4 classes</td>
+            <td class="px-4 py-3 font-semibold">4 / 4</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-50 text-green-700 border border-green-100">Complete</span>
+            </td>
+            <td class="px-4 py-3 text-[11px] text-gray-400">—</td>
+          </tr>
+          <!-- Tue, 6 May -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap">Tue, 6 May 2026</td>
+            <td class="px-4 py-3 text-gray-500">Tuesday</td>
+            <td class="px-4 py-3">4 classes</td>
+            <td class="px-4 py-3 font-semibold">4 / 4</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-50 text-green-700 border border-green-100">Complete</span>
+            </td>
+            <td class="px-4 py-3 text-[11px] text-gray-400">—</td>
+          </tr>
+          <!-- Wed, 7 May (Partial State) -->
+          <tr class="bg-amber-50/20 hover:bg-amber-50/40 transition-colors">
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap">Wed, 7 May 2026</td>
+            <td class="px-4 py-3 text-gray-500">Wednesday</td>
+            <td class="px-4 py-3">4 classes</td>
+            <td class="px-4 py-3 font-bold text-amber-700">3 / 4</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-800 border border-amber-100">Partial</span>
+            </td>
+            <td class="px-4 py-3 text-[11px] text-amber-600 font-medium">JSS 3B not submitted</td>
+          </tr>
+          <!-- Thu, 8 May -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap">Thu, 8 May 2026</td>
+            <td class="px-4 py-3 text-gray-500">Thursday</td>
+            <td class="px-4 py-3">4 classes</td>
+            <td class="px-4 py-3 font-semibold">4 / 4</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-50 text-green-700 border border-green-100">Complete</span>
+            </td>
+            <td class="px-4 py-3 text-[11px] text-gray-400">—</td>
+          </tr>
+          <!-- Fri, 9 May (Not Submitted State) -->
+          <tr class="bg-red-50/30 hover:bg-red-50/50 transition-colors">
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap">Fri, 9 May 2026</td>
+            <td class="px-4 py-3 text-gray-500">Friday</td>
+            <td class="px-4 py-3">3 classes</td>
+            <td class="px-4 py-3 font-bold text-red-600">0 / 3</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-50 text-red-700 border border-red-100">Not submitted</span>
+            </td>
+            <td class="px-4 py-3 text-[11px] text-red-600 font-semibold">Teacher absent — sick leave</td>
+          </tr>
+          <!-- Mon, 12 May -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap">Mon, 12 May 2026</td>
+            <td class="px-4 py-3 text-gray-500">Monday</td>
+            <td class="px-4 py-3">4 classes</td>
+            <td class="px-4 py-3 font-semibold">4 / 4</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-50 text-green-700 border border-green-100">Complete</span>
+            </td>
+            <td class="px-4 py-3 text-[11px] text-gray-400">—</td>
+          </tr>
+          <!-- Tue, 13 May -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap">Tue, 13 May 2026</td>
+            <td class="px-4 py-3 text-gray-500">Tuesday</td>
+            <td class="px-4 py-3">4 classes</td>
+            <td class="px-4 py-3 font-semibold">4 / 4</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-50 text-green-700 border border-green-100">Complete</span>
+            </td>
+            <td class="px-4 py-3 text-[11px] text-gray-400">—</td>
+          </tr>
+          <!-- Wed, 14 May -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap">Wed, 14 May 2026</td>
+            <td class="px-4 py-3 text-gray-500">Wednesday</td>
+            <td class="px-4 py-3">4 classes</td>
+            <td class="px-4 py-3 font-semibold">4 / 4</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-50 text-green-700 border border-green-100">Complete</span>
+            </td>
+            <td class="px-4 py-3 text-[11px] text-gray-400">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Card Footer -->
+    <div class="border-t border-gray-100 bg-white px-4 py-3 text-center text-xs font-medium text-gray-400">
+      Showing 8 of 50 school days · <a href="#" class="text-blue-600 font-semibold hover:underline">View all</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+{% extends 'portals/base.html' %} {% block title %}Admin Console{% endblock %}
+{% block aside %}
+
+<!-- School identity -->
+<aside
+	class="w-64 h-screen bg-surface border-r border-border-light flex flex-col sticky top-0 overflow-y-auto">
+	<!-- Brand Logo & Header -->
+	 {%include 'portals/admin/admin_dashboard.html'%}
+</aside>
+
+{% endblock %}
+<!-- prttier guard -->
+{% block content %}
+<!-- frustrating guard -->
+{%include 'portals/admin/admin_overview.html' with t_teachers=total_teachers t_students=total_students t_class_arms=total_class_arms curr_term=curr_term %}
+<!-- guard -->
+{% endblock %}
+
+<!-- new block -->
+{%block right_sidebar%}
+<!-- guard -->
+{%include 'portals/admin/right_sidebar.html' %}
+<!-- guard -->
+{%endblock%}

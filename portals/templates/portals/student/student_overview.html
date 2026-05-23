@@ -1,0 +1,172 @@
+<!-- Sticky Header -->
+<div class="sticky top-0 z-10 bg-surface border-b border-border-light px-md md:px-lg py-md flex items-center justify-between">
+  <div>
+    <h1 class="text-xl md:text-2xl font-bold text-main">Hey, Chukwuemeka 👋</h1>
+    <p class="text-xs md:text-sm text-muted mt-0.5">{{date}} — 2 assignments due this week</p>
+  </div>
+  <div class="hidden sm:flex">
+    <span class="bg-primary/10 text-primary px-4 py-2 rounded-md text-sm font-bold border border-primary/20">
+      Term 2 · Week 9
+    </span>
+  </div>
+</div>
+
+<div class="p-md md:p-lg space-y-lg">
+
+  <!-- Summary Cards Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+    <!-- Attendance -->
+    <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm">
+      <div class="w-10 h-10 bg-success-light text-success rounded-md flex items-center justify-center mb-3">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="text-3xl font-extrabold text-main tracking-tight">94%</div>
+      <p class="text-sm text-muted mt-1">Attendance Rate</p>
+      <div class="text-[11px] text-success font-bold mt-2 uppercase tracking-wide">↑ Good standing</div>
+    </div>
+
+    <!-- Average Score -->
+    <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm">
+      <div class="w-10 h-10 bg-info-light text-info rounded-md flex items-center justify-center mb-3">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/></svg>
+      </div>
+      <div class="text-3xl font-extrabold text-main tracking-tight">78.4</div>
+      <p class="text-sm text-muted mt-1">Average Score</p>
+      <div class="text-[11px] text-info font-bold mt-2 uppercase tracking-wide">B — Keep pushing!</div>
+    </div>
+
+    <!-- Assignments Due -->
+    <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm">
+      <div class="w-10 h-10 bg-danger-light text-danger rounded-md flex items-center justify-center mb-3">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="text-3xl font-extrabold text-main tracking-tight">2</div>
+      <p class="text-sm text-muted mt-1">Assignments Due</p>
+      <div class="text-[11px] text-danger font-bold mt-2 uppercase tracking-wide">Due this week</div>
+    </div>
+
+    <!-- Classes Today -->
+    <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm">
+      <div class="w-10 h-10 bg-secondary/10 text-secondary rounded-md flex items-center justify-center mb-3">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="text-3xl font-extrabold text-main tracking-tight">3</div>
+      <p class="text-sm text-muted mt-1">Classes Today</p>
+      <div class="text-[11px] text-secondary font-bold mt-2 uppercase tracking-wide">Next: Maths 10AM</div>
+    </div>
+  </div>
+
+  <!-- Today's Timetable + Subject Grades -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+    
+    <!-- Today's Schedule -->
+    <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm">
+      <div class="mb-md">
+        <h3 class="text-base font-bold text-main">Today's Classes</h3>
+        <p class="text-xs text-muted">Thursday · 5 periods</p>
+      </div>
+      <div class="space-y-sm">
+        <!-- Class Item (Done) -->
+        <div class="bg-success-light/30 border-l-4 border-success p-md flex justify-between items-center rounded-r-md">
+          <div>
+            <p class="text-sm font-bold text-main">English Language</p>
+            <p class="text-[11px] text-muted">Mrs. Adaeze · Room 8</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs font-bold text-success">Done</p>
+            <p class="text-[10px] text-dim">8:00 – 9:00</p>
+          </div>
+        </div>
+        <!-- Active Class (Up Next) -->
+        <div class="bg-primary/5 border-l-4 border-primary p-md flex justify-between items-center rounded-r-md">
+          <div>
+            <p class="text-sm font-bold text-main">Mathematics</p>
+            <p class="text-[11px] text-primary">Mr. Femi · Room 14</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs font-bold text-primary uppercase">Up Next</p>
+            <p class="text-[10px] text-primary/70">10:00 – 11:00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subject Grades -->
+    <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm">
+      <div class="mb-md">
+        <h3 class="text-base font-bold text-main">My Grades — Term 2</h3>
+        <p class="text-xs text-muted">Per-subject performance</p>
+      </div>
+      <div class="space-y-md">
+        <!-- Grade Item -->
+        <div>
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-sm font-bold text-main">Mathematics</span>
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-black">86/100</span>
+              <span class="badge badge-success badge-sm font-bold">A</span>
+            </div>
+          </div>
+          <div class="w-full bg-background rounded-full h-1.5">
+            <div class="bg-success h-1.5 rounded-full" style="width: 86%"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-sm font-bold text-main">English Language</span>
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-black">74/100</span>
+              <span class="badge badge-warning badge-sm font-bold text-white">B</span>
+            </div>
+          </div>
+          <div class="w-full bg-background rounded-full h-1.5">
+            <div class="bg-warning h-1.5 rounded-full" style="width: 74%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Assignments Table -->
+  <div class="bg-surface rounded-lg border border-border-light shadow-sm overflow-hidden">
+    <div class="p-lg border-b border-border-light flex justify-between items-center bg-background/30">
+      <div>
+        <h3 class="text-base font-bold text-main">My Assignments</h3>
+        <p class="text-xs text-muted">Upcoming & recent tasks</p>
+      </div>
+      <span class="badge badge-error badge-sm font-bold uppercase">2 due soon</span>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full">
+        <thead class="bg-background/20">
+          <tr class="text-dim border-b border-border-light">
+            <th class="text-[10px] uppercase font-bold p-md">Assignment</th>
+            <th class="text-[10px] uppercase font-bold p-md">Subject</th>
+            <th class="text-[10px] uppercase font-bold p-md">Due Date</th>
+            <th class="text-[10px] uppercase font-bold p-md">Status</th>
+            <th class="text-[10px] uppercase font-bold p-md text-right">Score</th>
+          </tr>
+        </thead>
+        <tbody class="text-sm">
+          <tr class="hover:bg-background/50">
+            <td class="p-md font-bold">Calculus Exercise Set 3</td>
+            <td class="p-md text-muted">Mathematics</td>
+            <td class="p-md text-danger font-bold">Today, May 7</td>
+            <td class="p-md"><span class="badge badge-error badge-outline badge-sm">Pending</span></td>
+            <td class="p-md text-right text-dim">—</td>
+          </tr>
+          <tr class="hover:bg-background/50">
+            <td class="p-md font-bold text-main">Essay: Nitrogen Cycle</td>
+            <td class="p-md text-muted">Biology</td>
+            <td class="p-md text-warning font-bold">May 9</td>
+            <td class="p-md"><span class="badge badge-warning badge-outline badge-sm">In Progress</span></td>
+            <td class="p-md text-right text-dim">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

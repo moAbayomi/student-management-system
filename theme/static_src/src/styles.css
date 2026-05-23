@@ -1,13 +1,89 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-/**
-  * A catch-all path to Django template files, JavaScript, and Python files
-  * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
-  *
-  * If your final CSS file is not being updated after code changes, you may want to broaden or narrow
-  * the scope of this path.
+@theme {
+  /* Main Surfaces */
+  --color-background: #F5F5F0;
+  --color-surface: #FFFFFF;
+  --color-surface-dark: #0D1117;
+
+  /* Brand & Actions */
+  --color-primary: #2563EB;
+  --color-primary-dark: #1D4ED8;
+  --color-secondary: #7C3AED;
+
+  /* Text Colors */
+  --color-main: #111827;
+  --color-muted: #6B7280;
+  --color-dim: #9CA3AF;
+
+  /* Feedback - Fixed naming for cleaner utility access */
+  --color-success: #16A34A;
+  --color-success-light: #DCFCE7;
+  --color-info: #3B82F6;
+  --color-info-light: #DBEAFE;
+  --color-warning: #D97706;
+  --color-warning-light: #FEF3C7;
+  --color-danger: #DC2626;
+  --color-danger-light: #FEE2E2;
+
+  /* Borders */
+  --color-border: #D1D5DB;
+  --color-border-light: #E5E7EB;
+
+  /* Typography Scale */
+  --font-size-micro: 9.5px;
+  --font-size-nano: 10.5px;
+  --font-size-tiny: 11.5px;
+  --font-size-compact: 12.5px;
+
+  /* Line Heights */
+  --leading-micro: 1.2;
+  --leading-compact: 1.4;
+
+  /* Letter Spacing */
+  --tracking-tightest: 0.06em;
+  --tracking-widest: 0.1em;
+
+  /* 
+     Spacing Scale 
+     In v4, these map to things like p-md, gap-lg, m-xs 
   */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* Custom Radius */
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+}
+
+@layer base {
+  *, ::after, ::before {
+    @apply border-border; /* Fixes the default border color for all elements */
+  }
+
+  body {
+    @apply bg-background text-main antialiased font-sans;
+    min-height: 100vh;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+  }
+}
+
+/* 
+   Optimization: Combine your Django paths into more efficient globs 
+   to reduce the watcher load in production.
+*/
 @source "../../../**/*.html";
-@source "../../../**/*.py";
-@source "../../../**/*.js";
+@source "../../../portals/*.py";

@@ -1,0 +1,101 @@
+<aside class="sticky top-0 h-screen overflow-y-auto p-lg hidden lg:block bg-surface border-l border-border-light">
+
+  <!-- Search Bar -->
+  <div class="bg-background/50 border border-border-light rounded-md px-md py-sm flex items-center gap-sm mb-lg focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-dim" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="text" placeholder="Search subjects, teachers…" class="bg-transparent border-none text-sm text-main placeholder:text-dim focus:outline-none w-full">
+  </div>
+
+  <!-- Attendance Summary Ring -->
+  <div class="mb-lg">
+    <h4 class="text-sm font-bold text-main mb-md">Attendance This Term</h4>
+    <div class="bg-success-light/30 border border-success/20 rounded-lg p-md flex items-center gap-md">
+      <!-- Donut Chart -->
+      <div class="relative w-16 h-16 shrink-0 flex items-center justify-center rounded-full" 
+           style="background: conic-gradient(var(--color-success) 94%, var(--color-border-light) 0)">
+        <div class="w-12 h-12 bg-surface rounded-full flex items-center justify-center">
+          <span class="text-xs font-black text-success">94%</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-sm font-bold text-main leading-tight">Great attendance!</p>
+        <p class="text-[11px] text-success mt-0.5 font-medium">Present 85 of 90 days</p>
+        <p class="text-[10px] text-dim mt-1.5 font-semibold">5 absences this term</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifications -->
+  <div class="mb-lg">
+    <div class="flex items-center justify-between mb-md">
+      <h4 class="text-sm font-bold text-main">Notifications</h4>
+      <span class="badge badge-error badge-sm font-bold text-[10px]">2 new</span>
+    </div>
+    <div class="flex flex-col gap-sm">
+      <div class="bg-danger-light/30 border border-danger/20 rounded-lg p-md transition-all hover:border-danger/40">
+        <div class="text-[13px] font-bold text-danger">⚠ Assignment Due Today</div>
+        <p class="text-xs text-main/80 mt-0.5 font-medium">Calculus Set 3 is due by 5PM</p>
+        <p class="text-[10px] text-dim mt-2 font-semibold">Mathematics · Mr. Femi</p>
+      </div>
+      <div class="bg-info-light/30 border border-info/20 rounded-lg p-md transition-all hover:border-info/40">
+        <div class="text-[13px] font-bold text-info">Grade Posted</div>
+        <p class="text-xs text-main/80 mt-0.5 font-medium">Economics essay graded: 38/40</p>
+        <p class="text-[10px] text-dim mt-2 font-semibold">Economics · Mrs. Yemi</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- School Announcements -->
+  <div class="mb-lg">
+    <h4 class="text-sm font-bold text-main mb-md">Announcements</h4>
+    <div class="flex flex-col gap-sm">
+      <div class="border border-warning/30 bg-warning/10 rounded-lg p-md">
+        <div class="flex items-start gap-md">
+          <div class="w-1 min-h-[40px] bg-warning rounded-full shrink-0 mt-0.5"></div>
+          <div>
+            <h5 class="text-[13px] font-bold text-main leading-tight">🎉 Mid-Term Break!</h5>
+            <p class="text-xs text-muted mt-0.5 leading-relaxed">School closes Friday 9th May.</p>
+            <p class="text-[11px] text-dim mt-1.5 font-medium">Admin · Today</p>
+          </div>
+        </div>
+      </div>
+      <div class="border border-border-light rounded-lg p-md hover:bg-background/50 transition-colors">
+        <div class="flex items-start gap-md">
+          <div class="w-1 min-h-[40px] bg-secondary rounded-full shrink-0 mt-0.5"></div>
+          <div>
+            <h5 class="text-[13px] font-bold text-main">Terminal Exam Timetable</h5>
+            <p class="text-xs text-muted mt-0.5 leading-relaxed">Exams start 2nd June.</p>
+            <p class="text-[11px] text-dim mt-1.5 font-medium">Admin · 3 days ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Class Position Card -->
+  <!-- Keep this as a dark surface to provide visual contrast in the right sidebar -->
+  <div class="bg-surface-dark rounded-lg p-lg text-white shadow-lg relative overflow-hidden">
+    <!-- Decorative background element -->
+    <div class="absolute -right-4 -top-4 w-20 h-20 bg-primary/10 rounded-full blur-2xl"></div>
+    
+    <p class="text-[11px] font-bold text-dim uppercase tracking-widest mb-2">Class Position</p>
+    <div class="flex items-baseline gap-1">
+      <span class="text-4xl font-black tracking-tighter italic">5th</span>
+      <span class="text-xs text-dim">/ 40 students</span>
+    </div>
+    <p class="text-[10px] text-dim mt-1">SS 2A · Science Department</p>
+    
+    <div class="mt-lg pt-md border-t border-white/10 flex items-center justify-between">
+      <span class="text-[11px] text-dim font-medium">Previous: 7th</span>
+      <span class="text-[11px] font-bold text-success flex items-center gap-1">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+          <path d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+        2 Up
+      </span>
+    </div>
+  </div>
+
+</aside>

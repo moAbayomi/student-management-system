@@ -1,0 +1,431 @@
+<!-- ── TOP BAR ── -->
+<div class="flex items-center justify-between p-lg border-b border-border-light bg-surface sticky top-0 z-10">
+  <div class="flex-1">
+    <h1 class="text-[20px] font-bold text-main leading-tight">Results & Grades</h1>
+    <div class="text-[11.5px] text-muted mt-0.5">
+      Term 2 · 2025/26 Session · <strong class="text-danger">3 critical alerts</strong> · Broadsheet closes in 6 days
+    </div>
+  </div>
+  <div class="flex items-center gap-2 flex-wrap">
+    <select class="px-3 py-1.5 bg-surface border border-border-light rounded-md text-[12px] font-medium focus:ring-2 focus:ring-primary/20 outline-none">
+      <option>All Levels</option>
+      <option>JSS 1</option>
+      <option>JSS 2</option>
+      <option>JSS 3</option>
+      <option>SS 1</option>
+      <option>SS 2</option>
+      <option>SS 3</option>
+    </select>
+    <select class="px-3 py-1.5 bg-surface border border-border-light rounded-md text-[12px] font-medium focus:ring-2 focus:ring-primary/20 outline-none">
+      <option>All Subjects</option>
+      <option>Mathematics</option>
+      <option>English</option>
+      <option>Biology</option>
+      <option>Chemistry</option>
+      <option>Physics</option>
+      <option>Economics</option>
+    </select>
+    <button class="flex items-center gap-1.5 px-3 py-1.5 border border-border-light rounded-md text-[12px] font-bold text-main hover:bg-gray-50 transition-colors">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export Report
+    </button>
+    <button class="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 text-white rounded-md text-[12px] font-bold hover:bg-amber-700 transition-colors shadow-sm">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print Broadsheet
+    </button>
+  </div>
+</div>
+
+<div class="p-lg flex flex-col gap-4 bg-[#F8FAFC]">
+
+  <!-- ══ ROW 1: SUBMISSION TRACKER + PERFORMANCE DELTA ══ -->
+  <div class="grid grid-cols-[1.4fr,1fr] gap-4">
+
+    <!-- Result Submission Tracker -->
+    <div class="bg-surface border border-border-light rounded-xl p-lg shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-[13.5px] font-bold text-main">Result Submission Tracker</h3>
+          <p class="text-[11px] text-muted">School-wide grade upload progress — Term 2</p>
+        </div>
+        <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-wider">In Progress</span>
+      </div>
+
+      <!-- Overall bar -->
+      <div class="mb-5">
+        <div class="flex justify-between items-baseline mb-1.5">
+          <span class="text-[12px] font-semibold text-main">Overall Completion</span>
+          <span class="text-[22px] font-bold text-main leading-none">67<span class="text-[13px] font-medium text-muted">%</span></span>
+        </div>
+        <div class="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+          <div class="w-[67%] h-full bg-gradient-to-r from-success to-[#34D399] rounded-full"></div>
+        </div>
+        <div class="flex justify-between mt-1.5">
+          <span class="text-[10.5px] text-muted">384 of 572 subject-class records uploaded</span>
+          <span class="text-[10.5px] font-bold text-amber-600 uppercase">188 remaining</span>
+        </div>
+      </div>
+
+      <!-- Per-department breakdown -->
+      <div class="grid grid-cols-2 gap-2">
+        <div class="bg-gray-50 border border-gray-100 rounded-lg p-2.5">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-[11.5px] font-bold text-main">Sciences</span>
+            <span class="text-[11.5px] font-black text-success">88%</span>
+          </div>
+          <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-success w-[88%]"></div></div>
+        </div>
+        <div class="bg-gray-50 border border-gray-100 rounded-lg p-2.5">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-[11.5px] font-bold text-main">Humanities</span>
+            <span class="text-[11.5px] font-black text-success">82%</span>
+          </div>
+          <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-success w-[82%]"></div></div>
+        </div>
+        <div class="bg-gray-50 border border-gray-100 rounded-lg p-2.5">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-[11.5px] font-bold text-main">Commercial</span>
+            <span class="text-[11.5px] font-black text-amber-600">61%</span>
+          </div>
+          <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-amber-500 w-[61%]"></div></div>
+        </div>
+        <div class="bg-red-50 border border-red-200 rounded-lg p-2.5">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-[11.5px] font-black text-danger">Arts ⚠</span>
+            <span class="text-[11.5px] font-black text-danger">23%</span>
+          </div>
+          <div class="h-1.5 bg-red-200 rounded-full overflow-hidden"><div class="h-full bg-danger w-[23%]"></div></div>
+        </div>
+        <div class="bg-gray-50 border border-gray-100 rounded-lg p-2.5">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-[11.5px] font-bold text-main">Social Sci.</span>
+            <span class="text-[11.5px] font-black text-amber-600">71%</span>
+          </div>
+          <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-amber-500 w-[71%]"></div></div>
+        </div>
+        <div class="bg-gray-50 border border-gray-100 rounded-lg p-2.5">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-[11.5px] font-bold text-main">Vocational</span>
+            <span class="text-[11.5px] font-black text-success">79%</span>
+          </div>
+          <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-success w-[79%]"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Delta -->
+    <div class="bg-surface border border-border-light rounded-xl p-lg shadow-sm">
+      <div class="mb-4">
+        <h3 class="text-[13.5px] font-bold text-main">Performance Delta</h3>
+        <p class="text-[11px] text-muted">Term 2 vs Term 1 — average score shift</p>
+      </div>
+      <div class="space-y-0.5">
+        <!-- Maths -->
+        <div class="flex items-center gap-3 py-2 border-b border-border-light">
+          <div class="flex-1 text-[12px] font-bold text-main leading-none">Mathematics</div>
+          <svg class="shrink-0" width="54" height="22" viewBox="0 0 54 22">
+            <polyline points="4,16 27,10 50,5" stroke="#10B981" stroke-width="2" fill="none"/>
+            <circle cx="4" cy="16" r="2.5" fill="#10B981"/>
+            <circle cx="50" cy="5" r="2.5" fill="#10B981"/>
+          </svg>
+          <span class="text-[11.5px] font-bold text-muted w-8 text-right">71→</span>
+          <span class="text-[12px] font-black text-main w-8">79.6</span>
+          <span class="text-[10px] font-black text-success bg-success/10 px-1.5 py-0.5 rounded italic whitespace-nowrap">↑ +12%</span>
+        </div>
+        <!-- Chemistry (Warning) -->
+        <div class="flex items-center gap-3 py-2 px-2 -mx-2 bg-red-50/50 border-b border-red-100 rounded-md">
+          <div class="flex-1 text-[12px] font-black text-danger leading-none">Chemistry ⚠</div>
+          <svg class="shrink-0" width="54" height="22" viewBox="0 0 54 22">
+            <polyline points="4,6 27,11 50,18" stroke="#EF4444" stroke-width="2" fill="none"/>
+            <circle cx="4" cy="6" r="2.5" fill="#EF4444"/>
+            <circle cx="50" cy="18" r="2.5" fill="#EF4444"/>
+          </svg>
+          <span class="text-[11.5px] font-bold text-muted w-8 text-right">72→</span>
+          <span class="text-[12px] font-black text-danger w-8">61.2</span>
+          <span class="text-[10px] font-black text-danger bg-red-100 px-1.5 py-0.5 rounded italic whitespace-nowrap">↓ -15%</span>
+        </div>
+        <!-- Physics (Warning) -->
+        <div class="flex items-center gap-3 py-2 px-2 -mx-2 bg-red-50/50 border-b border-red-100 rounded-md">
+          <div class="flex-1 text-[12px] font-black text-danger leading-none">Physics ⚠</div>
+          <svg class="shrink-0" width="54" height="22" viewBox="0 0 54 22">
+            <polyline points="4,5 27,12 50,20" stroke="#EF4444" stroke-width="2" fill="none"/>
+            <circle cx="4" cy="5" r="2.5" fill="#EF4444"/>
+            <circle cx="50" cy="20" r="2.5" fill="#EF4444"/>
+          </svg>
+          <span class="text-[11.5px] font-bold text-muted w-8 text-right">69→</span>
+          <span class="text-[12px] font-black text-danger w-8">54.3</span>
+          <span class="text-[10px] font-black text-danger bg-red-100 px-1.5 py-0.5 rounded italic whitespace-nowrap">↓ -21%</span>
+        </div>
+        <!-- Repeat others with similar structure -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ROW 2: GRADE DISTRIBUTION + SUBJECT LEADERBOARD ══ -->
+  <div class="grid grid-cols-[1fr,1.3fr] gap-4">
+
+    <!-- Grade Distribution -->
+    <div class="bg-surface border border-border-light rounded-xl p-lg shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-[13.5px] font-bold text-main">Grade Distribution</h3>
+          <p class="text-[11px] text-muted">School-wide spread — Term 2</p>
+        </div>
+        <select class="px-2 py-1 bg-gray-50 border border-border-light rounded text-[10.5px] font-bold outline-none">
+          <option>All Students</option>
+          <option>SS 2</option>
+        </select>
+      </div>
+
+      <!-- SVG Chart -->
+      <div class="relative h-[160px] w-full">
+        <!-- SVG logic from your original code remains, but wrapped for Tailwind layout -->
+        <svg viewBox="0 0 320 140" class="w-full h-full overflow-visible">
+          <!-- ... SVG Content ... -->
+          <rect x="46"  y="47"  width="40" height="63" rx="4" fill="#10B981" fill-opacity="0.85"/>
+          <rect x="102" y="10"  width="40" height="100" rx="4" fill="#34D399" fill-opacity="0.85"/>
+          <rect x="158" y="23"  width="40" height="87"  rx="4" fill="#F59E0B" fill-opacity="0.85"/>
+          <rect x="214" y="69"  width="40" height="41"  rx="4" fill="#FB923C" fill-opacity="0.85"/>
+          <rect x="270" y="83"  width="40" height="27"  rx="4" fill="#EF4444" fill-opacity="0.85"/>
+          <!-- X labels and grid lines from your code here -->
+        </svg>
+      </div>
+
+      <div class="flex gap-2 mt-6">
+        <div class="flex-1 bg-amber-50 border border-amber-200 rounded-lg p-2.5">
+          <div class="text-[10px] font-black text-amber-700 leading-tight">Normal distribution — healthy</div>
+          <p class="text-[9.5px] text-amber-800/70 mt-0.5 leading-tight">B is the peak grade. No inflation detected.</p>
+        </div>
+        <div class="flex-1 bg-red-50 border border-red-200 rounded-lg p-2.5">
+          <div class="text-[10px] font-black text-danger leading-tight">⚠ 8.6% failure rate</div>
+          <p class="text-[9.5px] text-red-800/70 mt-0.5 leading-tight">52 students failed — above threshold.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subject Leaderboard -->
+    <div class="bg-surface border border-border-light rounded-xl overflow-hidden shadow-sm">
+      <div class="p-lg border-b border-border-light flex items-center justify-between">
+        <div>
+          <h3 class="text-[13.5px] font-bold text-main">Subject Leaderboard</h3>
+          <p class="text-[11px] text-muted">Best to worst performing by average</p>
+        </div>
+        <span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-[10px] font-bold uppercase tracking-wider">Term 2</span>
+      </div>
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-gray-50 border-b border-border-light text-[10.5px] font-bold text-muted uppercase tracking-wider">
+          <tr>
+            <th class="px-4 py-3 w-10">#</th>
+            <th class="px-4 py-3">Subject</th>
+            <th class="px-4 py-3">Teacher</th>
+            <th class="px-4 py-3">Avg</th>
+            <th class="px-4 py-3">Pass %</th>
+            <th class="px-4 py-3">Delta</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border-light">
+          <!-- Mathematics Row -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="px-4 py-3 text-[12px] font-black text-success">1</td>
+            <td class="px-4 py-3 text-[12px] font-bold text-main">Mathematics</td>
+            <td class="px-4 py-3 text-[11px] text-muted">Mr. Femi</td>
+            <td class="px-4 py-3 text-[13px] font-black text-success">79.6</td>
+            <td class="px-4 py-3 italic font-black text-[11px] text-success">91%</td>
+            <td class="px-4 py-3 text-[10px] font-bold text-success">↑ +12%</td>
+          </tr>
+          <!-- Critical Physics Row -->
+          <tr class="bg-red-50/40 hover:bg-red-50 transition-colors">
+            <td class="px-4 py-3 text-[12px] font-black text-danger">8</td>
+            <td class="px-4 py-3 text-[12px] font-black text-danger">Physics ⚠</td>
+            <td class="px-4 py-3 text-[11px] text-muted">Mr. Bello</td>
+            <td class="px-4 py-3 text-[13px] font-black text-danger">54.3</td>
+            <td class="px-4 py-3 italic font-black text-[11px] text-danger">49%</td>
+            <td class="px-4 py-3 text-[10px] font-bold text-danger">↓ -21%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="p-3 bg-gray-50 border-t border-border-light text-[10.5px] text-muted">
+        Subjects in red are statistically below the school average. <span class="text-danger font-bold">Action required for Physics.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ OUTLIER LIST ══ -->
+  <!-- ... Applying same logic to the table below ... -->
+
+  <!-- ══ OUTLIER LIST ══ -->
+<div class="bg-surface border border-border-light rounded-xl overflow-hidden shadow-sm">
+  <!-- Header -->
+  <div class="p-lg border-b border-border-light flex items-center justify-between flex-wrap gap-4">
+    <div>
+      <h3 class="text-[13.5px] font-bold text-main">Performance Outliers</h3>
+      <p class="text-[11px] text-muted">Students with the most significant grade drop — Term 1 vs Term 2</p>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3">
+        <span class="flex items-center gap-1.5 text-[10.5px] text-muted font-medium">
+          <span class="w-2 h-1 bg-danger rounded-full"></span> Critical drop (>20pts)
+        </span>
+        <span class="flex items-center gap-1.5 text-[10.5px] text-muted font-medium">
+          <span class="w-2 h-1 bg-amber-500 rounded-full"></span> Notable drop (10–20pts)
+        </span>
+      </div>
+      <select class="px-2 py-1 bg-gray-50 border border-border-light rounded text-[10.5px] font-bold outline-none focus:ring-2 focus:ring-primary/20">
+        <option>All Subjects</option>
+        <option>Mathematics</option>
+        <option>Chemistry</option>
+        <option>Physics</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse whitespace-nowrap">
+      <thead class="bg-gray-50 border-b border-border-light text-[10.5px] font-bold text-muted uppercase tracking-wider">
+        <tr>
+          <th class="px-4 py-3">Student</th>
+          <th class="px-4 py-3">Class</th>
+          <th class="px-4 py-3">Subject</th>
+          <th class="px-4 py-3">Term 1 Avg</th>
+          <th class="px-4 py-3">Term 2 Avg</th>
+          <th class="px-4 py-3">Drop</th>
+          <th class="px-4 py-3">Grade Shift</th>
+          <th class="px-4 py-3">Reason Flag</th>
+          <th class="px-4 py-3 text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-border-light">
+        
+        <!-- Critical: Kelechi Ibe -->
+        <tr class="bg-red-50/40 hover:bg-red-50 transition-colors">
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded bg-red-100 text-danger flex items-center justify-center font-bold text-[10px]">KI</div>
+              <div>
+                <div class="text-[12px] font-bold text-main">Kelechi Ibe</div>
+                <div class="text-[10px] text-muted">#EDU-0409</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3 text-[12px] text-main">JSS 1A</td>
+          <td class="px-4 py-3 text-[12px] text-main">Mathematics</td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded bg-success/10 text-success text-[10px] font-bold">A • 84</span></td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded bg-danger/10 text-danger text-[10px] font-bold">D • 43</span></td>
+          <td class="px-4 py-3 text-[12px] font-black text-danger">-41 pts</td>
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-success text-white text-[10px] font-black">A</span>
+              <span class="text-muted text-[10px]">→</span>
+              <span class="px-1.5 py-0.5 rounded bg-danger text-white text-[10px] font-black">D</span>
+            </div>
+          </td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded-full bg-danger/10 text-danger text-[10px] font-bold italic">⚠ High absences</span></td>
+          <td class="px-4 py-3 text-center">
+            <button class="px-3 py-1 bg-danger text-white text-[10.5px] font-bold rounded shadow-sm hover:bg-red-700 transition-colors">Intervene</button>
+          </td>
+        </tr>
+
+        <!-- Critical: David Uche -->
+        <tr class="bg-red-50/40 hover:bg-red-50 transition-colors">
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-[10px]">DU</div>
+              <div>
+                <div class="text-[12px] font-bold text-main">David Uche</div>
+                <div class="text-[10px] text-muted">#EDU-0399</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3 text-[12px] text-main">SS 2B</td>
+          <td class="px-4 py-3 text-[12px] text-main">Physics</td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 text-[10px] font-bold">B • 74</span></td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded bg-danger/10 text-danger text-[10px] font-bold">F • 32</span></td>
+          <td class="px-4 py-3 text-[12px] font-black text-danger">-42 pts</td>
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-blue-600 text-white text-[10px] font-black">B</span>
+              <span class="text-muted text-[10px]">→</span>
+              <span class="px-1.5 py-0.5 rounded bg-danger text-white text-[10px] font-black">F</span>
+            </div>
+          </td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded-full bg-danger/10 text-danger text-[10px] font-bold italic">⚠ Class-wide issue</span></td>
+          <td class="px-4 py-3 text-center">
+            <button class="px-3 py-1 bg-danger text-white text-[10.5px] font-bold rounded shadow-sm hover:bg-red-700 transition-colors">Intervene</button>
+          </td>
+        </tr>
+
+        <!-- Notable: Amara Mensah -->
+        <tr class="hover:bg-gray-50/50 transition-colors">
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded bg-green-100 text-success flex items-center justify-center font-bold text-[10px]">AM</div>
+              <div>
+                <div class="text-[12px] font-bold text-main">Amara Mensah</div>
+                <div class="text-[10px] text-muted">#EDU-0418</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3 text-[12px] text-main">JSS 3B</td>
+          <td class="px-4 py-3 text-[12px] text-main">English</td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded bg-success/10 text-success text-[10px] font-bold">B • 72</span></td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 text-[10px] font-bold">D • 54</span></td>
+          <td class="px-4 py-3 text-[12px] font-black text-amber-600">-18 pts</td>
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-success text-white text-[10px] font-black">B</span>
+              <span class="text-muted text-[10px]">→</span>
+              <span class="px-1.5 py-0.5 rounded bg-amber-500 text-white text-[10px] font-black">D</span>
+            </div>
+          </td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold italic">Attendance 72%</span></td>
+          <td class="px-4 py-3 text-center">
+            <button class="px-3 py-1 bg-surface border border-border-light text-[10.5px] font-bold text-muted rounded hover:bg-gray-50 transition-colors">Review</button>
+          </td>
+        </tr>
+
+        <!-- Notable: Bola Okafor -->
+        <tr class="hover:bg-gray-50/50 transition-colors">
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-[10px]">BO</div>
+              <div>
+                <div class="text-[12px] font-bold text-main">Bola Okafor</div>
+                <div class="text-[10px] text-muted">#EDU-0382</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3 text-[12px] text-main">SS 1A</td>
+          <td class="px-4 py-3 text-[12px] text-main">Chemistry</td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 text-[10px] font-bold">A • 80</span></td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 text-[10px] font-bold">C • 62</span></td>
+          <td class="px-4 py-3 text-[12px] font-black text-amber-600">-18 pts</td>
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-blue-600 text-white text-[10px] font-black">A</span>
+              <span class="text-muted text-[10px]">→</span>
+              <span class="px-1.5 py-0.5 rounded bg-amber-500 text-white text-[10px] font-black">C</span>
+            </div>
+          </td>
+          <td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded-full bg-gray-100 text-muted text-[10px] font-bold italic">Subject difficulty ↑</span></td>
+          <td class="px-4 py-3 text-center">
+            <button class="px-3 py-1 bg-surface border border-border-light text-[10.5px] font-bold text-muted rounded hover:bg-gray-50 transition-colors">Review</button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <div class="p-lg border-t border-border-light flex items-center justify-between">
+    <div class="text-[11px] text-muted">
+      Showing 5 of <strong class="text-main font-bold">23 flagged outliers</strong> this term.
+    </div>
+    <button class="text-[11.5px] font-bold text-primary hover:underline transition-all flex items-center gap-1">
+      View all flagged students <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+</div>

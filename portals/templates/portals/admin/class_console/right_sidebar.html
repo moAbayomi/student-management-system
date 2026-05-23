@@ -1,0 +1,123 @@
+<!-- ── RIGHT SIDEBAR: INTELLIGENCE & UTILS ── -->
+<div class="w-[340px] border-l border-[var(--color-border-light)] bg-[var(--color-surface)] flex flex-col h-full overflow-y-auto">
+  
+  <!-- 1. TEACHER STATUS PANEL -->
+  <div class="p-lg border-b border-[var(--color-border-light)]">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-[13px] font-bold text-[var(--color-main)] uppercase tracking-wider">Teacher Workload</h3>
+      <span class="px-2 py-0.5 bg-green-100 text-green-700 text-[9px] font-black rounded-full uppercase">Live</span>
+    </div>
+
+    <div class="space-y-3">
+      <!-- Teacher Card: Active -->
+      <div class="p-3 bg-[var(--color-background)]/50 rounded-[var(--radius-md)] border border-[var(--color-border-light)]">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-[12px] font-bold text-[var(--color-main)]">Mr. Femi Adebayo</span>
+          <span class="text-[10px] text-amber-600 font-bold">18/24 Periods</span>
+        </div>
+        <div class="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+          <div class="bg-amber-500 h-full w-[75%]"></div>
+        </div>
+        <div class="mt-2 flex justify-between text-[10px] text-[var(--color-muted)]">
+          <span>Subjects: Maths, F.Maths</span>
+          <span class="text-green-600 font-bold">Available Now</span>
+        </div>
+      </div>
+
+      <!-- Teacher Card: Overloaded/Conflict -->
+      <div class="p-3 bg-red-50 rounded-[var(--radius-md)] border border-red-100">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-[12px] font-bold text-red-900">Mrs. Titi Ibrahim</span>
+          <span class="text-[10px] text-red-600 font-black">26/24 Periods</span>
+        </div>
+        <div class="w-full h-1.5 bg-red-200 rounded-full overflow-hidden">
+          <div class="bg-red-600 h-full w-full"></div>
+        </div>
+        <div class="mt-2 text-[10px] text-red-700 font-medium">
+          ⚠ Exceeds maximum weekly limit
+        </div>
+      </div>
+    </div>
+
+    <button class="w-full mt-4 py-2 border border-dashed border-[var(--color-border)] text-[11px] font-bold text-[var(--color-muted)] rounded hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-all">
+      View All 24 Staff →
+    </button>
+  </div>
+
+  <!-- 2. SUBJECT ALLOCATION CHECKLIST -->
+  <div class="p-lg border-b border-[var(--color-border-light)] bg-[var(--color-background)]/20">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-[13px] font-bold text-[var(--color-main)] uppercase tracking-wider">Curriculum Audit</h3>
+      <div class="text-[10px] font-bold text-[var(--color-muted)]">SS 2A</div>
+    </div>
+
+    <div class="space-y-2">
+      <!-- Subject Item -->
+      <div class="flex items-center gap-3 p-2 hover:bg-white rounded transition-colors group">
+        <div class="w-8 h-8 rounded bg-blue-100 flex items-center justify-center text-blue-700 text-[10px] font-bold">MTH</div>
+        <div class="flex-1">
+          <div class="text-[11px] font-bold text-[var(--color-main)]">Mathematics</div>
+          <div class="text-[9px] text-[var(--color-muted)]">6 of 6 periods assigned</div>
+        </div>
+        <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+      </div>
+
+      <!-- Subject Item (Incomplete) -->
+      <div class="flex items-center gap-3 p-2 hover:bg-white rounded transition-colors group">
+        <div class="w-8 h-8 rounded bg-purple-100 flex items-center justify-center text-purple-700 text-[10px] font-bold">ENG</div>
+        <div class="flex-1">
+          <div class="text-[11px] font-bold text-[var(--color-main)]">English Lang.</div>
+          <div class="text-[9px] text-amber-600 font-bold">4 of 6 periods assigned</div>
+        </div>
+        <div class="w-4 h-4 rounded-full border-2 border-amber-400"></div>
+      </div>
+
+      <!-- Subject Item (Unassigned) -->
+      <div class="flex items-center gap-3 p-2 hover:bg-white rounded transition-colors group">
+        <div class="w-8 h-8 rounded bg-teal-100 flex items-center justify-center text-teal-700 text-[10px] font-bold">ECN</div>
+        <div class="flex-1">
+          <div class="text-[11px] font-bold text-[var(--color-main)]">Economics</div>
+          <div class="text-[9px] text-red-500 font-bold">Missing 2 periods</div>
+        </div>
+        <button class="opacity-0 group-hover:opacity-100 px-2 py-1 bg-[var(--color-primary)] text-white text-[9px] font-bold rounded">Fix</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. RECENT ACTIVITY / LOGS -->
+  <div class="p-lg">
+    <h3 class="text-[11px] font-black text-[var(--color-dim)] uppercase tracking-[0.15em] mb-4">Conflict Logs</h3>
+    <div class="space-y-4 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-px before:bg-[var(--color-border-light)]">
+      
+      <div class="relative pl-7">
+        <div class="absolute left-0 top-1 w-[22px] h-[22px] bg-red-100 border-2 border-white rounded-full flex items-center justify-center">
+           <div class="w-1.5 h-1.5 bg-red-600 rounded-full"></div>
+        </div>
+        <div class="text-[11px] font-bold text-[var(--color-main)] leading-tight">Double Booking Detected</div>
+        <div class="text-[10px] text-[var(--color-muted)] mt-0.5">Mrs. Titi assigned to SS 2A and SS 3B simultaneously.</div>
+        <div class="text-[9px] text-[var(--color-dim)] mt-1 uppercase font-bold">2 minutes ago</div>
+      </div>
+
+      <div class="relative pl-7">
+        <div class="absolute left-0 top-1 w-[22px] h-[22px] bg-blue-100 border-2 border-white rounded-full flex items-center justify-center">
+           <div class="w-1.5 h-1.5 bg-blue-600 rounded-full"></div>
+        </div>
+        <div class="text-[11px] font-bold text-[var(--color-main)] leading-tight">Bulk Generation Complete</div>
+        <div class="text-[10px] text-[var(--color-muted)] mt-0.5">32 slots auto-filled for SS 2 level.</div>
+        <div class="text-[9px] text-[var(--color-dim)] mt-1 uppercase font-bold">1 hour ago</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 4. QUICK HELP FOOTER -->
+  <div class="mt-auto p-lg bg-[var(--color-background)] border-t border-[var(--color-border-light)]">
+    <div class="flex items-center gap-3 text-amber-700 bg-amber-50 p-3 rounded-[var(--radius-md)] border border-amber-100">
+      <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="text-[10.5px] font-medium leading-relaxed">
+        <strong>Tip:</strong> Drag a subject from the audit list onto the timetable to manually assign a slot.
+      </div>
+    </div>
+  </div>
+
+</div>

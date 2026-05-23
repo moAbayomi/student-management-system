@@ -1,0 +1,137 @@
+<!-- ── PINNED SECTION ── -->
+ <aside class="w-[320px] h-screen sticky top-0 overflow-y-auto border-l border-border-light bg-surface scrollbar-thin">
+
+<div class="p-5 bg-amber-50/40 border-b border-amber-100">
+    <div class="text-[9.5px] font-bold tracking-[0.1em] text-amber-700 uppercase mb-3 flex items-center gap-1.5">
+        <span>📌</span> Currently Pinned
+    </div>
+    <div class="flex flex-col gap-2">
+        <!-- Pinned Item 1 -->
+        <div class="border border-amber-200 rounded-xl p-3 bg-white shadow-sm">
+            <div class="flex items-center justify-between mb-1.5">
+                <span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[9px] font-bold">Everyone</span>
+                <span class="text-[10px] text-gray-400 font-medium">1,284 views</span>
+            </div>
+            <div class="text-[12px] font-bold text-gray-900 leading-snug">Mid-Term Break — Closes 9th May</div>
+            <div class="text-[10.5px] text-gray-500 mt-1">Expires 19 May</div>
+            <button class="mt-2.5 w-full py-1.5 bg-amber-50 text-amber-700 border border-amber-100 rounded-lg text-[10.5px] font-bold hover:bg-amber-100 transition-colors">Unpin</button>
+        </div>
+
+        <!-- Pinned Item 2 -->
+        <div class="border border-amber-200 rounded-xl p-3 bg-white shadow-sm">
+            <div class="flex items-center justify-between mb-1.5">
+                <span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded text-[9px] font-bold">Teachers</span>
+                <span class="text-[10px] text-gray-400 font-medium">54 views</span>
+            </div>
+            <div class="text-[12px] font-bold text-gray-900 leading-snug">All-Staff Meeting — Friday 2PM</div>
+            <div class="text-[10.5px] text-gray-500 mt-1">Today · Staff Room</div>
+            <button class="mt-2.5 w-full py-1.5 bg-amber-50 text-amber-700 border border-amber-100 rounded-lg text-[10.5px] font-bold hover:bg-amber-100 transition-colors">Unpin</button>
+        </div>
+
+        <div class="text-[10.5px] text-gray-400 text-center py-1 italic">
+            Max 3 items pinned. <strong class="text-gray-600 font-bold">1 slot free.</strong>
+        </div>
+    </div>
+</div>
+
+<!-- ── DRAFTS & SCHEDULED ── -->
+<div class="p-5 border-b border-gray-100">
+    <div class="flex items-center justify-between mb-3">
+        <div class="text-[13px] font-bold text-gray-900">Drafts & Scheduled</div>
+        <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full text-[9.5px] font-bold">5 items</span>
+    </div>
+    <div class="flex flex-col gap-2">
+        <!-- Draft Card -->
+        <div class="border border-gray-200 border-dashed rounded-xl p-3 bg-gray-50/50">
+            <div class="flex items-center gap-1.5 mb-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                <span class="bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">Draft</span>
+                <span class="bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">Teachers</span>
+            </div>
+            <div class="text-[12px] font-bold text-gray-700 truncate">Third Term Calendar [DRAFT]</div>
+            <div class="text-[10.5px] text-gray-400 mt-0.5">Saved 4hrs ago</div>
+            <div class="flex gap-2 mt-2.5">
+                <button class="flex-1 py-1.5 border border-gray-200 rounded-lg text-[10.5px] font-bold text-gray-600 hover:bg-white transition-all">Edit</button>
+                <button class="flex-1 py-1.5 bg-green-600 text-white rounded-lg text-[10.5px] font-bold hover:bg-green-700 shadow-sm transition-all">Publish</button>
+            </div>
+        </div>
+
+        <!-- Scheduled Card -->
+        <div class="border border-blue-100 rounded-xl p-3 bg-blue-50/30">
+            <div class="flex items-center gap-1.5 mb-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                <span class="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">Scheduled</span>
+                <span class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">Everyone</span>
+            </div>
+            <div class="text-[12px] font-bold text-blue-900 truncate">Parent-Teacher Day Notice</div>
+            <div class="text-[10.5px] text-blue-600 font-bold mt-0.5 italic">Live Mon 12 May · 7AM</div>
+            <button class="mt-2.5 w-full py-1.5 border border-blue-200 rounded-lg text-[10.5px] font-bold text-blue-600 hover:bg-white transition-all">Edit Schedule</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── TARGETING SUMMARY ── -->
+<div class="p-5 border-b border-gray-100">
+    <div class="text-[13px] font-bold text-gray-900 mb-4">Active Notices by Audience</div>
+    <div class="space-y-3.5">
+        <!-- Everyone Row -->
+        <div class="flex items-center gap-3">
+            <span class="w-[72px] text-center bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-[9.5px] font-bold">Everyone</span>
+            <div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full bg-gray-900 rounded-full" style="width: 50%"></div>
+            </div>
+            <span class="text-[12px] font-bold text-gray-900 w-4">5</span>
+        </div>
+        <!-- Students Row -->
+        <div class="flex items-center gap-3">
+            <span class="w-[72px] text-center bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[9.5px] font-bold">Students</span>
+            <div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full bg-blue-500 rounded-full" style="width: 50%"></div>
+            </div>
+            <span class="text-[12px] font-bold text-gray-900 w-4">5</span>
+        </div>
+        <!-- Teachers Row -->
+        <div class="flex items-center gap-3">
+            <span class="w-[72px] text-center bg-purple-50 text-purple-700 px-2 py-0.5 rounded text-[9.5px] font-bold">Teachers</span>
+            <div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full bg-purple-500 rounded-full" style="width: 30%"></div>
+            </div>
+            <span class="text-[12px] font-bold text-gray-900 w-4">3</span>
+        </div>
+    </div>
+
+    <!-- Mini Stats -->
+    <div class="mt-5 p-3.5 bg-gray-50 rounded-xl space-y-1.5 border border-gray-100">
+        <div class="text-[11.5px] font-bold text-gray-900 mb-2">This Term Performance</div>
+        <div class="flex justify-between text-[11px] text-gray-500">
+            <span>Published notices</span>
+            <strong class="text-gray-900">14</strong>
+        </div>
+        <div class="flex justify-between text-[11px] text-gray-500">
+            <span>Total portal views</span>
+            <strong class="text-gray-900">8,412</strong>
+        </div>
+        <div class="flex justify-between text-[11px] text-gray-500">
+            <span>Avg reach / notice</span>
+            <strong class="text-gray-900">601</strong>
+        </div>
+    </div>
+</div>
+
+<!-- ── TIPS SECTION ── -->
+<div class="p-5">
+    <div class="text-[13px] font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+        <span class="text-amber-500">💡</span> Newsroom Tips
+    </div>
+    <div class="space-y-3">
+        <div class="p-3 bg-amber-50/50 border border-amber-100 rounded-xl">
+            <div class="text-[11.5px] font-bold text-amber-800 mb-1">Pinning Priority</div>
+            <div class="text-[11px] text-gray-600 leading-relaxed">Pinned announcements stay fixed at the top of every student and teacher portal feed. Use for critical alerts only.</div>
+        </div>
+        <div class="p-3 bg-blue-50/50 border border-blue-100 rounded-xl">
+            <div class="text-[11.5px] font-bold text-blue-800 mb-1">Smart Scheduling</div>
+            <div class="text-[11px] text-gray-600 leading-relaxed">Schedule notices in advance to auto-publish at 8:00 AM for maximum engagement.</div>
+        </div>
+    </div>
+</div>
+</aside>

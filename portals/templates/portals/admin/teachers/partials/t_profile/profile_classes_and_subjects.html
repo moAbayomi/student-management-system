@@ -1,0 +1,180 @@
+<!-- ═════════════════════════════════
+       TAB: CLASSES & SUBJECTS
+  ═════════════════════════════════ -->
+<div class="content-area" id="tab-classes">
+ 
+  <!-- Stat Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-3.5">
+    <!-- Stat Chip 1 -->
+    <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Total Students Taught</div>
+      <div class="mt-1 text-2xl font-extrabold text-gray-900">236</div>
+      <div class="mt-0.5 text-xs text-gray-400">Across 6 classes this term</div>
+    </div>
+    <!-- Stat Chip 2 -->
+    <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Avg Class Score (All Classes)</div>
+      <div class="mt-1 text-2xl font-extrabold text-blue-700">71.2</div>
+      <div class="mt-0.5 text-xs text-gray-400">School avg: 68.4 — above average</div>
+    </div>
+  </div>
+ 
+  <!-- {% for assignment in teacher.subject_assignments.all %} -->
+ 
+  <!-- CLASS CARD 1 -->
+  <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm mb-4">
+    <!-- Card Header -->
+    <div class="flex flex-col gap-3 border-b border-gray-100 bg-gray-50/50 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <div class="text-base font-bold text-gray-900">SS 2, Arm A — Mathematics</div>
+        <div class="text-xs text-gray-400 mt-0.5">40 students · 4 periods/week · Form class</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20">Results: Submitted</span>
+        <span class="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20">Att: 96%</span>
+        <button class="rounded-md border border-gray-300 bg-white px-2.5 py-1 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">View Broadsheet</button>
+      </div>
+    </div>
+    
+    <!-- Table Wrapper for Responsiveness -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
+        <thead class="bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <tr>
+            <th scope="col" class="px-4 py-2.5">Student</th>
+            <th scope="col" class="px-4 py-2.5">CA (30)</th>
+            <th scope="col" class="px-4 py-2.5">Exam (70)</th>
+            <th scope="col" class="px-4 py-2.5">Total</th>
+            <th scope="col" class="px-4 py-2.5">Grade</th>
+            <th scope="col" class="px-4 py-2.5 min-w-[120px]">Performance</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 bg-white">
+          <!-- Student Row 1 -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="whitespace-nowrap px-4 py-2.5 font-semibold text-gray-800">Chukwuemeka Jide</td>
+            <td class="whitespace-nowrap px-4 py-2.5 text-gray-600">28</td>
+            <td class="whitespace-nowrap px-4 py-2.5 text-gray-600">60</td>
+            <td class="whitespace-nowrap px-4 py-2.5 font-bold text-gray-900">88</td>
+            <td class="whitespace-nowrap px-4 py-2.5">
+              <span class="inline-flex items-center rounded bg-green-50 px-2 py-0.5 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20">A</span>
+            </td>
+            <td class="whitespace-nowrap px-4 py-2.5">
+              <div class="flex items-center gap-2">
+                <div class="h-2 w-24 bg-gray-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-emerald-500 rounded-full" style="width: 88%;"></div>
+                </div>
+                <span class="text-xs font-medium text-gray-700">88</span>
+              </div>
+            </td>
+          </tr>
+          <!-- Student Row 2 -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="whitespace-nowrap px-4 py-2.5 font-semibold text-gray-800">Tolulope Oke</td>
+            <td class="whitespace-nowrap px-4 py-2.5 text-gray-600">27</td>
+            <td class="whitespace-nowrap px-4 py-2.5 text-gray-600">64</td>
+            <td class="whitespace-nowrap px-4 py-2.5 font-bold text-gray-900">91</td>
+            <td class="whitespace-nowrap px-4 py-2.5">
+              <span class="inline-flex items-center rounded bg-green-50 px-2 py-0.5 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20">A</span>
+            </td>
+            <td class="whitespace-nowrap px-4 py-2.5">
+              <div class="flex items-center gap-2">
+                <div class="h-2 w-24 bg-gray-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-emerald-500 rounded-full" style="width: 91%;"></div>
+                </div>
+                <span class="text-xs font-medium text-gray-700">91</span>
+              </div>
+            </td>
+          </tr>
+          <!-- Student Row 3 -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="whitespace-nowrap px-4 py-2.5 font-semibold text-gray-800">Blessing Balogun</td>
+            <td class="whitespace-nowrap px-4 py-2.5 text-gray-600">22</td>
+            <td class="whitespace-nowrap px-4 py-2.5 text-gray-600">49</td>
+            <td class="whitespace-nowrap px-4 py-2.5 font-bold text-gray-900">71</td>
+            <td class="whitespace-nowrap px-4 py-2.5">
+              <span class="inline-flex items-center rounded bg-blue-50 px-2 py-0.5 text-xs font-bold text-blue-700 ring-1 ring-inset ring-blue-600/20">B</span>
+            </td>
+            <td class="whitespace-nowrap px-4 py-2.5">
+              <div class="flex items-center gap-2">
+                <div class="h-2 w-24 bg-gray-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-blue-500 rounded-full" style="width: 71%;"></div>
+                </div>
+                <span class="text-xs font-medium text-gray-700">71</span>
+              </div>
+            </td>
+          </tr>
+          <!-- Student Row 4 -->
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="whitespace-nowrap px-4 py-2.5 font-semibold text-gray-800">Kelechi Ibe</td>
+            <td class="whitespace-nowrap px-4 py-2.5 text-gray-600">14</td>
+            <td class="whitespace-nowrap px-4 py-2.5 text-gray-600">34</td>
+            <td class="whitespace-nowrap px-4 py-2.5 font-bold text-red-600">48</td>
+            <td class="whitespace-nowrap px-4 py-2.5">
+              <span class="inline-flex items-center rounded bg-red-50 px-2 py-0.5 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/20">F</span>
+            </td>
+            <td class="whitespace-nowrap px-4 py-2.5">
+              <div class="flex items-center gap-2">
+                <div class="h-2 w-24 bg-gray-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-red-500 rounded-full" style="width: 48%;"></div>
+                </div>
+                <span class="text-xs font-medium text-gray-700">48</span>
+              </div>
+            </td>
+          </tr>
+          <!-- Class Summary Row -->
+          <tr class="bg-gray-50/70">
+            <td class="whitespace-nowrap px-4 py-3 font-extrabold text-gray-900">Class Average</td>
+            <td class="whitespace-nowrap px-4 py-3 font-bold text-gray-400">—</td>
+            <td class="whitespace-nowrap px-4 py-3 font-bold text-gray-400">—</td>
+            <td class="whitespace-nowrap px-4 py-3 font-extrabold text-sm text-gray-900">74.6</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Footer -->
+    <div class="border-t border-gray-100 bg-white px-4 py-2.5 text-center text-xs font-medium text-gray-400">
+      Showing 4 of 40 students · <a href="#" class="text-blue-600 font-semibold hover:underline">View all 40</a>
+    </div>
+  </div>
+ 
+  <!-- CLASS CARD 2 (collapsed preview) -->
+  <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm mb-4">
+    <div class="flex flex-col gap-3 border-b border-gray-100 bg-gray-50/50 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <div class="text-base font-bold text-gray-900">SS 2, Arm B — Mathematics</div>
+        <div class="text-xs text-gray-400 mt-0.5">38 students · 4 periods/week</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20">Results: Submitted</span>
+        <span class="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20">Att: 94%</span>
+        <button class="rounded-md border border-gray-300 bg-white px-2.5 py-1 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">View Broadsheet</button>
+      </div>
+    </div>
+    <div class="px-4 py-3.5 text-center text-xs text-gray-400">
+      Class Avg: <strong class="text-gray-800 font-bold">72.1</strong> &nbsp;·&nbsp; Expand to see student scores
+      <button type="button" class="ml-2 font-semibold text-blue-600 hover:text-blue-700 hover:underline transition-colors focus:outline-none">Show students ↓</button>
+    </div>
+  </div>
+ 
+  <!-- CLASS CARD 3 (pending state) -->
+  <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+    <div class="flex flex-col gap-3 border-b border-gray-100 bg-gray-50/50 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <div class="text-base font-bold text-gray-900">JSS 3, Arm A — Further Mathematics</div>
+        <div class="text-xs text-gray-400 mt-0.5">40 students · 2 periods/week</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-semibold text-red-700 ring-1 ring-inset ring-red-600/20">Results: Not started</span>
+        <button class="rounded-md border border-transparent bg-amber-500 px-2.5 py-1 text-xs font-semibold text-white shadow-sm hover:bg-amber-600 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-1">Nudge Teacher</button>
+      </div>
+    </div>
+    <div class="px-4 py-4 text-center text-xs font-semibold text-red-600 bg-red-50/30">
+      Results have not been entered. Deadline: 23 May 2026.
+    </div>
+  </div>
+ 
+  <!-- {% endfor %} -->
+</div>

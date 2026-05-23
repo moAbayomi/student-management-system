@@ -1,0 +1,43 @@
+<div
+	class="bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] overflow-hidden shadow-sm">
+	<div class="overflow-x-auto">
+		<table class="w-full text-left border-collapse">
+			<thead
+				class="bg-[var(--color-background)]/50 border-b border-[var(--color-border-light)]">
+				<tr
+					class="text-[10px] font-bold text-[var(--color-muted)] uppercase tracking-widest">
+					<th class="p-4 w-10">
+						<input
+							type="checkbox"
+							class="w-3.5 h-3.5 accent-[var(--color-surface-dark)]" />
+					</th>
+					<th class="p-4 min-w-[190px]">Student</th>
+					<th class="p-4">Class/Arm</th>
+					<th class="p-4">Attendance</th>
+					<th class="p-4">Fee Status</th>
+					<th class="p-4">Avg Score</th>
+					<th class="p-4">Status</th>
+					<th class="p-4 text-center">Actions</th>
+				</tr>
+			</thead>
+			<tbody
+				id="student-table-body"
+				class="divide-y divide-[var(--color-border-light)]/50">
+				<!-- Sample Row: Active/Paid -->
+				{% for std in students %} 
+				{%include 'portals/admin/students/partials/student-table-row.html' %} 
+				{% empty %}
+				<tr>
+					<td
+						colspan="8"
+						class="text-center p-8 text-xs font-medium text-[var(--color-muted)]">
+						No students found matching those filter criteria.
+					</td>
+				</tr>
+
+				{%endfor%}
+			</tbody>
+		</table>
+	</div>
+	{%include 'portals/admin/students/partials/pagination.html'%}
+</div>

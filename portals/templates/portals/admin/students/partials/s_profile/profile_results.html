@@ -1,0 +1,383 @@
+<!-- ═══════════════════════════
+       TAB: RESULTS
+  ═══════════════════════════ -->
+<div class="content-area" id="tab-results">
+	<!-- Header Filter and Actions Container -->
+	<div
+		class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
+		<div class="relative min-w-[200px]">
+			<select
+				class="w-full pl-3 pr-10 py-2 border border-gray-200 rounded-lg bg-white text-xs font-semibold text-gray-700 shadow-sm outline-none appearance-none cursor-pointer focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
+				<option>2nd Term 2026 (Current)</option>
+				<option>1st Term 2026</option>
+				<option>3rd Term 2025</option>
+			</select>
+			<div
+				class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+				<svg
+					class="h-3 w-3"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2.5"
+						d="M19 9l-7 7-7-7" />
+				</svg>
+			</div>
+		</div>
+
+		<button
+			class="inline-flex items-center justify-center gap-2 px-3.5 py-2 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 transition-colors shadow-sm active:bg-gray-100">
+			<svg
+				class="w-3.5 h-3.5 text-gray-500"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round">
+				<polyline points="6 9 6 2 18 2 18 9" />
+				<path
+					d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+				<rect x="6" y="14" width="12" height="8" />
+			</svg>
+			Print Result Sheet
+		</button>
+	</div>
+
+	<!-- Academic Statistics Matrix Grid -->
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+		<!-- Metric Box 1 -->
+		<div
+			class="bg-white border border-gray-200 rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+			<span class="text-[11px] font-bold text-gray-400 uppercase tracking-wide"
+				>Overall Avg</span
+			>
+			<div class="text-2xl font-extrabold text-gray-900 my-1">78.4</div>
+			<span class="text-[11px] font-medium text-emerald-600"
+				>Above class avg (71.2)</span
+			>
+		</div>
+		<!-- Metric Box 2 -->
+		<div
+			class="bg-white border border-gray-200 rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+			<span class="text-[11px] font-bold text-gray-400 uppercase tracking-wide"
+				>Class Rank</span
+			>
+			<div class="text-2xl font-extrabold text-blue-600 my-1">
+				5th <span class="text-xs font-semibold text-gray-400">/ 40</span>
+			</div>
+			<span class="text-[11px] font-medium text-blue-600">↑ 3 positions</span>
+		</div>
+		<!-- Metric Box 3 -->
+		<div
+			class="bg-white border border-gray-200 rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+			<span class="text-[11px] font-bold text-gray-400 uppercase tracking-wide"
+				>Highest Subject</span
+			>
+			<div
+				class="text-[15px] font-bold text-gray-900 tracking-tight truncate my-1.5">
+				Mathematics
+			</div>
+			<span class="text-[11px] font-medium text-gray-500"
+				>Score: <strong class="text-gray-900">88</strong></span
+			>
+		</div>
+		<!-- Metric Box 4 -->
+		<div
+			class="bg-white border border-gray-200 rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+			<span class="text-[11px] font-bold text-gray-400 uppercase tracking-wide"
+				>Lowest Subject</span
+			>
+			<div
+				class="text-[15px] font-bold text-amber-600 tracking-tight truncate my-1.5">
+				Social Studies
+			</div>
+			<span class="text-[11px] font-medium text-amber-600"
+				>Score: 55 · Needs work</span
+			>
+		</div>
+	</div>
+
+	<!-- Primary Results Data View -->
+	<div
+		class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+		<div class="border-b border-gray-100 px-4 py-3.5">
+			<h3 class="text-xs font-bold text-gray-700 uppercase tracking-wide">
+				Subject Scores — 2nd Term 2026
+			</h3>
+		</div>
+
+		<!-- Table Container to prevent mobile layout breakages -->
+		<div class="overflow-x-auto">
+			<table
+				class="w-full min-w-[700px] border-collapse text-left text-xs font-medium text-gray-600">
+				<thead>
+					<tr
+						class="bg-gray-50/70 border-b border-gray-100 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+						<th class="px-4 py-3">Subject</th>
+						<th class="px-4 py-3">
+							CA Score <span class="font-normal text-gray-400">(30)</span>
+						</th>
+						<th class="px-4 py-3">
+							Exam Score <span class="font-normal text-gray-400">(70)</span>
+						</th>
+						<th class="px-4 py-3">
+							Total <span class="font-normal text-gray-400">(100)</span>
+						</th>
+						<th class="px-4 py-3">Grade</th>
+						<th class="px-4 py-3">Remark</th>
+						<th class="px-4 py-3 min-w-[120px]">Performance</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-gray-100 text-gray-700">
+					<!-- Mathematics Row -->
+					<tr class="hover:bg-gray-50/40 transition-colors">
+						<td class="px-4 py-3 font-bold text-gray-900">Mathematics</td>
+						<td class="px-4 py-3">28</td>
+						<td class="px-4 py-3">60</td>
+						<td class="px-4 py-3 font-extrabold text-gray-900">88</td>
+						<td class="px-4 py-3">
+							<span
+								class="inline-flex items-center rounded-md bg-green-50 px-2 py-0.5 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20"
+								>A</span
+							>
+						</td>
+						<td class="px-4 py-3 font-bold text-green-700">Excellent</td>
+						<td class="px-4 py-3">
+							<div class="flex items-center gap-2">
+								<div class="h-2 w-16 bg-gray-100 rounded-full overflow-hidden">
+									<div class="h-full bg-emerald-500" style="width: 88%"></div>
+								</div>
+								<span class="font-bold text-gray-900 text-[11px]">88</span>
+							</div>
+						</td>
+					</tr>
+					<!-- English Language Row -->
+					<tr class="hover:bg-gray-50/40 transition-colors">
+						<td class="px-4 py-3 font-bold text-gray-900">English Language</td>
+						<td class="px-4 py-3">22</td>
+						<td class="px-4 py-3">52</td>
+						<td class="px-4 py-3 font-extrabold text-gray-900">74</td>
+						<td class="px-4 py-3">
+							<span
+								class="inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-xs font-bold text-blue-700 ring-1 ring-inset ring-blue-600/20"
+								>B</span
+							>
+						</td>
+						<td class="px-4 py-3 font-bold text-blue-700">Good</td>
+						<td class="px-4 py-3">
+							<div class="flex items-center gap-2">
+								<div class="h-2 w-16 bg-gray-100 rounded-full overflow-hidden">
+									<div class="h-full bg-blue-500" style="width: 74%"></div>
+								</div>
+								<span class="font-bold text-gray-900 text-[11px]">74</span>
+							</div>
+						</td>
+					</tr>
+					<!-- Basic Science Row -->
+					<tr class="hover:bg-gray-50/40 transition-colors">
+						<td class="px-4 py-3 font-bold text-gray-900">Basic Science</td>
+						<td class="px-4 py-3">25</td>
+						<td class="px-4 py-3">56</td>
+						<td class="px-4 py-3 font-extrabold text-gray-900">81</td>
+						<td class="px-4 py-3">
+							<span
+								class="inline-flex items-center rounded-md bg-green-50 px-2 py-0.5 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20"
+								>A</span
+							>
+						</td>
+						<td class="px-4 py-3 font-bold text-green-700">Very Good</td>
+						<td class="px-4 py-3">
+							<div class="flex items-center gap-2">
+								<div class="h-2 w-16 bg-gray-100 rounded-full overflow-hidden">
+									<div class="h-full bg-emerald-500" style="width: 81%"></div>
+								</div>
+								<span class="font-bold text-gray-900 text-[11px]">81</span>
+							</div>
+						</td>
+					</tr>
+					<!-- Social Studies Row (Warning Colorations) -->
+					<tr class="hover:bg-gray-50/40 transition-colors">
+						<td class="px-4 py-3 font-bold text-gray-900">Social Studies</td>
+						<td class="px-4 py-3">18</td>
+						<td class="px-4 py-3">37</td>
+						<td class="px-4 py-3 font-extrabold text-amber-600">55</td>
+						<td class="px-4 py-3">
+							<span
+								class="inline-flex items-center rounded-md bg-amber-50 px-2 py-0.5 text-xs font-bold text-amber-700 ring-1 ring-inset ring-amber-600/20"
+								>C</span
+							>
+						</td>
+						<td class="px-4 py-3 font-bold text-amber-600">Average</td>
+						<td class="px-4 py-3">
+							<div class="flex items-center gap-2">
+								<div class="h-2 w-16 bg-gray-100 rounded-full overflow-hidden">
+									<div class="h-full bg-amber-500" style="width: 55%"></div>
+								</div>
+								<span class="font-bold text-gray-900 text-[11px]">55</span>
+							</div>
+						</td>
+					</tr>
+					<!-- Civic Education Row -->
+					<tr class="hover:bg-gray-50/40 transition-colors">
+						<td class="px-4 py-3 font-bold text-gray-900">Civic Education</td>
+						<td class="px-4 py-3">21</td>
+						<td class="px-4 py-3">49</td>
+						<td class="px-4 py-3 font-extrabold text-gray-900">70</td>
+						<td class="px-4 py-3">
+							<span
+								class="inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-xs font-bold text-blue-700 ring-1 ring-inset ring-blue-600/20"
+								>B</span
+							>
+						</td>
+						<td class="px-4 py-3 font-bold text-blue-700">Good</td>
+						<td class="px-4 py-3">
+							<div class="flex items-center gap-2">
+								<div class="h-2 w-16 bg-gray-100 rounded-full overflow-hidden">
+									<div class="h-full bg-blue-500" style="width: 70%"></div>
+								</div>
+								<span class="font-bold text-gray-900 text-[11px]">70</span>
+							</div>
+						</td>
+					</tr>
+					<!-- Agricultural Science Row -->
+					<tr class="hover:bg-gray-50/40 transition-colors">
+						<td class="px-4 py-3 font-bold text-gray-900">
+							Agricultural Science
+						</td>
+						<td class="px-4 py-3">26</td>
+						<td class="px-4 py-3">55</td>
+						<td class="px-4 py-3 font-extrabold text-gray-900">81</td>
+						<td class="px-4 py-3">
+							<span
+								class="inline-flex items-center rounded-md bg-green-50 px-2 py-0.5 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20"
+								>A</span
+							>
+						</td>
+						<td class="px-4 py-3 font-bold text-green-700">Very Good</td>
+						<td class="px-4 py-3">
+							<div class="flex items-center gap-2">
+								<div class="h-2 w-16 bg-gray-100 rounded-full overflow-hidden">
+									<div class="h-full bg-emerald-500" style="width: 81%"></div>
+								</div>
+								<span class="font-bold text-gray-900 text-[11px]">81</span>
+							</div>
+						</td>
+					</tr>
+					<!-- Further Mathematics Row -->
+					<tr class="hover:bg-gray-50/40 transition-colors">
+						<td class="px-4 py-3 font-bold text-gray-900">
+							Further Mathematics
+						</td>
+						<td class="px-4 py-3">24</td>
+						<td class="px-4 py-3">53</td>
+						<td class="px-4 py-3 font-extrabold text-gray-900">77</td>
+						<td class="px-4 py-3">
+							<span
+								class="inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-xs font-bold text-blue-700 ring-1 ring-inset ring-blue-600/20"
+								>B</span
+							>
+						</td>
+						<td class="px-4 py-3 font-bold text-blue-700">Good</td>
+						<td class="px-4 py-3">
+							<div class="flex items-center gap-2">
+								<div class="h-2 w-16 bg-gray-100 rounded-full overflow-hidden">
+									<div class="h-full bg-blue-500" style="width: 77%"></div>
+								</div>
+								<span class="font-bold text-gray-900 text-[11px]">77</span>
+							</div>
+						</td>
+					</tr>
+					<!-- Economics Row -->
+					<tr class="hover:bg-gray-50/40 transition-colors">
+						<td class="px-4 py-3 font-bold text-gray-900">Economics</td>
+						<td class="px-4 py-3">20</td>
+						<td class="px-4 py-3">62</td>
+						<td class="px-4 py-3 font-extrabold text-gray-900">82</td>
+						<td class="px-4 py-3">
+							<span
+								class="inline-flex items-center rounded-md bg-green-50 px-2 py-0.5 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20"
+								>A</span
+							>
+						</td>
+						<td class="px-4 py-3 font-bold text-green-700">Very Good</td>
+						<td class="px-4 py-3">
+							<div class="flex items-center gap-2">
+								<div class="h-2 w-16 bg-gray-100 rounded-full overflow-hidden">
+									<div class="h-full bg-emerald-500" style="width: 82%"></div>
+								</div>
+								<span class="font-bold text-gray-900 text-[11px]">82</span>
+							</div>
+						</td>
+					</tr>
+					<!-- Physical Education Row -->
+					<tr class="hover:bg-gray-50/40 transition-colors">
+						<td class="px-4 py-3 font-bold text-gray-900">
+							Physical Education
+						</td>
+						<td class="px-4 py-3">27</td>
+						<td class="px-4 py-3">61</td>
+						<td class="px-4 py-3 font-extrabold text-gray-900">88</td>
+						<td class="px-4 py-3">
+							<span
+								class="inline-flex items-center rounded-md bg-green-50 px-2 py-0.5 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20"
+								>A</span
+							>
+						</td>
+						<td class="px-4 py-3 font-bold text-green-700">Excellent</td>
+						<td class="px-4 py-3">
+							<div class="flex items-center gap-2">
+								<div class="h-2 w-16 bg-gray-100 rounded-full overflow-hidden">
+									<div class="h-full bg-emerald-500" style="width: 88%"></div>
+								</div>
+								<span class="font-bold text-gray-900 text-[11px]">88</span>
+							</div>
+						</td>
+					</tr>
+					<!-- Totals Summary Matrix Row -->
+					<tr
+						class="bg-gray-50/70 border-t border-gray-200 text-gray-900 font-bold">
+						<td class="px-4 py-3.5 font-extrabold tracking-wide">
+							TOTAL / AVERAGE
+						</td>
+						<td class="px-4 py-3.5">
+							211
+							<span class="text-[10px] text-gray-400 font-medium">/ 30</span>
+						</td>
+						<td class="px-4 py-3.5">
+							485
+							<span class="text-[10px] text-gray-400 font-medium">/ 70</span>
+						</td>
+						<td class="px-4 py-3.5 text-sm font-black text-gray-900">78.4</td>
+						<td class="px-4 py-3.5">
+							<span
+								class="inline-flex items-center rounded-md bg-blue-100 px-2 py-0.5 text-xs font-extrabold text-blue-800"
+								>B+</span
+							>
+						</td>
+						<td class="px-4 py-3.5 font-extrabold text-blue-700">5th / 40</td>
+						<td class="px-4 py-3.5"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Institutional Remarks Section Footer -->
+		<div class="p-4 bg-gray-50/50 border-t border-gray-100 flex flex-col gap-1">
+			<span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider"
+				>Teacher's Comment</span
+			>
+			<p class="text-xs text-gray-700 leading-relaxed font-medium mt-0.5">
+				Chukwuemeka continues to demonstrate strong academic potential. He shows
+				particular aptitude in Mathematics and Sciences. He is however
+				encouraged to apply himself more to Social Studies to achieve a more
+				balanced result sheet.
+			</p>
+			<span class="text-[11px] font-semibold text-gray-500 mt-1"
+				>— Mr. S. Adeyemi, Form Teacher</span
+			>
+		</div>
+	</div>
+</div>

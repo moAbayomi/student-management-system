@@ -1,0 +1,404 @@
+<!-- ── TOPBAR ── -->
+<div class="flex items-center px-6 py-4 bg-white border-b border-gray-200">
+    <div class="flex-1">
+      <div class="flex items-center text-[20px] font-bold leading-tight text-gray-900">Announcements</div>
+      <div class="text-[11.5px] text-gray-500 mt-0.5">Newsroom · 14 published · 3 drafts · 2 scheduled · 1 expired</div>
+    </div>
+</div>
+
+<!-- ── SEARCH + FILTERS + CREATE ── -->
+<div class="px-6 py-3 bg-white border-b border-gray-200 flex items-center gap-2 flex-wrap">
+    <!-- Search -->
+    <div class="relative flex items-center">
+      <div class="absolute left-3">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <input class="pl-9 pr-4 py-2 text-[13px] border border-gray-200 rounded-lg w-[260px] focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-amber-500" type="text" placeholder="Search by title or content…"/>
+    </div>
+
+    <!-- Filter dropdowns -->
+    <select class="px-3 py-2 text-[12.5px] border border-gray-200 rounded-lg bg-white text-gray-700 focus:outline-none">
+      <option>All Audiences</option>
+      <option>Everyone</option>
+      <option>Students only</option>
+      <option>Teachers only</option>
+      <option>Parents only</option>
+    </select>
+    <select class="px-3 py-2 text-[12.5px] border border-gray-200 rounded-lg bg-white text-gray-700 focus:outline-none">
+      <option>All Statuses</option>
+      <option>Published</option>
+      <option>Draft</option>
+      <option>Scheduled</option>
+      <option>Expired</option>
+    </select>
+    <select class="px-3 py-2 text-[12.5px] border border-gray-200 rounded-lg bg-white text-gray-700 focus:outline-none">
+      <option>All Time</option>
+      <option>This Week</option>
+      <option>This Month</option>
+      <option>This Term</option>
+    </select>
+
+    <!-- Sort tabs -->
+    <div class="flex gap-0.5 bg-gray-100 rounded-lg p-1 ml-1">
+      <button class="px-3 py-1 text-[11.5px] font-semibold rounded-md bg-white shadow-sm text-gray-900">Newest</button>
+      <button class="px-3 py-1 text-[11.5px] font-medium rounded-md text-gray-500 hover:text-gray-700">Pinned First</button>
+      <button class="px-3 py-1 text-[11.5px] font-medium rounded-md text-gray-500 hover:text-gray-700">Most Viewed</button>
+    </div>
+
+    <!-- CREATE — high visibility -->
+    <button class="ml-auto flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-[13px] font-bold shadow-sm transition-colors" onclick="document.getElementById('createModal').style.display='flex'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Announcement
+    </button>
+</div>
+
+<!-- ── STATS RIBBON ── -->
+<div class="px-6 py-2.5 bg-white border-b border-gray-200 flex items-center gap-5">
+    <div class="flex items-center gap-1.5">
+      <span class="w-2 h-2 rounded-full bg-green-500"></span>
+      <span class="text-[11.5px] font-semibold text-gray-900">14 Published</span>
+    </div>
+    <div class="w-[1px] h-3.5 bg-gray-200"></div>
+    <div class="flex items-center gap-1.5">
+      <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+      <span class="text-[11.5px] font-semibold text-amber-600">3 Drafts</span>
+    </div>
+    <div class="w-[1px] h-3.5 bg-gray-200"></div>
+    <div class="flex items-center gap-1.5">
+      <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+      <span class="text-[11.5px] font-semibold text-blue-600">2 Scheduled</span>
+    </div>
+    <div class="w-[1px] h-3.5 bg-gray-200"></div>
+    <div class="flex items-center gap-1.5">
+      <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+      <span class="text-[11.5px] font-semibold text-gray-500">1 Expired</span>
+    </div>
+    <div class="ml-auto text-[11px] text-gray-500">Total views this term: <strong class="text-gray-900">8,412</strong></div>
+</div>
+
+<!-- ── ANNOUNCEMENT FEED ── -->
+<div class="px-6 py-5 flex flex-col gap-2.5">
+
+    <!-- ── CARD 1: PINNED + PUBLISHED (Everyone) ── -->
+    <div class="p-4 bg-amber-50/50 border border-amber-100 rounded-xl hover:shadow-sm transition-shadow">
+      <div class="flex items-start gap-4">
+        <!-- Status + pin column -->
+        <div class="flex flex-col items-center gap-2 pt-1">
+          <span class="w-2.5 h-2.5 rounded-full bg-green-500" title="Published"></span>
+          <span class="text-[14px]" title="Pinned">📌</span>
+        </div>
+
+        <!-- Main body -->
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap mb-1.5">
+            <span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold">📢 Everyone</span>
+            <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[9.5px] font-bold">● Published</span>
+            <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[9px] font-bold">📌 Pinned</span>
+          </div>
+          <div class="text-[14px] font-bold text-gray-900 mb-1 leading-snug">
+            Mid-Term Break — School Closes Friday 9th May, Resumes 19th May
+          </div>
+          <div class="text-[12.5px] text-gray-600 line-clamp-2 leading-normal">
+            Dear students, staff and parents — please note that the school will be closed for the mid-term break from Friday 9th May 2026. All students are expected to resume on Monday 19th May. Teachers should ensure…
+          </div>
+          <div class="flex items-center gap-4 mt-2.5 flex-wrap">
+            <div class="flex items-center gap-1 text-[11px] text-gray-500">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              1,284 views
+            </div>
+            <span class="text-[11px] text-gray-400">Posted by <strong class="text-gray-900">Admin</strong> · Today 8:30 AM</span>
+            <span class="text-[11px] text-gray-400">Expires: <strong class="text-gray-900">19 May 2026</strong></span>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-green-200 text-green-600 bg-white hover:bg-green-50 transition-colors" title="Active — click to deactivate">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 text-gray-500 bg-white hover:bg-gray-50 transition-colors" title="Edit">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+          </button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 text-gray-500 bg-white hover:bg-gray-50 transition-colors" title="Duplicate">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-red-200 text-red-500 bg-white hover:bg-red-50 transition-colors" title="Delete">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 2: PINNED + Teachers ── -->
+    <div class="p-4 bg-amber-50/50 border border-amber-100 rounded-xl hover:shadow-sm transition-shadow">
+      <div class="flex items-start gap-4">
+        <div class="flex flex-col items-center gap-2 pt-1">
+          <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+          <span class="text-[14px]">📌</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap mb-1.5">
+            <span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded text-[10px] font-bold">👩‍🏫 Teachers</span>
+            <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[9.5px] font-bold">● Published</span>
+            <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[9px] font-bold">📌 Pinned</span>
+          </div>
+          <div class="text-[14px] font-bold text-gray-900 mb-1 leading-snug">
+            All-Staff Meeting — Friday 9th May, 2:00 PM, Staff Room
+          </div>
+          <div class="text-[12.5px] text-gray-600 line-clamp-2 leading-normal">
+            Attendance is mandatory for all teaching and non-teaching staff. Agenda includes broadsheet review, term 2 assessment debrief, and planning for the third term. HODs should come with…
+          </div>
+          <div class="flex items-center gap-4 mt-2.5 flex-wrap">
+            <div class="flex items-center gap-1 text-[11px] text-gray-500"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>54 views</div>
+            <span class="text-[11px] text-gray-400">Posted by <strong class="text-gray-900">Admin</strong> · Today 8:30 AM</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-green-200 text-green-600 bg-white hover:bg-green-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 text-gray-500 bg-white hover:bg-gray-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 text-gray-500 bg-white hover:bg-gray-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-red-200 text-red-500 bg-white hover:bg-red-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DIVIDER: non-pinned ── -->
+    <div class="flex items-center gap-2.5 py-1">
+      <div class="flex-1 h-[1px] bg-gray-200"></div>
+      <span class="text-[10.5px] font-bold text-gray-400 uppercase tracking-tight">Other Announcements</span>
+      <div class="flex-1 h-[1px] bg-gray-200"></div>
+    </div>
+
+    <!-- ── CARD 3: Published, Students ── -->
+    <div class="p-4 bg-white border border-gray-200 rounded-xl hover:shadow-sm transition-shadow">
+      <div class="flex items-start gap-4">
+        <div class="flex flex-col items-center gap-2 pt-1">
+          <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+          <span class="text-[14px] opacity-25">📌</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap mb-1.5">
+            <span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded text-[10px] font-bold">🎓 Students</span>
+            <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[9.5px] font-bold">● Published</span>
+          </div>
+          <div class="text-[14px] font-bold text-gray-900 mb-1 leading-snug">
+            Terminal Examination Timetable — Exams Begin 2nd June
+          </div>
+          <div class="text-[12.5px] text-gray-600 line-clamp-2 leading-normal">
+            The examination timetable for the 2025/26 Term 3 terminal examinations has been published. All students are advised to collect a copy from the admin office or download from the student portal. The examinations will commence…
+          </div>
+          <div class="flex items-center gap-4 mt-2.5">
+            <div class="flex items-center gap-1 text-[11px] text-gray-500"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>2,149 views</div>
+            <span class="text-[11px] text-gray-400">Admin · 3 days ago</span>
+            <span class="text-[11px] text-gray-400">Expires: <strong class="text-gray-900">10 Jun 2026</strong></span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-green-200 text-green-600 bg-white hover:bg-green-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 text-gray-500 bg-white hover:bg-gray-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 text-gray-500 bg-white hover:bg-gray-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-red-200 text-red-500 bg-white hover:bg-red-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 4: Scheduled ── -->
+    <div class="p-4 bg-blue-50/30 border border-blue-200 rounded-xl hover:shadow-sm transition-shadow">
+      <div class="flex items-start gap-4">
+        <div class="flex flex-col items-center gap-2 pt-1">
+          <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+          <span class="text-[14px] opacity-25">📌</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap mb-1.5">
+            <span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold">📢 Everyone</span>
+            <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[9.5px] font-bold">🕐 Scheduled</span>
+            <span class="text-[10.5px] text-blue-600 font-bold">Goes live: Mon 12 May · 7:00 AM</span>
+          </div>
+          <div class="text-[14px] font-bold text-gray-900 mb-1 leading-snug">
+            Parent-Teacher Meeting — Saturday 24th May, 9AM–1PM
+          </div>
+          <div class="text-[12.5px] text-gray-600 line-clamp-2 leading-normal">
+            Parents and guardians are warmly invited to the school's Parent-Teacher meeting scheduled for Saturday 24th May 2026. This is an opportunity to discuss your ward's academic progress, behaviour, and to engage directly with class teachers…
+          </div>
+          <div class="flex items-center gap-4 mt-2.5">
+            <div class="flex items-center gap-1 text-[11px] text-gray-300"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Not published yet</div>
+            <span class="text-[11px] text-gray-400">Created by Admin · Today</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 text-gray-500 bg-white hover:bg-gray-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-blue-200 text-blue-600 bg-white hover:bg-blue-50" title="Publish Now">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V6M5 12l7-7 7 7"/></svg>
+          </button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-red-200 text-red-500 bg-white hover:bg-red-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 5: DRAFT ── -->
+    <div class="p-4 bg-amber-50/10 border border-amber-200 border-dashed rounded-xl hover:shadow-sm transition-shadow">
+      <div class="flex items-start gap-4">
+        <div class="flex flex-col items-center gap-2 pt-1">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+          <span class="text-[14px] opacity-25">📌</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap mb-1.5">
+            <span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded text-[10px] font-bold">👩‍🏫 Teachers</span>
+            <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[9.5px] font-bold">✏ Draft</span>
+            <span class="text-[10.5px] text-amber-600 font-bold">Saved 4 hours ago</span>
+          </div>
+          <div class="text-[14px] font-semibold text-gray-400 mb-1 leading-snug">
+            Third Term Academic Calendar &amp; Key Dates [DRAFT]
+          </div>
+          <div class="text-[12.5px] text-gray-400 line-clamp-2 leading-normal">
+            Draft: The third term academic calendar for the 2025/26 session is as follows. Term opens on 2nd June 2026. Public holiday: 12th June (Democracy Day). Mid-term break: 30th June–4th July…
+          </div>
+          <div class="flex items-center gap-4 mt-2.5">
+            <div class="flex items-center gap-1 text-[11px] text-gray-300"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Draft — 0 views</div>
+            <span class="text-[11px] text-gray-400">Last edited by Admin · Today</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-amber-200 text-amber-600 bg-white hover:bg-amber-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-green-200 text-green-700 bg-white hover:bg-green-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V6M5 12l7-7 7 7"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-red-200 text-red-500 bg-white hover:bg-red-50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 6: Expired ── -->
+    <div class="p-4 bg-gray-50 border border-gray-200 rounded-xl hover:shadow-sm transition-shadow opacity-80">
+      <div class="flex items-start gap-4">
+        <div class="flex flex-col items-center gap-2 pt-1">
+          <span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+          <span class="text-[14px] opacity-25">📌</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap mb-1.5">
+            <span class="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-[10px] font-bold">📢 Everyone</span>
+            <span class="bg-gray-200 text-gray-700 px-2 py-0.5 rounded text-[9.5px] font-bold">⊘ Expired</span>
+          </div>
+          <div class="text-[14px] font-semibold text-gray-400 mb-1 leading-snug">
+            2nd Term Resumption Notice — All Students Resume 17th February
+          </div>
+          <div class="text-[12.5px] text-gray-400 line-clamp-2 leading-normal">
+            All students are expected to resume for the second term on Monday 17th February 2026. Late resumption beyond 21st February will attract disciplinary action…
+          </div>
+          <div class="flex items-center gap-4 mt-2.5">
+            <div class="flex items-center gap-1 text-[11px] text-gray-500"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>3,241 views</div>
+            <span class="text-[11px] text-gray-400">Admin · 14 Feb 2026 · <strong class="text-red-600">Expired 17 Feb</strong></span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 text-gray-500 bg-white hover:bg-gray-50" title="Restore / Republish"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg></button>
+          <button class="w-7 h-7 flex items-center justify-center rounded border border-red-200 text-red-500 bg-white hover:bg-red-50" title="Delete permanently"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-between py-2 mt-2">
+      <span class="text-[11.5px] text-gray-500">Showing 6 of <strong class="text-gray-900">20</strong> announcements</span>
+      <div class="flex gap-1">
+        <button class="px-3 py-1.5 border border-gray-200 rounded-lg bg-white text-[12px] font-bold text-gray-400 hover:bg-gray-50 transition-colors cursor-pointer">← Prev</button>
+        <button class="px-3 py-1.5 border-none rounded-lg bg-gray-900 text-white text-[12px] font-bold cursor-pointer">1</button>
+        <button class="px-3 py-1.5 border border-gray-200 rounded-lg bg-white text-[12px] font-bold text-gray-400 hover:bg-gray-50 transition-colors cursor-pointer">2</button>
+        <button class="px-3 py-1.5 border border-gray-200 rounded-lg bg-white text-[12px] font-bold text-gray-400 hover:bg-gray-50 transition-colors cursor-pointer">3</button>
+        <button class="px-3 py-1.5 border border-gray-200 rounded-lg bg-white text-[12px] font-bold text-gray-400 hover:bg-gray-50 transition-colors cursor-pointer">Next →</button>
+      </div>
+    </div>
+
+</div><!-- /feed -->
+
+<!-- ══════ CREATE ANNOUNCEMENT MODAL ══════ -->
+<div class="fixed inset-0 bg-gray-900/40 backdrop-blur-[1px] flex items-center justify-center z-[1000]" id="createModal" style="display:none;" onclick="if(event.target===this)this.style.display='none'">
+    <div class="bg-white w-[540px] rounded-2xl shadow-2xl overflow-hidden flex flex-col" onclick="event.stopPropagation()">
+      <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-white">
+        <div>
+          <div class="text-[15px] font-bold text-gray-900">New Announcement</div>
+          <div class="text-[11.5px] text-gray-500 mt-0.5">Compose and publish or schedule</div>
+        </div>
+        <button class="w-7 h-7 flex items-center justify-center bg-gray-100 text-gray-400 hover:text-gray-600 rounded-lg transition-colors text-[14px]" onclick="document.getElementById('createModal').style.display='none'">✕</button>
+      </div>
+
+      <div class="p-6 max-h-[70vh] overflow-y-auto">
+        <div class="flex flex-col gap-4">
+
+          <!-- Title -->
+          <div>
+            <label class="block text-[11.5px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">Title *</label>
+            <input class="w-full px-4 py-2.5 text-[13.5px] border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all" type="text" placeholder="e.g. Mid-Term Break Notice — 9th May"/>
+          </div>
+
+          <!-- Body -->
+          <div>
+            <label class="block text-[11.5px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">Body / Content *</label>
+            <textarea class="w-full h-[140px] px-4 py-3 text-[13.5px] border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all resize-none" placeholder="Write the full announcement here…"></textarea>
+          </div>
+
+          <!-- Audience selector -->
+          <div>
+            <label class="block text-[11.5px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">Audience *</label>
+            <div class="flex gap-2 flex-wrap mt-1">
+              <button class="px-3 py-1.5 text-[12px] font-bold rounded-lg bg-gray-100 text-gray-900 hover:bg-gray-200 transition-colors">📢 Everyone</button>
+              <button class="px-3 py-1.5 text-[12px] font-bold rounded-lg bg-gray-100 text-gray-900 hover:bg-gray-200 transition-colors">🎓 Students</button>
+              <button class="px-3 py-1.5 text-[12px] font-bold rounded-lg bg-gray-100 text-gray-900 hover:bg-gray-200 transition-colors">👩‍🏫 Teachers</button>
+              <button class="px-3 py-1.5 text-[12px] font-bold rounded-lg bg-gray-100 text-gray-900 hover:bg-gray-200 transition-colors">👨‍👩‍👧 Parents</button>
+            </div>
+          </div>
+
+          <!-- Options row -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11.5px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">Expiry Date (optional)</label>
+              <input class="w-full px-4 py-2.5 text-[13px] border border-gray-200 rounded-xl focus:outline-none text-gray-500" type="date"/>
+            </div>
+            <div>
+              <label class="block text-[11.5px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">Schedule Publish (optional)</label>
+              <input class="w-full px-4 py-2.5 text-[13px] border border-gray-200 rounded-xl focus:outline-none text-gray-500" type="datetime-local"/>
+            </div>
+          </div>
+
+          <!-- Toggles -->
+          <div class="flex items-center gap-5 px-4 py-3 bg-gray-50 rounded-xl flex-wrap mt-1">
+            <!-- Pin toggle -->
+            <div class="flex items-center gap-3 cursor-pointer group">
+              <div class="w-8 h-4.5 bg-gray-300 rounded-full relative transition-colors" id="pinToggle" onclick="this.classList.toggle('bg-amber-500'); this.querySelector('.thumb').classList.toggle('translate-x-3.5')">
+                <div class="thumb w-3.5 h-3.5 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform shadow-sm"></div>
+              </div>
+              <div>
+                <div class="text-[12px] font-bold text-gray-900">📌 Pin this announcement</div>
+                <div class="text-[10.5px] text-gray-500">Appears at the top of all feeds</div>
+              </div>
+            </div>
+            <!-- Notify toggle -->
+            <div class="flex items-center gap-3 cursor-pointer group">
+              <div class="w-8 h-4.5 bg-amber-500 rounded-full relative transition-colors" id="notifToggle" onclick="this.classList.toggle('bg-amber-500'); this.classList.toggle('bg-gray-300'); this.querySelector('.thumb').classList.toggle('translate-x-3.5')">
+                <div class="thumb w-3.5 h-3.5 translate-x-3.5 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform shadow-sm"></div>
+              </div>
+              <div>
+                <div class="text-[12px] font-bold text-gray-900">🔔 Push notification</div>
+                <div class="text-[10.5px] text-gray-500">Alert users on their portal</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-2">
+        <button class="px-4 py-2 text-[13px] font-bold text-gray-500 hover:text-gray-700" onclick="document.getElementById('createModal').style.display='none'">Cancel</button>
+        <button class="px-4 py-2 text-[13px] font-bold text-amber-600 border border-amber-200 rounded-lg hover:bg-amber-50 transition-colors">Save as Draft</button>
+        <button class="px-4 py-2 flex items-center gap-2 text-[13px] font-bold text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Schedule
+        </button>
+        <button class="px-5 py-2 flex items-center gap-2 bg-amber-500 text-white rounded-lg text-[13px] font-bold hover:bg-amber-600 shadow-sm transition-colors">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V6M5 12l7-7 7 7"/></svg>
+          Publish Now
+        </button>
+      </div>
+    </div>
+</div>

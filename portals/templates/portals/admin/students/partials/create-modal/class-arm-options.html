@@ -1,0 +1,5 @@
+<!-- templates/portals/admin/students/partials/class_arm_options.html -->
+<option value="">Select arm...</option>
+{% for arm in class_arms %}
+<option value="{{ arm.id }}">Arm {{ arm.name }}</option>
+{% endfor %}

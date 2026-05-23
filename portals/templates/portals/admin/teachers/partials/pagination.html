@@ -1,0 +1,49 @@
+<div
+			id="pagination"
+			class="flex flex-wrap items-center justify-between p-4 bg-[var(--color-background)]/30 border-t border-[var(--color-border-light)] gap-4">
+			<div class="text-[11.5px] text-[var(--color-muted)]">
+				Showing <span class="font-bold text-[var(--color-main)]">{{teachers.start_index}}–{{teachers.end_index}}</span> of
+				{{total_teachers}} teachers
+			</div>
+			<div class="flex items-center gap-1">
+				{%if teachers.has_previous %}
+
+				<a
+					hx-get="?page={{teachers.previous_page_number}}"
+                    hx-target="#teachers-list-container"
+                    hx-include="#teachers-search, #class_filter"
+                    hx-push-url="true"
+					class="px-3 py-1.5 rounded-[var(--radius-md)] border border-[var(--color-border-light)] text-[11.5px] font-bold text-[var(--color-muted)] hover:bg-[var(--color-surface)]">
+					Prev
+				</a>
+				<a
+					hx-get="?page={{teachers.number}}"
+                    hx-target="#teachers-list-container"
+                    hx-push-url="true"
+                    hx-include="#teachers-search, #class_filter"
+					class="px-3 py-1.5 rounded-[var(--radius-md)] bg-[var(--color-surface-dark)] text-white text-[11.5px] font-bold">
+					{{teachers.number}}
+				</a>
+        {%endif%}
+
+        {%if teachers.has_next%}
+				<a
+					hx-get="?page={{teachers.next_page_number}}"
+                    hx-target="#teachers-list-container"
+                    hx-push-url="true"
+                    hx-include="#teachers-search, #class_filter"
+					class="px-3 py-1.5 rounded-[var(--radius-md)] border border-[var(--color-border-light)] text-[11.5px] font-bold text-[var(--color-muted)] hover:bg-[var(--color-surface)]">
+					{{teachers.next_page_number}}
+				</a>
+
+				<a
+                    hx-get="?page={{teachers.next_page_number}}"
+                    hx-target="#teachers-list-container"
+                    hx-push-url="true"
+                    hx-include="#teachers-search, #class_filter"
+					class="px-3 py-1.5 rounded-[var(--radius-md)] border border-[var(--color-border-light)] text-[11.5px] font-bold text-[var(--color-muted)] hover:bg-[var(--color-surface)]">
+					Next
+				</a>
+        {%endif%}
+			</div>
+		</div>

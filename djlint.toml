@@ -1,0 +1,4 @@
+[tool.djlint]
+profile="django"
+indent=4
+blank_line_after_tag="load,extends"

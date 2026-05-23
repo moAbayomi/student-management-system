@@ -1,0 +1,32 @@
+<div
+	class="bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] overflow-hidden shadow-sm">
+	<div class="overflow-x-auto">
+		<table class="w-full text-left border-collapse">
+			<thead
+				class="bg-[var(--color-background)]/50 border-b border-[var(--color-border-light)]">
+				<tr
+					class="text-[10px] font-bold text-[var(--color-muted)] uppercase tracking-widest">
+					<th class="p-4 w-10 text-center">
+						<input
+							type="checkbox"
+							class="w-3.5 h-3.5 accent-[var(--color-surface-dark)]" />
+					</th>
+					<th class="p-4 min-w-[190px]">Teacher</th>
+					<th class="p-4">Department</th>
+					<th class="p-4">Designation</th>
+					<th class="p-4">Workload</th>
+					<th class="p-4">Status</th>
+					<th class="p-4 text-center">Actions</th>
+				</tr>
+			</thead>
+			<tbody id="teachers-table-body" class="divide-y divide-[var(--color-border-light)]/50">
+				<!-- Sample Row: Active HOD -->
+				{%for teacher in teachers%}
+				{%include 'portals/admin/teachers/partials/teacher_table_row.html' %}
+				{%endfor%}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{%include 'portals/admin/teachers/partials/pagination.html'%}

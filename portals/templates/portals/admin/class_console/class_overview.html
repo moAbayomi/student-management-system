@@ -1,0 +1,266 @@
+<!-- ── TOPBAR ── -->
+<div class="flex items-center justify-between p-lg bg-[var(--color-surface)] border-b border-[var(--color-border-light)] gap-md">
+  <div class="flex-1">
+    <div class="text-[20px] font-bold text-[var(--color-main)] leading-tight">Classes & Timetable</div>
+    <div class="text-[11.5px] text-[var(--color-muted)] mt-1">
+      36 classes · 6 levels · Term 2 Week 9 · Viewing: <strong class="text-[var(--color-main)]">SS 2A</strong>
+    </div>
+  </div>
+  <div class="flex items-center gap-2 flex-wrap">
+    <button class="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--color-border)] rounded-[var(--radius-md)] bg-[var(--color-surface)] text-[11px] font-bold text-[var(--color-muted)] hover:bg-[var(--color-background)] transition-colors">
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Upload CSV
+    </button>
+    <button class="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--color-border)] rounded-[var(--radius-md)] bg-[var(--color-surface)] text-[11px] font-bold text-[var(--color-muted)] hover:bg-[var(--color-background)] transition-colors">
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Export
+    </button>
+    <button class="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 text-amber-700 border border-amber-500/20 rounded-[var(--radius-md)] text-[11px] font-bold hover:bg-amber-500 hover:text-white transition-all">
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Bulk Generator
+    </button>
+    <button class="flex items-center gap-1.5 px-4 py-1.5 bg-[var(--color-surface-dark)] text-white rounded-[var(--radius-md)] text-[11px] font-bold hover:opacity-90 transition-opacity">
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add Class
+    </button>
+  </div>
+</div>
+
+<div class="p-lg flex flex-col gap-lg">
+
+  <!-- ── LEVEL & ARM ACCORDION ── -->
+  <section>
+    <div class="flex items-center justify-between mb-3">
+      <div>
+        <span class="text-[13px] font-bold text-[var(--color-main)]">Levels & Arms</span>
+        <span class="text-[11.5px] text-[var(--color-muted)] ml-2">Click an arm to load its timetable</span>
+      </div>
+      <div class="flex gap-4">
+        <span class="text-[11px] text-[var(--color-muted)] flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 bg-green-100 border border-green-600 rounded-sm"></span> Form teacher set
+        </span>
+        <span class="text-[11px] text-[var(--color-muted)] flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 bg-red-100 border border-red-600 rounded-sm"></span> No form teacher
+        </span>
+      </div>
+    </div>
+
+    <!-- Levels List -->
+    <div class="flex flex-col gap-2" x-data="{ openLevel: 'SS2' }">
+      <!-- JSS 1 (Collapsed Example) -->
+      <div class="border border-[var(--color-border-light)] rounded-[var(--radius-lg)] bg-[var(--color-surface)] overflow-hidden">
+        <div @click="openLevel = (openLevel === 'JSS1' ? '' : 'JSS1')" class="p-3 flex items-center gap-3 cursor-pointer hover:bg-[var(--color-background)]/50 transition-colors">
+          <svg class="w-4 h-4 text-[var(--color-dim)] transition-transform" :class="openLevel === 'JSS1' ? 'rotate-90' : ''" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          <div class="flex-1 flex items-center gap-2">
+            <span class="text-[13px] font-bold text-[var(--color-main)]">JSS 1</span>
+            <span class="px-2 py-0.5 rounded-full bg-[var(--color-background)] text-[var(--color-muted)] text-[9.5px] font-bold uppercase tracking-tight">Junior Secondary 1</span>
+          </div>
+          <div class="text-[11px] text-[var(--color-muted)] font-medium">3 arms · <span class="text-green-600 font-bold">3/3 form teachers</span></div>
+        </div>
+      </div>
+
+      <!-- SS 2 (Open & Active Example) -->
+      <div class="border border-amber-500/30 rounded-[var(--radius-lg)] bg-[var(--color-surface)] shadow-[0_0_0_1px_rgba(240,165,0,0.1)] overflow-hidden">
+        <div @click="openLevel = (openLevel === 'SS2' ? '' : 'SS2')" class="p-3 flex items-center gap-3 cursor-pointer bg-[var(--color-background)]/30 border-b border-[var(--color-border-light)]">
+          <svg class="w-4 h-4 text-amber-600 rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          <div class="flex-1 flex items-center gap-2">
+            <span class="text-[13px] font-bold text-[var(--color-main)]">SS 2</span>
+            <span class="px-2 py-0.5 rounded-full bg-[var(--color-background)] text-[var(--color-muted)] text-[9.5px] font-bold uppercase tracking-tight">Senior Secondary 2</span>
+            <span class="px-1.5 py-0.5 rounded-sm bg-amber-100 text-amber-700 text-[9px] font-bold uppercase tracking-wider">Active View</span>
+          </div>
+          <div class="text-[11px] text-[var(--color-muted)] font-medium">3 arms · <span class="text-amber-600 font-bold">2/3 form teachers</span></div>
+        </div>
+
+        <div class="p-3 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <!-- Active Arm -->
+          <div class="p-3 border-2 border-amber-500/50 rounded-[var(--radius-lg)] bg-white shadow-sm relative">
+            <div class="flex justify-between items-start mb-1">
+              <span class="text-[13px] font-bold text-[var(--color-main)]">SS 2A</span>
+              <span class="text-[9px] font-bold px-1.5 py-0.5 bg-green-50 text-green-700 rounded-full">40 students</span>
+            </div>
+            <div class="text-[10.5px] font-bold text-amber-700 mb-1">Mr. Femi (Form) · Rm 14</div>
+            <div class="text-[10px] text-[var(--color-muted)] mb-3 font-medium">9 subjects · 36 periods/wk</div>
+            <div class="flex gap-1.5">
+              <button class="flex-1 py-1 text-[9px] font-bold uppercase bg-amber-100 text-amber-700 border border-amber-200 rounded">Viewing ✓</button>
+              <button class="px-2 py-1 text-[9px] font-bold uppercase text-red-600 hover:bg-red-50 rounded">Delete</button>
+            </div>
+          </div>
+
+          <!-- Normal Arm -->
+          <div class="p-3 border border-[var(--color-border-light)] rounded-[var(--radius-lg)] bg-[var(--color-surface)] hover:border-[var(--color-primary)] transition-colors">
+            <div class="flex justify-between items-start mb-1">
+              <span class="text-[13px] font-bold text-[var(--color-main)]">SS 2B</span>
+              <span class="text-[9px] font-bold px-1.5 py-0.5 bg-green-50 text-green-700 rounded-full">38 students</span>
+            </div>
+            <div class="text-[10.5px] font-bold text-[var(--color-muted)] mb-1">Mrs. Titi · Room 15</div>
+            <div class="text-[10px] text-[var(--color-muted)] mb-3 font-medium">9 subjects · 36 periods/wk</div>
+            <div class="flex gap-1.5">
+              <button class="flex-1 py-1 text-[9px] font-bold uppercase border border-[var(--color-border)] text-[var(--color-muted)] rounded hover:bg-[var(--color-background)]">Edit</button>
+              <button class="px-2 py-1 text-[9px] font-bold uppercase text-red-600 hover:bg-red-50 rounded">Delete</button>
+            </div>
+          </div>
+
+          <!-- Add Arm Button -->
+          <button class="border-2 border-dashed border-[var(--color-border-light)] rounded-[var(--radius-lg)] flex flex-col items-center justify-center gap-1 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 transition-all text-[var(--color-dim)] hover:text-[var(--color-primary)]">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span class="text-[10px] font-bold uppercase tracking-wider">Add Arm</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TIMETABLE WORKSPACE ── -->
+  <div class="bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] shadow-sm overflow-hidden">
+    <!-- Workspace Header -->
+    <div class="px-4 py-3 border-b border-[var(--color-border-light)] flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-2.5">
+        <div class="w-2 h-2 bg-amber-500 rounded-full shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
+        <span class="text-[13px] font-bold text-[var(--color-main)]">Timetable — SS 2A</span>
+        <span class="text-[11.5px] text-[var(--color-muted)]">Term 2, 2025/26 · <span class="text-red-600 font-bold">2 conflicts detected</span></span>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <div class="flex gap-3">
+          <span class="text-[10.5px] text-[var(--color-muted)] flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-blue-50 border-l-4 border-blue-500"></span>Assigned</span>
+          <span class="text-[10.5px] text-[var(--color-muted)] flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-50 border-l-4 border-red-500"></span>Conflict</span>
+          <span class="text-[10.5px] text-[var(--color-muted)] flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-[var(--color-background)] border-2 border-dashed border-gray-300"></span>Empty</span>
+        </div>
+        <div class="h-4 w-px bg-[var(--color-border-light)]"></div>
+        <select class="bg-[var(--color-background)] border border-[var(--color-border-light)] rounded px-2 py-1 text-[11px] font-bold outline-none">
+          <option>Week view</option>
+          <option>Day view</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- The Grid -->
+    <div class="p-4 overflow-x-auto bg-[var(--color-background)]/20">
+      <div class="grid grid-cols-[80px_repeat(5,1fr)] gap-px bg-[var(--color-border-light)] border border-[var(--color-border-light)] min-w-[900px] rounded-[var(--radius-md)] overflow-hidden">
+        <!-- Header Row -->
+        <div class="bg-[#1a1f2e] p-2.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center">Period</div>
+        <div class="bg-[var(--color-surface)] p-2.5 text-[10px] font-bold text-[var(--color-muted)] text-center uppercase tracking-widest">Monday</div>
+        <div class="bg-[var(--color-surface)] p-2.5 text-[10px] font-bold text-[var(--color-muted)] text-center uppercase tracking-widest">Tuesday</div>
+        <div class="bg-[var(--color-surface)] p-2.5 text-[10px] font-bold text-[var(--color-muted)] text-center uppercase tracking-widest">Wednesday</div>
+        <div class="bg-amber-500/10 p-2.5 text-[10px] font-black text-amber-700 text-center uppercase tracking-widest border-b-2 border-amber-500">Thursday <span class="ml-1 opacity-60">← Today</span></div>
+        <div class="bg-[var(--color-surface)] p-2.5 text-[10px] font-bold text-[var(--color-muted)] text-center uppercase tracking-widest">Friday</div>
+
+        <!-- Period 1 -->
+        <div class="bg-[var(--color-surface)] p-2 flex flex-col items-center justify-center border-r border-[var(--color-border-light)]">
+          <span class="text-[11px] font-bold text-[var(--color-main)]">P1</span>
+          <span class="text-[9px] text-[var(--color-dim)]">07:30 - 08:30</span>
+        </div>
+        <!-- Monday P1 -->
+        <div class="bg-[var(--color-surface)] p-1.5">
+          <div class="p-2 h-full bg-blue-50 border-l-4 border-blue-600 rounded-sm">
+            <div class="text-[11.5px] font-bold text-blue-900 leading-tight">Mathematics</div>
+            <div class="text-[10px] text-blue-600 font-bold mt-0.5">Mr. Femi</div>
+          </div>
+        </div>
+        <!-- Tuesday P1 -->
+        <div class="bg-[var(--color-surface)] p-1.5">
+          <div class="p-2 h-full bg-teal-50 border-l-4 border-teal-600 rounded-sm">
+            <div class="text-[11.5px] font-bold text-teal-900 leading-tight">Economics</div>
+            <div class="text-[10px] text-teal-600 font-bold mt-0.5">Mr. Mustapha</div>
+          </div>
+        </div>
+        <!-- Wednesday P1 -->
+        <div class="bg-[var(--color-surface)] p-1.5">
+          <div class="p-2 h-full bg-green-50 border-l-4 border-green-600 rounded-sm">
+            <div class="text-[11.5px] font-bold text-green-900 leading-tight">Biology</div>
+            <div class="text-[10px] text-green-600 font-bold mt-0.5">Mr. Kunle</div>
+          </div>
+        </div>
+        <!-- Thursday P1 (Today) -->
+        <div class="bg-amber-50/20 p-1.5">
+          <div class="p-2 h-full bg-blue-50 border-l-4 border-blue-600 rounded-sm">
+            <div class="text-[11.5px] font-bold text-blue-900 leading-tight">Mathematics</div>
+            <div class="text-[10px] text-blue-600 font-bold mt-0.5">Mr. Femi</div>
+          </div>
+        </div>
+        <!-- Friday P1 -->
+        <div class="bg-[var(--color-surface)] p-1.5">
+          <div class="p-2 h-full bg-purple-50 border-l-4 border-purple-600 rounded-sm">
+            <div class="text-[11.5px] font-bold text-purple-900 leading-tight">English</div>
+            <div class="text-[10px] text-purple-600 font-bold mt-0.5">Mrs. Adaeze</div>
+          </div>
+        </div>
+
+        <!-- Break Row -->
+        <div class="bg-gray-50 p-2 flex items-center justify-center text-[9px] text-gray-400 font-bold uppercase tracking-tighter">9:30-10:00</div>
+        <div class="col-span-5 bg-gray-50/50 p-2 text-center flex items-center justify-center">
+          <span class="text-[10.5px] font-bold text-gray-400 uppercase tracking-[0.2em]">Morning Break</span>
+        </div>
+
+        <!-- Period 2 (Conflict Example) -->
+        <div class="bg-[var(--color-surface)] p-2 flex flex-col items-center justify-center border-r border-[var(--color-border-light)]">
+          <span class="text-[11px] font-bold text-[var(--color-main)]">P2</span>
+          <span class="text-[9px] text-[var(--color-dim)]">10:00 - 11:00</span>
+        </div>
+        <div class="bg-[var(--color-surface)] p-1.5">
+          <div class="p-2 h-full bg-purple-50 border-l-4 border-purple-600 rounded-sm">
+            <div class="text-[11.5px] font-bold text-purple-900 leading-tight">English</div>
+            <div class="text-[10px] text-purple-600 font-bold mt-0.5">Mrs. Adaeze</div>
+          </div>
+        </div>
+        <div class="bg-red-50 p-1.5">
+          <div class="p-2 h-full bg-red-100 border-l-4 border-red-600 rounded-sm relative">
+            <div class="absolute -top-1.5 -right-1 px-1 bg-red-600 text-white text-[7px] font-black rounded uppercase">Conflict</div>
+            <div class="text-[11.5px] font-bold text-red-900 leading-tight">Chemistry</div>
+            <div class="text-[10px] text-red-700 font-black mt-0.5">Mrs. Titi ⚠</div>
+            <div class="text-[9px] text-red-800 mt-1 leading-tight font-medium underline">Also in SS3B P2</div>
+          </div>
+        </div>
+        <div class="bg-[var(--color-surface)] p-1.5">
+          <div class="p-2 h-full bg-amber-50 border-l-4 border-amber-600 rounded-sm">
+            <div class="text-[11.5px] font-bold text-amber-900 leading-tight">Further Maths</div>
+            <div class="text-[10px] text-amber-600 font-bold mt-0.5">Mr. Femi</div>
+          </div>
+        </div>
+        <div class="bg-amber-50/20 p-1.5">
+          <div class="p-2 h-full bg-teal-50 border-l-4 border-teal-600 rounded-sm">
+            <div class="text-[11.5px] font-bold text-teal-900 leading-tight">Economics</div>
+            <div class="text-[10px] text-teal-600 font-bold mt-0.5">Mr. Mustapha</div>
+          </div>
+        </div>
+        <div class="bg-[var(--color-surface)] p-1.5">
+          <button class="w-full h-full border-2 border-dashed border-gray-200 rounded flex items-center justify-center text-[18px] text-gray-300 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 transition-all">
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conflict Warning Banner -->
+    <div class="mx-4 mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div class="flex-1">
+        <span class="text-[12px] text-red-800 font-bold">2 scheduling conflicts found.</span>
+        <p class="text-[11px] text-red-700 font-medium">Mrs. Titi Ibrahim is double-booked on Tue P2 and Wed P4. Reassign to fix.</p>
+      </div>
+      <button class="px-4 py-1.5 bg-red-600 text-white text-[11px] font-bold rounded-[var(--radius-md)] shadow-sm hover:bg-red-700 transition-colors">Fix Conflicts</button>
+    </div>
+  </div>
+
+  <!-- ── BULK GENERATOR FOOTER ── -->
+  <div class="bg-[#0D1117] rounded-[var(--radius-lg)] p-lg flex items-center gap-lg flex-wrap">
+    <div class="flex-1 min-w-[280px]">
+      <div class="text-[14px] font-bold text-white mb-1 tracking-tight">Bulk Timetable Generator</div>
+      <p class="text-[11.5px] text-gray-400">Auto-assign subjects and teachers across an entire level based on curriculum constraints. You can manually adjust any slot afterwards.</p>
+    </div>
+    <div class="flex items-center gap-3 flex-wrap">
+      <select class="bg-[#1a1f2e] text-white border border-[#374151] rounded-[var(--radius-md)] px-3 py-2 text-[12px] font-bold outline-none focus:border-amber-500">
+        <option>Generate for: SS 2</option>
+        <option>Generate for: All Levels</option>
+      </select>
+      <label class="flex items-center gap-2 text-[12px] text-gray-400 cursor-pointer select-none">
+        <input type="checkbox" class="w-3.5 h-3.5 accent-amber-500">
+        Respect existing slots
+      </label>
+      <button class="px-4 py-2 bg-amber-500 text-white text-[12px] font-bold rounded-[var(--radius-md)] hover:bg-amber-600 transition-colors">Generate Timetable →</button>
+    </div>
+  </div>
+
+</div>

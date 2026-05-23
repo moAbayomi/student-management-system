@@ -1,0 +1,79 @@
+<!-- ── TEACHER DIRECTORY MAIN CONTAINER ── -->
+<div class="p-lg space-y-lg bg-[var(--color-background)] min-h-screen font-sans">
+
+  <!-- ── UTILITY HEADER ── -->
+  <div class="flex flex-wrap items-center justify-between gap-md">
+    <div class="flex-1 min-w-[200px]">
+      <h1 class="text-[20px] font-bold text-[var(--color-main)] leading-none">Teacher Directory</h1>
+      <p class="text-[11.5px] text-[var(--color-muted)] mt-1">{{total_teachers}} staff · 6 departments · Updated today 8:00 AM</p>
+    </div>
+    
+    <div class="flex items-center gap-xs flex-wrap">
+      <button class="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--color-border)] rounded-[var(--radius-md)] bg-[var(--color-surface)] text-[12px] font-semibold text-[var(--color-muted)] hover:bg-[var(--color-background)] transition-colors">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV
+      </button>
+      <button hx-get="{% url 'portal:create-teacher' %}" hx-target="#modal-container" class="flex items-center gap-1.5 px-4 py-1.5 bg-[var(--color-surface-dark)] text-white rounded-[var(--radius-md)] text-[12px] font-semibold hover:opacity-90 transition-opacity">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Teacher
+      </button>
+    </div>
+  </div>
+
+  <!-- ── ANALYTICS STRIP (Teacher Pulse) ── -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+    <!-- Staff Strength -->
+    <div class="p-md bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] shadow-sm">
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-[10px] font-bold text-[var(--color-muted)] uppercase tracking-widest">Staff Strength</span>
+        <span class="px-1.5 py-0.5 rounded-full bg-[var(--color-success-light)] text-[var(--color-success)] text-[9.5px] font-bold">Full Term</span>
+      </div>
+      <div class="text-[26px] font-bold leading-none text-[var(--color-main)]">{{total_teachers}}</div>
+      <div class="flex gap-2 mt-2">
+        <span class="text-[10.5px] text-[var(--color-muted)] flex items-center gap-1"><span class="w-1.5 h-1.5 bg-[var(--color-success)] rounded-full"></span> 49 Active</span>
+        <span class="text-[10.5px] text-[var(--color-muted)] flex items-center gap-1"><span class="w-1.5 h-1.5 bg-[var(--color-warning)] rounded-full"></span> 5 Leave</span>
+      </div>
+    </div>
+
+    <!-- Coverage -->
+    <div class="p-md bg-[var(--color-surface)] border border-[var(--color-danger)]/20 rounded-[var(--radius-lg)] shadow-sm">
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-[10px] font-bold text-[var(--color-danger)] uppercase tracking-widest">Class Coverage</span>
+        <span class="px-1.5 py-0.5 rounded-full bg-[var(--color-danger-light)] text-[var(--color-danger)] text-[9.5px] font-bold uppercase">Critical</span>
+      </div>
+      <div class="text-[26px] font-bold leading-none text-[var(--color-danger)]">12</div>
+      <div class="text-[10.5px] text-[var(--color-muted)] mt-1">unassigned form classes</div>
+    </div>
+
+    <!-- Workload -->
+    <div class="p-md bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] shadow-sm">
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-[10px] font-bold text-[var(--color-muted)] uppercase tracking-widest">Avg Workload</span>
+        <span class="px-1.5 py-0.5 rounded-full bg-[var(--color-info-light)] text-[var(--color-info)] text-[9.5px] font-bold">73% Cap</span>
+      </div>
+      <div class="text-[26px] font-bold leading-none text-[var(--color-main)]">22<span class="text-[14px] text-[var(--color-muted)] font-medium">/30h</span></div>
+      <div class="w-full bg-[var(--color-background)] h-1.5 rounded-full mt-2 overflow-hidden">
+        <div class="bg-[var(--color-primary)] h-full w-[73%]"></div>
+      </div>
+    </div>
+
+    <!-- Compliance -->
+    <div class="p-md bg-[var(--color-surface)] border border-[var(--color-border-light)] rounded-[var(--radius-lg)] shadow-sm">
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-[10px] font-bold text-[var(--color-muted)] uppercase tracking-widest">Attendance</span>
+        <span class="px-1.5 py-0.5 rounded-full bg-[var(--color-success-light)] text-[var(--color-success)] text-[9.5px] font-bold">98% Today</span>
+      </div>
+      <div class="text-[26px] font-bold leading-none text-[var(--color-main)]">53/54</div>
+      <div class="text-[10.5px] text-[var(--color-muted)] mt-1">Clocked-in by 8:15 AM</div>
+    </div>
+  </div>
+
+  <!-- ── FILTER BAR ── -->
+ {%include 'portals/admin/teachers/partials/filter_bar.html'%}
+
+  <!-- ── TEACHER TABLE ── -->
+   <div id="teachers-list-container">
+
+     {%include 'portals/admin/teachers/partials/teachers_table.html'%}
+   </div>
+</div>

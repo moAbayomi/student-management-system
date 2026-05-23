@@ -1,0 +1,297 @@
+<div class="bg-[var(--bg)] min-h-screen text-[var(--tx)] p-lg space-y-lg">
+  <!-- TOPBAR -->
+  <div class="flex items-center justify-between gap-4 flex-wrap">
+    <div class="flex-1">
+      <div class="text-[20px] leading-[1.1] font-bold">Attendance Overview</div>
+      <div class="text-[11.5px] text-[var(--muted)] mt-[1px]">
+        Thursday 7 May 2026 · <strong class="text-[#DC2626]">4 classes yet to submit</strong> · Last refreshed 10:32 AM
+      </div>
+    </div>
+    <div class="flex items-center gap-2 flex-wrap">
+      <select class="h-8 pl-3 pr-8 text-[11.5px] font-bold border border-[var(--border)] rounded-md bg-white appearance-none cursor-pointer">
+        <option>Today — 7 May</option>
+        <option>6 May</option>
+        <option>5 May</option>
+      </select>
+      <button class="flex items-center gap-1.5 h-8 px-3 bg-white border border-[var(--border)] rounded-md text-[11.5px] font-bold text-[var(--tx)] hover:bg-[var(--bg)] transition-colors">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Report
+      </button>
+      <button class="flex items-center gap-1.5 h-8 px-3 bg-[var(--accent)] border-none rounded-md text-[11.5px] font-bold text-[#0D1117] hover:opacity-90 transition-opacity">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.71 3.35 2 2 0 0 1 3.7 1.16h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Nudge All Pending
+      </button>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="flex border-b border-[var(--border)] gap-2 overflow-x-auto">
+    <div class="px-3 py-3 text-[12px] font-bold border-b-2 border-[var(--accent)] text-[var(--tx)] whitespace-nowrap cursor-pointer">School Overview</div>
+    <div class="px-3 py-3 text-[12px] font-bold border-b-2 border-transparent text-[var(--muted)] hover:text-[var(--tx)] whitespace-nowrap cursor-pointer">By Class Arm</div>
+    <div class="px-3 py-3 text-[12px] font-bold border-b-2 border-transparent text-[var(--muted)] hover:text-[var(--tx)] whitespace-nowrap cursor-pointer">Chronic Absentees</div>
+    <div class="px-3 py-3 text-[12px] font-bold border-b-2 border-transparent text-[var(--muted)] hover:text-[var(--tx)] whitespace-nowrap cursor-pointer">Event Override</div>
+  </div>
+
+  <!-- MAIN WRAPPER -->
+  <div class="space-y-lg">
+    <!-- ══ PULSE HEADER ══ -->
+    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3">
+      <!-- Presence Rate -->
+      <div class="bg-white border border-[var(--border)] rounded-xl p-5 flex items-center gap-5">
+        <div>
+          <div class="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest mb-1.5">Today's Presence Rate</div>
+          <div class="text-[52px] font-bold leading-none text-[#15803D] font-serif">87.4%</div>
+          <div class="text-[11.5px] text-[var(--muted)] mt-1.5">735 of 842 students present</div>
+          <div class="mt-2.5 w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-[#10B981] to-[#34D399]" style="width: 87.4%"></div>
+          </div>
+        </div>
+        <div class="ml-auto text-right shrink-0">
+          <div class="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest mb-1.5">vs Yesterday</div>
+          <div class="text-[18px] font-bold text-[#D97706]">↓ 2.1%</div>
+          <div class="text-[10.5px] text-[var(--muted)] mt-0.5 whitespace-nowrap">Thu tends to dip</div>
+          <div class="mt-2.5 flex justify-end">
+            <span class="px-1.5 py-0.5 rounded-full bg-green-50 text-green-700 text-[9.5px] font-bold">● Present 735</span>
+          </div>
+          <div class="mt-1.5 flex justify-end">
+            <span class="px-1.5 py-0.5 rounded-full bg-red-50 text-red-700 text-[9.5px] font-bold">● Absent 107</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- No-show count -->
+      <div class="bg-white border border-[var(--border)] rounded-xl p-4 border-t-[3px] border-t-[#EF4444]">
+        <div class="text-[10px] font-bold text-[#B91C1C] uppercase tracking-widest mb-2">Total No-Shows</div>
+        <div class="text-[36px] font-bold leading-none text-[#DC2626]">107</div>
+        <div class="text-[10.5px] text-[var(--muted)] mt-1.5">Unexcused: <strong class="text-[#DC2626]">89</strong></div>
+        <div class="text-[10.5px] text-[var(--muted)]">Excused: <strong class="text-[#D97706]">18</strong></div>
+        <div class="w-full bg-gray-100 h-1.5 rounded-full mt-2">
+          <div class="h-full bg-[#EF4444]" style="width: 83%"></div>
+        </div>
+        <div class="text-[10px] text-[var(--muted)] mt-1">83% unexcused</div>
+      </div>
+
+      <!-- Submission compliance -->
+      <div class="bg-white border border-[var(--border)] rounded-xl p-4 border-t-[3px] border-t-[#F59E0B]">
+        <div class="text-[10px] font-bold text-[#B45309] uppercase tracking-widest mb-2">Submission Compliance</div>
+        <div class="text-[36px] font-bold leading-none text-[var(--tx)]">18<span class="text-[20px] font-normal text-[var(--muted)]">/22</span></div>
+        <div class="text-[10.5px] text-[var(--muted)] mt-1.5">Classes submitted</div>
+        <div class="w-full bg-gray-100 h-1.5 rounded-full mt-2">
+          <div class="h-full bg-[#F59E0B]" style="width: 82%"></div>
+        </div>
+        <div class="text-[10px] text-[#DC2626] mt-1 font-semibold">4 teachers haven't submitted</div>
+      </div>
+
+      <!-- Quick action -->
+      <div class="bg-white border border-[var(--border)] rounded-xl p-4 border-t-[3px] border-t-[#7C3AED] flex flex-col gap-2">
+        <div class="text-[10px] font-bold text-[#6D28D9] uppercase tracking-widest">Quick Actions</div>
+        <button class="w-full justify-center flex items-center gap-1.5 h-8 bg-[var(--accent)] border-none rounded-md text-[11.5px] font-bold text-[#0D1117]">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.71 3.35 2 2 0 0 1 3.7 1.16h3"/></svg>
+          Nudge 4 Pending
+        </button>
+        <button class="w-full justify-center flex items-center gap-1.5 h-8 bg-white border border-[var(--border)] rounded-md text-[11.5px] font-bold text-[var(--tx)]">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Event Override
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ GRAPHS ROW ══ -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-3.5">
+      <!-- Trend chart -->
+      <div class="bg-white border border-[var(--border)] rounded-xl p-5">
+        <div class="flex items-center justify-between mb-3.5">
+          <div>
+            <div class="text-[13px] font-bold">Attendance Trend</div>
+            <div class="text-[11px] text-[var(--muted)]">School-wide daily presence rate</div>
+          </div>
+          <div class="flex gap-1">
+            <button class="px-2.5 py-1 rounded-md border border-[var(--accent)] bg-[var(--accent)] text-[#0D1117] text-[10.5px] font-bold">7D</button>
+            <button class="px-2.5 py-1 rounded-md border border-[var(--border)] bg-transparent text-[var(--muted)] text-[10.5px] font-semibold hover:border-[var(--tx)] transition-colors">30D</button>
+          </div>
+        </div>
+        <svg viewBox="0 0 520 130" class="w-full h-[130px] overflow-visible">
+          <line x1="0" y1="20"  x2="520" y2="20"  stroke="#F3F4F6" stroke-width="1"/>
+          <line x1="0" y1="50"  x2="520" y2="50"  stroke="#F3F4F6" stroke-width="1"/>
+          <line x1="0" y1="80"  x2="520" y2="80"  stroke="#F3F4F6" stroke-width="1"/>
+          <line x1="0" y1="110" x2="520" y2="110" stroke="#F3F4F6" stroke-width="1"/>
+          <text x="0" y="18"  font-size="9" fill="#9CA3AF">95%</text>
+          <text x="0" y="48"  font-size="9" fill="#9CA3AF">90%</text>
+          <text x="0" y="78"  font-size="9" fill="#9CA3AF">85%</text>
+          <text x="0" y="108" font-size="9" fill="#9CA3AF">80%</text>
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#10B981" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#10B981" stop-opacity="0.01"/>
+            </linearGradient>
+          </defs>
+          <polygon points="40,51 120,38 200,55 280,74 360,92 440,65 520,42" fill="url(#areaGrad)"/>
+          <polyline points="40,51 120,38 200,55 280,74 360,92 440,65 520,42" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="40"  cy="51" r="3.5" fill="#10B981"/>
+          <circle cx="120" cy="38" r="3.5" fill="#10B981"/>
+          <circle cx="200" cy="55" r="3.5" fill="#10B981"/>
+          <circle cx="280" cy="74" r="5" fill="#fff" stroke="#EF4444" stroke-width="2"/>
+          <text x="258" y="90" font-size="9" fill="#EF4444" font-weight="700">TODAY</text>
+          <line x1="360" y1="92" x2="360" y2="112" stroke="#F59E0B" stroke-width="1" stroke-dasharray="3"/>
+          <text x="330" y="124" font-size="9" fill="#D97706" font-weight="600">Fri dip ↓</text>
+        </svg>
+        <div class="mt-2 text-[10.5px] text-[var(--muted)] flex items-center gap-1.5">
+          <span class="w-4 h-0.5 bg-[#10B981] rounded"></span> Attendance rate
+          <span class="w-4 h-0.5 bg-[#F59E0B] rounded ml-2"></span> Pattern dip (Fri)
+        </div>
+      </div>
+
+      <!-- Dept Breakdown -->
+      <div class="bg-white border border-[var(--border)] rounded-xl p-5">
+        <div class="mb-3.5">
+          <div class="text-[13px] font-bold">Department Breakdown</div>
+          <div class="text-[11px] text-[var(--muted)]">Avg attendance rate by dept — today</div>
+        </div>
+        <div class="flex flex-col gap-2.5">
+          <div class="space-y-1">
+            <div class="flex justify-between items-center text-[11.5px]">
+              <span class="font-semibold">Sciences</span>
+              <span class="font-bold text-[#15803D]">91%</span>
+            </div>
+            <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+              <div class="h-full bg-[#10B981]" style="width: 91%"></div>
+            </div>
+          </div>
+          <!-- Arts Alert -->
+          <div class="bg-[#FFF9F9] border border-[#FECACA] rounded-lg p-2.5 space-y-1">
+            <div class="flex justify-between items-center text-[11.5px]">
+              <span class="font-bold text-[#B91C1C]">Arts ⚠ Chronic</span>
+              <span class="font-bold text-[#DC2626]">76%</span>
+            </div>
+            <div class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden">
+              <div class="h-full bg-[#EF4444]" style="width: 76%"></div>
+            </div>
+            <div class="text-[10px] text-[#DC2626] font-bold">3-week declining trend — review needed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TABLE ══ -->
+    <div class="bg-white border border-[var(--border)] rounded-xl overflow-hidden">
+      <div class="p-[14px_18px] border-b border-[var(--border)] flex items-center justify-between gap-2 flex-wrap">
+        <div>
+          <div class="text-[13px] font-bold">All Classes — Today's Breakdown</div>
+          <div class="text-[11px] text-[var(--muted)]">Click a class row to load the doing layer below</div>
+        </div>
+        <div class="flex gap-2">
+          <select class="h-7 px-2 text-[11.5px] border border-[var(--border)] rounded bg-white"><option>All Levels</option></select>
+          <select class="h-7 px-2 text-[11.5px] border border-[var(--border)] rounded bg-white"><option>All Statuses</option></select>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-[var(--bg)] border-b border-[var(--border)] text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
+            <tr>
+              <th class="p-[10px_18px]">Class</th>
+              <th class="p-2.5">Form Teacher</th>
+              <th class="p-2.5">Total</th>
+              <th class="p-2.5">Present</th>
+              <th class="p-2.5">Absent</th>
+              <th class="p-2.5">Rate</th>
+              <th class="p-2.5">Breakdown</th>
+              <th class="p-2.5">Submission</th>
+              <th class="p-2.5 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody class="text-[12px]">
+            <!-- JSS 2B Pending -->
+            <tr class="bg-[#FFFBEB] hover:bg-[#FFF5D1] cursor-pointer transition-colors border-b border-[var(--border)]">
+              <td class="p-[10px_18px] font-bold border-l-[3px] border-l-[var(--accent)]">JSS 2B</td>
+              <td class="p-2.5 text-[var(--muted)]">Mr. Kunle</td>
+              <td class="p-2.5">38</td>
+              <td class="p-2.5 text-[var(--muted)]">—</td>
+              <td class="p-2.5 text-[var(--muted)]">—</td>
+              <td class="p-2.5"><span class="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[9.5px] font-bold">Pending</span></td>
+              <td class="p-2.5"><div class="w-16 bg-gray-200 h-1 rounded-full"></div></td>
+              <td class="p-2.5"><span class="text-[9.5px] text-amber-700 font-bold">⏳ Not submitted</span></td>
+              <td class="p-2.5 text-center"><button class="px-2.5 py-1 bg-[var(--accent)] text-[#0D1117] font-bold rounded">Nudge</button></td>
+            </tr>
+            <!-- SS 2A Row -->
+            <tr class="bg-[#FFF9F9] border-b border-[var(--border)]">
+              <td class="p-[10px_18px] font-bold border-l-[3px] border-l-[#EF4444]">SS 2A</td>
+              <td class="p-2.5 text-[var(--muted)]">Mr. Femi</td>
+              <td class="p-2.5">40</td>
+              <td class="p-2.5 text-[#D97706] font-bold">27</td>
+              <td class="p-2.5 text-[#DC2626] font-bold">13</td>
+              <td class="p-2.5"><span class="px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 text-[9.5px] font-bold">67%</span></td>
+              <td class="p-2.5"><div class="w-16 bg-gray-200 h-1 rounded-full overflow-hidden"><div class="h-full bg-[#EF4444] w-[67%]"></div></div></td>
+              <td class="p-2.5"><span class="text-[9.5px] text-green-700 font-bold">● Submitted 7:55AM</span></td>
+              <td class="p-2.5 text-center"><button class="px-2.5 py-1 border border-[#FECACA] bg-[#FFF1F2] text-[#DC2626] font-bold rounded">Review</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ DOING LAYER ══ -->
+    <div class="bg-[#0D1117] rounded-xl p-[14px_18px_0]">
+      <div class="flex items-center gap-2 pb-3 border-b border-[#1f2937]">
+        <div class="w-2 h-2 bg-[var(--accent)] rounded-full"></div>
+        <span class="text-[13px] font-bold text-white">Doing Layer — SS 2A</span>
+        <span class="text-[11px] text-[#6B7280]">Narrowed view: 40 students · 27 present · 13 absent</span>
+        <button class="ml-auto px-2.5 py-1 border border-[#374151] rounded text-[10.5px] text-[#9CA3AF]">Change class ↕</button>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 py-4 pb-[18px]">
+        <!-- A. Nudge -->
+        <div class="bg-[#111827] rounded-lg p-3.5">
+          <div class="text-[11px] font-bold text-[var(--accent)] uppercase tracking-widest mb-2.5">A. Nudge Center</div>
+          <div class="space-y-2">
+            <div class="bg-[#1f2937] p-3 rounded-md">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-[12px] font-bold text-white">JSS 2B</span>
+                <span class="px-1.5 py-0.5 rounded bg-amber-900/30 text-amber-500 text-[9px] font-bold">Pending</span>
+              </div>
+              <div class="text-[11px] text-[#6B7280] mb-2">Mr. Kunle Bello</div>
+              <button class="w-full py-1.5 bg-[var(--accent)] text-[#0D1117] text-[11.5px] font-bold rounded flex items-center justify-center gap-1.5">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Send Nudge
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- B. Override -->
+        <div class="bg-[#111827] rounded-lg p-3.5">
+          <div class="text-[11px] font-bold text-[var(--accent)] uppercase tracking-widest mb-2.5">B. Bulk Event Override</div>
+          <div class="space-y-2 mb-3">
+             <label class="flex items-center gap-2 p-2.5 bg-[#1f2937] rounded-md border border-transparent hover:border-[var(--accent)] cursor-pointer transition-colors">
+               <input type="radio" name="evt" class="accent-[var(--accent)]">
+               <div>
+                 <div class="text-[12px] font-bold text-white leading-none">Interhouse Sports</div>
+                 <div class="text-[10.5px] text-[#6B7280] mt-1">Mark all as present</div>
+               </div>
+             </label>
+          </div>
+          <button class="w-full py-2 bg-[#10B981] text-white text-[12px] font-bold rounded flex items-center justify-center gap-1.5">
+            Apply Override
+          </button>
+        </div>
+
+        <!-- C. Parent Liaison -->
+        <div class="bg-[#111827] rounded-lg p-3.5">
+          <div class="text-[11px] font-bold text-[var(--accent)] uppercase tracking-widest mb-2.5">C. Parent Liaison — SS 2A Absences</div>
+          <div class="bg-[#1f2937] p-2.5 rounded-md">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-8 h-8 rounded-full bg-blue-900/30 text-blue-400 flex items-center justify-center text-[10px] font-bold">CJ</div>
+              <div class="flex-1">
+                <div class="text-[12px] font-bold text-white">Chukwuemeka Jide</div>
+                <div class="text-[10px] text-[#6B7280]">3rd absence this month</div>
+              </div>
+            </div>
+            <div class="flex gap-1.5">
+              <button class="flex-1 py-1.5 bg-blue-600 text-white text-[10px] font-bold rounded">Email</button>
+              <button class="flex-1 py-1.5 bg-teal-600 text-white text-[10px] font-bold rounded">SMS</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
