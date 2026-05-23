@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: school-portal
+    runtime: python
+    # Explicitly pass the production settings flag to migration commands
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput --settings=school_portal.settings.prod && python manage.py migrate --settings=school_portal.settings.prod"
+    startCommand: "gunicorn your_project_name.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: "school_portal.settings.prod"
+      
