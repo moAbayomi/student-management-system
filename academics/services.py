@@ -22,7 +22,7 @@ def update_result_total(result):
 
 def get_grade_and_remark(total_score):
 
-    if total_score is 'None':
+    if total_score is None:
          return '', ''
 
     if total_score > 100:
