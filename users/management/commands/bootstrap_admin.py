@@ -22,7 +22,7 @@ class Command(BaseCommand):
             self.stderr.write(self.style.SUCCESS('system superuse already exists. clean skip'))
             return
         
-        user = User.objects.create(
+        user = User.objects.create_superuser(
             username=username,
             email=email,
             password=password,
