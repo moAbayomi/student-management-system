@@ -1,11 +1,25 @@
-from .models import ActivityLog
-from .models import AcademicTerm
+from .models import ActivityLog, AcademicSession, AcademicTerm, School
+
+
+def get_school():
+    """Return the one School record, or None if it hasn't been set up yet."""
+    return School.objects.first()
+
+
+def get_current_session():
+    """Return the current AcademicSession, or None if none is marked current."""
+    return AcademicSession.objects.filter(is_current=True).first()
+
+
+def get_current_term():
+    """Return the current AcademicTerm, or None if none is marked current."""
+    return AcademicTerm.objects.select_related('session').filter(is_current=True).first()
 
 
 class SchoolManagementService:
     @staticmethod
     def get_stats():
-        curr_term = AcademicTerm.objects.get(is_current=True)
+        curr_term = get_current_term()
         return {
             'curr_term': curr_term
         }

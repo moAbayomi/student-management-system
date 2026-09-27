@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from colorfield.fields import ColorField
 
 
@@ -53,6 +54,16 @@ class School(models.Model):
     def __str__(self):
         return self.name
 
+    # This project runs ONE school per deployment. The School row is the
+    # school's settings record, so we refuse to create a second one.
+    def clean(self):
+        if not self.pk and School.objects.exists():
+            raise ValidationError("A school already exists. Edit it instead of creating a new one.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
 
 class AcademicSession(models.Model):
 
@@ -61,13 +72,9 @@ class AcademicSession(models.Model):
         ACTIVE = "ACTIVE", "Active"
         ARCHIVED = "ARCHIVED", "Archived"
 
-    school = models.ForeignKey(             
-        School,
-        on_delete=models.CASCADE,
-        related_name='sessions'
-    )
     name = models.CharField(
         max_length=10,
+        unique=True,
         help_text="e.g. 2025/2026"
     )
     start_year = models.PositiveIntegerField()
@@ -85,20 +92,17 @@ class AcademicSession(models.Model):
 
     class Meta:
         ordering = ['-start_year']
-        # A school can't have two sessions with the same name
-        unique_together = ('school', 'name')
 
     def save(self, *args, **kwargs):
-        # If this is being set as current, unset all others for this school
+        # Only one session can be current at a time
         if self.is_current:
             AcademicSession.objects.filter(
-                school=self.school,
                 is_current=True
             ).exclude(pk=self.pk).update(is_current=False)
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.name} ({self.school.name})"
+        return self.name
 
 
 class AcademicTerm(models.Model):
@@ -138,10 +142,9 @@ class AcademicTerm(models.Model):
         unique_together = ('session', 'term_type')
 
     def save(self, *args, **kwargs):
-        # If this term is current, unset all others in the same school's sessions
+        # Only one term can be current at a time
         if self.is_current:
             AcademicTerm.objects.filter(
-                session__school=self.session.school,
                 is_current=True
             ).exclude(pk=self.pk).update(is_current=False)
         super().save(*args, **kwargs)
@@ -189,7 +192,6 @@ class Announcement(models.Model):
         STUDENTS = "STUDENTS", "Students & Parents"
         ADMINS = "ADMINS", "Admins Only"
 
-    school = models.ForeignKey('schools.School', on_delete=models.CASCADE, related_name='announcements')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     
     title = models.CharField(max_length=255)
