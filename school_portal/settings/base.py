@@ -66,8 +66,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
-    'django_browser_reload.middleware.BrowserReloadMiddleware',
-    'schools.middleware.SchoolMiddleware',
 ]
 
 ROOT_URLCONF = 'school_portal.urls'
@@ -82,6 +80,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'schools.context_processors.school',
             ],
         },
     },

@@ -1,16 +1,10 @@
 from django.core.management.base import BaseCommand
 from academics.models import Subject
-from schools.models import School
 
 class Command(BaseCommand):
     help = 'Bulk loads the entire Nigerian Secondary Curriculum'
 
     def handle(self, *args, **kwargs):
-        school = School.objects.first()
-        
-        if not school:
-            self.stdout.write(self.style.ERROR("No School found! Create a school record first."))
-            return
         curriculum = {
             'JNR_CORE': [
                 ('Mathematics', 'MTH1'), ('English Language', 'ENG1'), 
@@ -70,7 +64,6 @@ class Command(BaseCommand):
 
                 obj, created = Subject.objects.get_or_create(
                     name=name,
-                    school=school,
                     code=final_code,
                     defaults={
                         'category': category

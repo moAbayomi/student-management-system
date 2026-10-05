@@ -12,20 +12,19 @@ from users.models import User
 @role_required('ADMIN')
 def create_class_arm(request):
     level_id = request.GET.get('level_id') or request.POST.get('level_id')
-    level = get_object_or_404(Class, id=level_id, school=request.user.school)
+    level = get_object_or_404(Class, id=level_id)
 
     if request.method == 'POST':
         form = ClassArmForm(request.POST)
         if form.is_valid():
             arm = form.save(commit=False)
-            arm.school = request.user.school
             arm.class_level = level
             arm.save()
 
+            # Keep the teacher's profile in sync with the arm they now form-teach
             if arm.class_teacher:
-                teacher_profile = get_object_or_404(TeacherProfile, user=arm.class_teacher, school=request.user.school)
-                teacher_profile.class_arms.add(arm)
-            total_count = ClassArm.objects.filter(school=request.user.school).count()
+                TeacherProfile.objects.filter(user=arm.class_teacher).update(assigned_class_arm=arm)
+            total_count = ClassArm.objects.count()
 
             return render(request, 'academics/partials/arm_row.html', {
                 'arm': arm,
@@ -40,14 +39,11 @@ def create_class_arm(request):
 @login_required
 @role_required('ADMIN')
 def load_arms(request, level_id):
-    level = get_object_or_404(Class, id=level_id, school=request.user.school)
+    level = get_object_or_404(Class, id=level_id)
     
     
-    arms = ClassArm.objects.filter(
-        class_level=level, 
-        school=request.user.school
-    ).select_related('class_teacher')
-    teachers = User.objects.filter(role='TEACHER', school=request.user.school)
+    arms = ClassArm.objects.filter(class_level=level).select_related('class_teacher')
+    teachers = User.objects.filter(role='TEACHER')
 
     
     return render(request, 'academics/partials/arms_stage.html', {
@@ -60,10 +56,8 @@ def load_arms(request, level_id):
 @login_required
 @role_required('ADMIN')
 def manage_arms(request):
-    school = request.user.school
-
     levels = Class.objects.all().order_by('order')
-    total_arms = ClassArm.objects.filter(school=school).count()
+    total_arms = ClassArm.objects.count()
     context = {
         'levels': levels,
         'total_arms': total_arms
@@ -74,7 +68,7 @@ def manage_arms(request):
 @login_required
 @role_required('ADMIN')
 def delete_arm_htmx(request, arm_id):
-    arm = get_object_or_404(ClassArm, id=arm_id, school=request.user.school)
+    arm = get_object_or_404(ClassArm, id=arm_id)
     arm.delete()
     return HttpResponse('')
 

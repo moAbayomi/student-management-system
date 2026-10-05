@@ -2,7 +2,6 @@ import random
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 from academics.models import ClassArm
-from schools.models import School
 from profiles.models import StudentProfile
 
 
@@ -12,7 +11,6 @@ class Command(BaseCommand):
     help = 'seed the db with test students'
 
     def handle(self, *args, **kwargs):
-        school = School.objects.first()
         arms = ClassArm.objects.all()
 
         test_password = 'Studentpass123'
@@ -36,7 +34,6 @@ class Command(BaseCommand):
 
                     StudentProfile.objects.create(
                         user=user,
-                        school=school,
                         class_arm=arm,
                         admission_number=f"ADM/{arm_prefix}/{2026}/{i:03d}"
                     )
