@@ -1,0 +1,17 @@
+{%extends 'portals/base.html' %}
+
+{%block title%}My Students{%endblock%}
+
+{%block aside%}
+{%include 'portals/teacher/teacher_dashboard.html'%}
+{%endblock%}
+
+<div>
+{%block content%}
+{%include 'portals/teacher/results/results_overview.html'%}
+{%endblock%}
+
+{%block right_sidebar%}
+{%include 'portals/teacher/results/right_sidebar.html'%}
+{%endblock%}
+</div>

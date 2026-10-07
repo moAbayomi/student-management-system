@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import home, admin_dashboard, teacher_dashboard, student_dashboard, students_directory, student_detail, teachers_directory, create_teacher,edit_teacher, load_subjects, class_console, admin_attendance, admin_result_view, admin_annoucements_view, fees_view, teacher_detail, create_student, edit_student, admin_settings_view
-
+from .views import home, admin_dashboard, teacher_dashboard, student_dashboard, students_directory, student_detail, teachers_directory,  create_teacher, teacher_onboard, resend_teacher_token, edit_teacher, assign_teacher_subject, load_subjects, load_arms, class_console, class_details, arm_details, load_core_subjects, add_arm, delete_arm, assign_arm_class_teacher, remove_arm_class_teacher, manage_arm_core_subjects, admin_attendance, admin_result_view, admin_annoucements_view, fees_view, teacher_detail, create_student, onboard_student, resend_student_token, edit_student, admin_settings_view, teachers_view_students, attendance_teacher, arm_attendance_data, save_attendance, subject_assignments_view, results_view, school_settings, session_create, session_list, session_set_current
 app_name = 'portal'
 
 urlpatterns = [
@@ -9,18 +8,44 @@ urlpatterns = [
     path('admin-portal/students', students_directory, name='manage-students'),
     path('admin-portal/students/details/<int:id>', student_detail, name='student-detail'),
     path('admin-portal/students/create', create_student, name='create-student'),
+    path('admin-portal/student/onboard/<uuid:token>/', onboard_student, name='onboard-student'),
+    path('admin-portal/student/resend-token/<int:student_id>', resend_student_token, name='resend-student-token'),
     path('admin-portal/students/details/edit/<int:id>', edit_student, name='edit-student'),
     path('admin-portal/teachers', teachers_directory, name='manage-teachers'),
     path('admin-portal/teachers/details/<int:id>', teacher_detail, name='teacher-detail'),
     path('admin-portal/teachers/create', create_teacher, name='create-teacher'),
-    path('admin-portal/teachers/details/edit/<int:id>', edit_teacher, name='edit-teacher'),
+    path('admin-portal/teacher/onboard/<uuid:token>/', teacher_onboard, name='teacher-onboard'),
+    path('admin-portal/teachers/resend-token/<int:teacher_id>', resend_teacher_token, name='resend-teacher-token'),
+    path('admin-portal/teachers/details/edit/<int:id>/', edit_teacher, name='edit-teacher'),
+    path('admin-portal/teacher/assign-subject-assignment/', assign_teacher_subject, name='assign-subject-assignment'),
     path('admin-portal/teachers/create/load-subjects', load_subjects, name='load-subjects'),
-    path('admin/class-console', class_console, name='class-console'),
+    path('admin-portal/class-console', class_console, name='class-console'),
+    path('admin-portal/class-console/class-details/<int:class_id>/', class_details, name='class-details'),
+    path('admin-portal/class-console/arm-details/<int:arm_id>/',arm_details, name='classarm-details'),
+    path('admin-portal/class-console/add-arm/<int:level_id>/',add_arm, name='add-arm'),
+    path('admin-portal/teachers/load-arms', load_arms, name='load-arms-for-class'),
+    path('admin-portal/class-console/load-core-subjects/<int:arm_id>/', load_core_subjects, name='load-core-subjects'),
+    path('admin-portal/class-console/delete-arm/<int:arm_id>/', delete_arm, name='arm-delete'),
+    path('admin-portal/class-console/manage-core-subjects/<int:class_id>/', manage_arm_core_subjects, name='manage-arm-core-subjects'),
+    path('admin-portal/class-console/assign-teacher/<int:arm_id>/', assign_arm_class_teacher, name='assign-class-teacher'),
+    path('admin-portal/class-console/remove-class-teacher/<int:arm_id>/', remove_arm_class_teacher, name='remove-class-teacher'),
     path('admin/attendance', admin_attendance, name='admin-attendance'),
     path('admin/results', admin_result_view, name='admin-result-view'),
     path('admin/announcements', admin_annoucements_view, name='admin-announcements'),
     path('admin/fees', fees_view, name='admin-fees'),
     path('admin/settings', admin_settings_view, name='admin-settings'),
-    path('teacher/', teacher_dashboard, name='teacher'),
+    path('admin-portal/settings/school/', school_settings, name='school-settings'),
+    path('admin-portal/settings/sessions/', session_list, name='session-list'),
+    path('admin-portal/settings/sessions/create/', session_create, name='session-create'),
+    path('admin-portal/settings/sessions/<int:session_id>/set-current/', session_set_current, name='session-set-current'),
+    path('teacher-portal/', teacher_dashboard, name='teacher'),
+    path('teacher-portal/my-students/', teachers_view_students, name='my-students'),
+    path('teacher-portal/attendance/', attendance_teacher, name='class-teacher-attendance'),
+    path('teacher-portal/attendance/date/<int:arm_id>/', arm_attendance_data, name='arm-attendance-data'),
+    path('teacher-portal/attendance/date/save/<int:arm_id>/', save_attendance, name='save-attendance'),
+    path('teacher-portal/subject_assignments/', subject_assignments_view, name='subject-assignments'),
+    path('teacher-portal/results/', results_view, name='results-view'),
+
+    path('student-portal/', student_dashboard, name='student')
    
 ]

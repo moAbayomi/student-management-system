@@ -1,0 +1,51 @@
+<div
+	id="arms-details-panel"
+	class="w-full bg-white border-b border-slate-200"
+	x-data="{
+	activeTab: 'details'
+}">
+	<nav
+		class="flex gap-8 px-6 py-6 overflow-x-auto whitespace-nowrap"
+		aria-label="Tabs">
+		<button
+			type="button"
+			id="tab-1"
+			@click="activeTab = 'details'"
+			:class="activeTab === 'details' ? 'border-blue-600': ''"
+			class="border-b-2 text-blue-600 py-3.5 px-1 text-[12px] font-black uppercase tracking-wider transition-all duration-200 focus:outline-none">
+			Details
+		</button>
+
+		<button
+			type="button"
+			id="tab-2"
+			@click="activeTab = 'timetable'"
+			:class="activeTab === 'timetable' ? 'border-blue-600': ''"
+			class="border-b-2 text-slate-400 hover:text-slate-600 hover:border-slate-300 py-3.5 px-1 text-[12px] font-black uppercase tracking-wider transition-all duration-200 focus:outline-none">
+			Timetable
+		</button>
+
+		<button
+			type="button"
+			id="tab-3"
+			@click="activeTab = 'students'"
+			:class="activeTab === 'students' ? 'border-blue-600': ''"
+			class="border-b-2 text-slate-400 hover:text-slate-600 hover:border-slate-300 py-3.5 px-1 text-[12px] font-black uppercase tracking-wider transition-all duration-200 focus:outline-none">
+			Students
+		</button>
+	</nav>
+
+	<div class="p-6 bg-slate-50/50">
+		<div id="panel-details" x-show="activeTab === 'details'">
+			{% include 'portals/admin/class_console/partials/arm_details.html' %}
+		</div>
+
+		<div id="panel-timetable" x-show="activeTab === 'timetable'">
+			{% include 'portals/admin/class_console/partials/timetable.html' %}
+		</div>
+
+		<div id="panel-students" x-show="activeTab === 'students'">
+			{% include 'portals/admin/class_console/partials/arm_students.html' %}
+		</div>
+	</div>
+</div>

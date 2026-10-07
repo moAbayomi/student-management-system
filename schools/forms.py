@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from .models import AcademicSession
 
 User = get_user_model()
 
@@ -17,3 +18,25 @@ class StaffCreationForm(forms.ModelForm):
             ('ADMIN', 'Admin/Bursar'),
             ('TEACHER', 'Teacher'),
         ]
+
+
+class AcademicSessionForm(forms.ModelForm):
+    class Meta:
+        model = AcademicSession
+        fields = ['name', 'start_year', 'end_year', 'start_date', 'end_date']
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+    def clean(self):
+        cleaned = super().clean()
+        sy, ey = cleaned.get('start_year'), cleaned.get('end_year')
+        if sy and ey and ey <= sy:
+            self.add_error('end_year', 'End year must be after start year.')
+
+        sd, ed = cleaned.get('start_date'), cleaned.get('end_date')
+        if sd and ed and ed <= sd:
+            self.add_error('end_date', 'End date must be after start date.')
+
+        return cleaned

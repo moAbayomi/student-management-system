@@ -1,0 +1,57 @@
+{% extends "portals/base.html" %}
+
+{% block content %}
+<h2>Sessions</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Session</th>
+            <th>Years</th>
+            <th>Status</th>
+            <th>Terms</th>
+            <th>Current</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for s in sessions %}
+        <tr>
+            <td>{{ s.name }}</td>
+            <td>{{ s.start_year }}–{{ s.end_year }}</td>
+            <td>{{ s.get_status_display }}</td>
+            <td>
+                {% for t in s.terms.all %}
+                    {{ t.get_term_type_display }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    <em>No terms</em>
+                {% endfor %}
+            </td>
+            <td>
+                {% if s.is_current %}
+                    <span class="badge badge-success">Current</span>
+                {% else %}—{% endif %}
+            </td>
+            <td>
+                {% if not s.is_current %}
+                <form method="post" action="{% url 'portal:session-set-current' s.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm">Set as current</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="6">No sessions yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h3>Create Session</h3>
+<form method="post" action="{% url 'portal:session-create' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Create Session</button>
+    <p class="help-text">Creating a session automatically creates First, Second, and Third Term.</p>
+</form>
+{% endblock %}

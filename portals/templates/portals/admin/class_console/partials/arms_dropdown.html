@@ -1,0 +1,29 @@
+<div
+	:class="openLevel == '{{class.name}}' ? '' : 'hidden'"
+	class="p-3 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+	<!-- Active Arm -->
+	<!--  border-amber-500/50 rounded-[var(--radius-lg)] bg-white shadow-sm relative -->
+	<div id="arms-grid-{{class.id}}">
+		{%for arm in class.class_arms.all%}
+		{%include 'portals/admin/class_console/partials/arm_grid.html' %}
+		{%endfor%}
+	</div>
+
+	<!-- Add Arm Button -->
+	<button
+		hx-get="{%url 'portal:add-arm' class.id%}"
+		hx-target="#modal-container"
+		hx-swap="innerHTML"
+		class="border-2 border-dashed border-[var(--color-border-light)] rounded-[var(--radius-lg)] flex flex-col items-center justify-center gap-1 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 transition-all text-[var(--color-dim)] hover:text-[var(--color-primary)]">
+		<svg
+			class="w-5 h-5"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2.5">
+			<line x1="12" y1="5" x2="12" y2="19" />
+			<line x1="5" y1="12" x2="19" y2="12" />
+		</svg>
+		<span class="text-[10px] font-bold uppercase tracking-wider">Add Arm</span>
+	</button>
+</div>

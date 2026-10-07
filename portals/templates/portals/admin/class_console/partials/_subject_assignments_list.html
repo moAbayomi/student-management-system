@@ -1,0 +1,20 @@
+{% for sa in subject_assignments %}
+    <div class="p-3 px-4 flex items-center gap-3 bg-white hover:bg-slate-50/50 transition">
+        <div class="w-2 h-2 rounded-full {% if sa.teacher %}bg-emerald-500{% else %}bg-rose-500{% endif %} shrink-0"></div>
+        <div class="flex-1 min-width-0">
+            <div class="text-xs font-bold text-slate-900">{{ sa.subject.name }}</div>
+            <div class="text-[11px] text-slate-400 font-medium">
+                {% if sa.teacher %}
+                    {{ sa.teacher.user.get_full_name }}
+                {% else %}
+                    No teacher assigned
+                {% endif %}
+            </div>
+        </div>
+        {% if sa.teacher %}
+            <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full px-2 py-0.5 text-[9px] font-bold">Assigned</span>
+        {% else %}
+            <button class="text-[10px] font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-md px-2 py-1 transition shadow-sm">Assign</button>
+        {% endif %}
+    </div>
+{% endfor %}

@@ -1,0 +1,16 @@
+{%extends 'portals/base.html' %}
+
+{%block title%}Teacher Portal{%endblock%}
+
+{%block aside%}
+{% include 'portals/teacher/teacher_dashboard.html'%}
+{%endblock%}
+
+
+{% block content %}
+{%include 'portals/teacher/teacher_overview.html' with teacher=teacher teacher_assignments=teacher_assignments arm_count=arm_count class_arms=class_arms subjects=subjects subject_count=subject_count %}
+{% endblock %}
+
+{%block right_sidebar%}
+{% include 'portals/teacher/right_sidebar.html' %}
+{%endblock%}

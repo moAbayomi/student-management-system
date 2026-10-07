@@ -1,0 +1,29 @@
+<div x-show="subjectTab==='assignments' && selectedRow !== null" class="divide-y divide-border-light/50">
+			<div class="px-lg pt-3 pb-2 flex items-center justify-between">
+				<span class="text-[10px] font-bold text-muted uppercase tracking-widest">Current subject assignments</span>
+				<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-background border border-border-light text-muted">6</span>
+			</div>
+
+			<div>
+                {%for ass in teacher.assignments.all%}
+                {%include 'portals/admin/teachers/partials/t_sidebar/partials/_subject_assignment_row.html'%}
+                {%empty%}
+                <p>omo bro. find something do o eje</p>
+                {%endfor%}
+			</div>
+
+			<div class="px-lg py-2.5">
+				<div class="flex items-center justify-between mb-1.5">
+					<span class="text-[10px] font-bold text-muted uppercase tracking-widest">Workload</span>
+					<span class="text-[10.5px] font-bold text-main">18 <span class="text-muted font-normal">/ 25 periods</span></span>
+				</div>
+				<div class="h-1.5 w-full bg-background rounded-full overflow-hidden">
+					<div
+						class="h-full rounded-full transition-all"
+						style="width: 72%"
+						:class="72 > 85 ? 'bg-danger' : 72 > 70 ? 'bg-warning' : 'bg-success'">
+					</div>
+				</div>
+				<div class="text-[10px] text-muted mt-1">72% of maximum — healthy load</div>
+			</div>
+		</div>

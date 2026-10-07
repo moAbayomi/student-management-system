@@ -5,6 +5,7 @@ from django.core.validators import EmailValidator
 from users.models import User
 from profiles.models import TeacherProfile, TeacherRole
 from academics.models import Subject, Class, ClassArm, SubjectAssignment
+from schools.models import School
 import random
 import string
 
@@ -124,6 +125,32 @@ class ClassArmForm(forms.Form):
         self.fields['class_arm'].queryset = ClassArm.objects.select_related('class_level').all()
 
 
+class NewArm(forms.Form):
+    name = forms.CharField(
+        label='input arm name',
+        max_length=10,
+        required=True
+    )
+ 
+class AssignClassTeacher(forms.Form):
+    teacher = forms.ModelChoiceField(
+        required=True,
+        queryset=TeacherProfile.objects.all()
+    )
+
+class CoreSubjects(forms.Form):
+    core_subjects = forms.ModelMultipleChoiceField(
+        queryset=Subject.objects.all(),
+        required=False,
+        widget=forms.SelectMultiple(attrs={'class': 'hidden', 'x-ref': 'coreSubjectsSelect'})
+    )
+
+class TeacherSubjectAssignmentForm(forms.Form):
+    subjects = forms.ModelChoiceField(
+        queryset=Subject.objects.all(),
+        required=True
+    )
+   
 
 class SubjectEnrollmentForm(forms.Form):
     subjects = forms.ModelMultipleChoiceField(
@@ -131,6 +158,8 @@ class SubjectEnrollmentForm(forms.Form):
         queryset=Subject.objects.none(),
         widget= forms.CheckboxSelectMultiple()
     )
+   
+
 
     def __init__(self, *args, **kwargs):
         student = kwargs.pop('student', None)
@@ -202,5 +231,26 @@ class ChangeClassTeacher(forms.Form):
                     
         return selected_classes
     
-
+class SchoolSettingsForm(forms.ModelForm):
+    class Meta:
+        model = School
+        fields = [
+            # Identity
+            'name', 'slug', 'tagline', 'about',
+            # Branding
+            'logo', 'favicon', 'hero_image',
+            'primary_color', 'secondary_color',
+            # Contact
+            'address', 'phone', 'email', 'website',
+            # Leadership
+            'principal_name', 'principal_message', 'principal_photo',
+            # Preferences
+            'pass_mark', 'grading_system', 'timezone',
+        ]
+        widgets = {
+            'about': forms.Textarea(attrs={'rows': 3}),
+            'address': forms.Textarea(attrs={'rows': 2}),
+            'principal_message': forms.Textarea(attrs={'rows': 3}),
+            'pass_mark': forms.NumberInput(attrs={'step': '0.01', 'min': 0}),
+        }
 

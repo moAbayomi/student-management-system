@@ -1,13 +1,10 @@
-{% extends 'portals/base.html' %} {% block title %}Admin Console{% endblock %}
+{% extends 'portals/base.html' %} 
+{% block title %}Admin Console{% endblock %}
 {% block aside %}
 
 <!-- School identity -->
-<aside
-	class="w-64 h-screen bg-surface border-r border-border-light flex flex-col sticky top-0 overflow-y-auto">
-	<!-- Brand Logo & Header -->
-	 {%include 'portals/admin/admin_dashboard.html'%}
-</aside>
-
+<!-- Brand Logo & Header -->
+{%include 'portals/admin/admin_dashboard.html'%}
 {% endblock %}
 <!-- prttier guard -->
 {% block content %}

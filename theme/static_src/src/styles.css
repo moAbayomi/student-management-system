@@ -85,5 +85,6 @@
    Optimization: Combine your Django paths into more efficient globs 
    to reduce the watcher load in production.
 */
-@source "../../../**/*.html";
-@source "../../../portals/*.py";
+@source "../../../portals/templates/**/*.html";
+@source "../../../users/templates/**/*.html";
+@source "../../../public/templates/**/*.html";

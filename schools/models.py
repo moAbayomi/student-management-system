@@ -65,6 +65,11 @@ class School(models.Model):
         super().save(*args, **kwargs)
 
 
+def get_school():
+    school, _ = School.objects.get_or_create(pk=1)
+    return school
+
+
 class AcademicSession(models.Model):
 
     class SessionStatus(models.TextChoices):
@@ -103,6 +108,41 @@ class AcademicSession(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def create_default_terms(self):
+        """Create First, Second, Third Term for this session.
+        Dates are left blank — admin fills them in later on the Term edit page."""
+        for term_type, sequence in [
+            (AcademicTerm.TermChoices.FIRST, 1),
+            (AcademicTerm.TermChoices.SECOND, 2),
+            (AcademicTerm.TermChoices.THIRD, 3),
+        ]:
+            AcademicTerm.objects.get_or_create(
+                session=self,
+                term_type=term_type,
+                defaults={'sequence': sequence},
+            )
+    
+    
+    def make_current(self):
+        """Mark this session ACTIVE and current. Unsets all others."""
+        from django.db import transaction
+    
+        with transaction.atomic():
+            AcademicSession.objects.exclude(pk=self.pk).update(
+                is_current=False,
+                status=AcademicSession.SessionStatus.ARCHIVED,
+            )
+            AcademicTerm.objects.update(is_current=False)
+    
+            self.is_current = True
+            self.status = AcademicSession.SessionStatus.ACTIVE
+            self.save(update_fields=['is_current', 'status'])
+    
+            first_term = self.terms.order_by('sequence').first()
+            if first_term:
+                first_term.is_current = True
+                first_term.save(update_fields=['is_current'])
 
 
 class AcademicTerm(models.Model):

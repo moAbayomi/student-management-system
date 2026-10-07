@@ -1,14 +1,14 @@
 from .models import User
 
-class UserManagegementService:
+class UserManagementService:
     @staticmethod
     def get_stats():
-        teachers = User.objects.filter(role='TEACHER')
-        students = User.objects.filter(role='STUDENT')
+        teacher_users = User.objects.filter(role='TEACHER')
+        student_users = User.objects.filter(role='STUDENT')
         return {
-            'teachers': teachers,
-            'students': students,
-            'total_teachers': teachers.count(),
-            'total_students': students.count(),
+            'teacher_users': teacher_users,
+            'student_users': student_users,
+            'total_teachers_users': teacher_users.count(),
+            'total_students_users': student_users.count(),
             
         }

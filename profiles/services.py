@@ -1,3 +1,12 @@
+import uuid
+from urllib.parse import urljoin
+from django.core.mail import send_mail
+from django.shortcuts import redirect, render
+from datetime import timedelta
+from django.utils import timezone
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.conf import settings
 from .models import StudentProfile, TeacherProfile
 from academics.models import Subject
 from django.contrib.auth import get_user_model
@@ -5,6 +14,7 @@ from academics.models import ClassArm
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Q
+from django.core.exceptions import ValidationError
 import secrets
 
 User = get_user_model()
@@ -52,18 +62,18 @@ class StudentProfileService:
     
     
 class TeacherProfileService:
-    @staticmethod
-    def get_stats():
+     @staticmethod
+     def get_stats():
          return {
               'total_teachers': TeacherProfile.objects.all().count()
          }
     
-    @staticmethod
-    def get_teachers_queryset():
+     @staticmethod
+     def get_teachers_queryset():
          return TeacherProfile.objects.all().order_by('-user_id')
 
-    @staticmethod
-    def get_paginated_teachers(page_no=1, search_query=None,):
+     @staticmethod
+     def get_paginated_teachers(page_no=1, search_query=None,):
          
          teachers = TeacherProfile.objects.all().order_by('-user_id')
          if search_query:
@@ -77,15 +87,42 @@ class TeacherProfileService:
               'total_teachers': paginator.count
          }
     
-    @staticmethod
-    def get_teacher(id):
+     @staticmethod
+     def get_teacher(id):
          return {'teacher' : TeacherProfile.objects.get(id=id)}
+    
+
+     @staticmethod
+     def get_details(id):
+          teacher = TeacherProfile.objects.get(id=id)
+          dept_query = {
+        'JUNIOR': ['JNR_CORE', 'JUNIOR'],
+        'SCIENCE': ['SNR_CORE', 'SCIENCE', 'VOCATIONAL_TRADE'],
+        'ARTS_HUMANITIES': ['SNR_CORE', 'ARTS', 'VOCATIONAL_TRADE'],
+        'COMMERCIAL': ['SNR_CORE', 'COMMERCIAL', 'VOCATIONAL_TRADE'],
+        'VOCATIONAL_TRADE': ['SNR_CORE', 'VOCATIONAL_TRADE']
+          }
+          if teacher.department:
+               subject_category = dept_query.get(teacher.department, [])
+               subjects = Subject.objects.filter(category__in=subject_category)
+          else:
+              subjects = Subject.objects.all()
+
+          subject_assignments = teacher.assignments.select_related('subject', 'class_arm').all()
+
+          return {
+               'teacher': teacher,
+               'subjects': subjects,
+               'subject_assignments': subject_assignments
+          }
+
          
 
 class StudentRegistrationService:
      @staticmethod
      def generate_temp_password():
           return 'pswdtakbir1234'
+          
      
      @staticmethod
      @transaction.atomic
@@ -123,6 +160,7 @@ class StudentRegistrationService:
           return StudentProfile
      
      @staticmethod
+     @transaction.atomic
      def create_complete_student(form) -> StudentProfile:
           data = form.clean()
           temp_password = StudentRegistrationService.generate_temp_password()
@@ -143,12 +181,15 @@ class StudentRegistrationService:
           religion=data.get('religion', ''),
           address=data.get('address', '')
           )
-          user.set_password(temp_password)          # ← fixed: method call, not assignment
+          user.set_password(temp_password)         
           user.save()
+
+          token = uuid.uuid4()
+          token_expires_at = timezone.now() + timedelta(3)
 
           std_profile = StudentProfile.objects.create(
           user=user,
-          status='ACTIVE',
+          status='PENDING_REVIEW',
           date_of_birth=data.get('dob'),
           admission_number=None,
           admission_type=data.get('admission_type', ''),
@@ -171,10 +212,38 @@ class StudentRegistrationService:
           disability=data.get('disability', ''),
           allergies=data.get('allergies', ''),
           medical_conditions=data.get('medical_conditions', ''),
-          admin_notes=data.get('admin_notes', '')
+          admin_notes=data.get('admin_notes', ''),
+          onboarding_token=token,
+          onboarding_token_expires_at=token_expires_at
           )
 
+          StudentRegistrationService.send_student_onboarding_email(std_profile)
+
           return std_profile
+     
+     @staticmethod
+     def send_student_onboarding_email(student_profile):
+          token = student_profile.onboarding_token
+          full_url = urljoin(settings.SITE_URL, reverse('portal:onboard-student', kwargs={'token': token}))
+          html = render_to_string('users/emails/welcome.html', {
+               'teacher_profile': student_profile,
+               'full_url': full_url
+          })
+
+          try:
+               send_mail(
+                    subject='welcome!',
+                    message='',
+                    from_email='test@localhost',
+                    recipient_list=[student_profile.guardian_email],
+                    html_message=html
+               )
+          except Exception as e:
+               # Log the error properly in production
+               print(f"Failed to send onboarding email: {e}")
+               # You can also silently fail – the token is still saved, so admin can resend later.
+                    
+
 
      @staticmethod
      def edit_draft_student(id, data) -> StudentProfile:
@@ -220,6 +289,8 @@ class StudentRegistrationService:
                user.profile_picture.save(photo.name, photo, save=False)
           user.save()
 
+          
+
           student_profile.date_of_birth = data.get('dob')
           student_profile.admission_type = data.get('admission_type', '')
           student_profile.entry_term = data.get('entry_term', '')
@@ -248,7 +319,42 @@ class StudentRegistrationService:
           return student_profile
 
 
+class StudentOnboardingService:
+     @staticmethod
+     def get_valid_student_and_status(token):
+          try:
+               student = StudentProfile.objects.select_related('user').get(onboarding_token=token)
+          except StudentProfile.DoesNotExist:
+               return (None, 'invalid')
+          
+          token_expired = student.onboarding_token_expires_at and student.onboarding_token_expires_at < timezone.now()
+
+          if token_expired:      
+               if student.has_usable_password():
+                    return (student, 'already_active')
+               return (student, 'expired')
+          
+          return (student, 'valid')
      
+     @staticmethod
+     def set_student_password(student, password):
+          user = student.user
+          user.is_active = True
+          user.set_password(password)
+          user.save()
+
+          student.status = 'ACTIVE'
+          student.onboarding_token = None
+          student.onboarding_token_expires_at = None
+          student.save()
+
+     @staticmethod
+     def renegerate_onboarding_token(student):
+          student.onboarding_token = uuid.uuid4()
+          student.onboarding_token_expires_at = timezone.now() + timedelta(7)
+          student.save()
+
+          
 
 class TeacherRegistrationService:
      @staticmethod
@@ -258,9 +364,8 @@ class TeacherRegistrationService:
      
      @staticmethod
      @transaction.atomic
-     def create_full_teacher(form) -> TeacherProfile:
+     def create_full_teacher(form, send_invite=True) -> TeacherProfile:
           data = form.cleaned_data
-          temp_password = 'pswdtakbir1234'
 
           base_username = f'{data['first_name'].lower()}{data['last_name'].lower()}'
           suffix = secrets.token_hex(3)
@@ -277,24 +382,62 @@ class TeacherRegistrationService:
                role='TEACHER',
                state_of_origin=data.get('state_of_origin', ''),
                religion=data.get('religion', ''),
-               address=data.get('address', '')
+               address=data.get('address', ''),
+               is_active=False,
           )
-          user.set_password(temp_password)
+          user.set_unusable_password()
           user.save()
+
+          token = uuid.uuid4()
+          expires_at = timezone.now() + timedelta(days=7)
 
           teacher_profile = TeacherProfile.objects.create(
                user=user,
-               status='ACTIVE',
+               status='PENDING_REVIEW',
                date_of_birth=data.get('dob'),
                qualification=data.get('qualification'),
                years_of_exp=data.get('years_of_exp'),
                department=data.get('department'),
                max_weekly_hours=data.get('max_weekly_hours'),
+               onboarding_token=token,
+               onboarding_token_expires_at=expires_at,
           )
           if data.get('subjects'):
                teacher_profile.subjects.set(data.get('subjects'))
-          teacher_profile.save()
+
+          if send_invite:
+               TeacherRegistrationService.send_onboarding_email(teacher_profile)
           return teacher_profile
+     
+
+     @staticmethod
+     def send_onboarding_email(teacher_profile):
+          token = teacher_profile.onboarding_token
+
+          full_url = urljoin(settings.SITE_URL, reverse('portal:teacher-onboard', kwargs={'token': token}))
+
+          html = render_to_string('users/emails/welcome.html', {
+               'profile': teacher_profile,
+               'full_url': full_url
+          })
+
+
+          subject = 'set your password - School Portal'
+          try:
+               send_mail(
+                    subject=subject,
+                    message='',
+                    from_email='test@localhost',                # uses DEFAULT_FROM_EMAIL from settings
+                    recipient_list=[teacher_profile.user.email],
+                    html_message=html,
+               )
+          except Exception as e:
+               # Log the error properly in production
+               print(f"Failed to send onboarding email: {e}")
+               # You can also silently fail – the token is still saved, so admin can resend later.
+                    
+
+
 
      @staticmethod
      @transaction.atomic
@@ -357,12 +500,41 @@ class TeacherRegistrationService:
                'subjects': subjects
           }
           
+class TeacherOnboardingService:
+     @staticmethod
+     def get_valid_teacher_and_status(token):
+          try:
+               teacher = TeacherProfile.objects.select_related('user').get(onboarding_token=token)
+          except TeacherProfile.DoesNotExist:
+               return (None, 'invalid')
+          
+          token_expired = teacher.onboarding_token_expires_at and teacher.onboarding_token_expires_at < timezone.now()
+
+          if token_expired:
+               if teacher.has_usable_password():
+                    return (teacher, 'already_active')
+               return (teacher, 'expired')
+          
+          return (teacher, 'valid')
 
 
+     @staticmethod
+     def set_teacher_password(teacher, password):
+          user = teacher.user
+          user.set_password(password)
+          user.is_active = True
+          user.save()
 
+          teacher.status = 'ACTIVE'
+          teacher.onboarding_token = None
+          teacher.onboarding_token_expires_at = None
+          teacher.save()
 
-
-
+     @staticmethod
+     def regenerate_onboarding_token(teacher):
+          teacher.onboarding_token = uuid.uuid4()
+          teacher.onboarding_token_expires_at = timezone.now() + timedelta(7)
+          teacher.save()
 
 
 

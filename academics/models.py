@@ -6,14 +6,15 @@ from django.core.exceptions import ValidationError
 class Class(models.Model):
 
     class Level(models.TextChoices):
-        JSS1 = 'JSS1', 'JSS 1'
-        JSS2 = 'JSS2', 'JSS 2'
-        JSS3 = 'JSS3', 'JSS 3'
-        SSS1 = 'SSS1', 'SSS 1'
-        SSS2 = 'SSS2', 'SSS 2'
-        SSS3 = 'SSS3', 'SSS 3'
+        JSS1 = 'JSS1', 'Junior Secondary School 1'
+        JSS2 = 'JSS2', 'Junior Secondary School 2'
+        JSS3 = 'JSS3', 'Junior Secondary School 3'
+        SSS1 = 'SSS1', 'Senior Secondary School 1'
+        SSS2 = 'SSS2', 'Senior Secondary School 2'
+        SSS3 = 'SSS3', 'Senior Secondary School 3'
 
     name = models.CharField(max_length=20, choices=Level.choices)
+    core_subjects = models.ManyToManyField('Subject', related_name='core_subjects', blank=True)
     order = models.PositiveIntegerField(default=10)
 
     class Meta:
@@ -23,17 +24,15 @@ class Class(models.Model):
         return self.get_name_display()
 
 class ClassArm(models.Model):
-    class_level = models.ForeignKey(Class, on_delete=models.CASCADE)
+    class_level = models.ForeignKey(Class, on_delete=models.CASCADE, related_name='class_arms')
     name = models.CharField(max_length=10)
     class_teacher = models.ForeignKey(
-        'users.User',
+        'profiles.TeacherProfile',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='class_teacher_of',
-        limit_choices_to={'role': 'TEACHER'}
     )
-    subjects = models.ManyToManyField('Subject', related_name='arms')
 
     def __str__(self):
         return f"{self.class_level.name}{self.name}"  
@@ -52,8 +51,7 @@ class Subject(models.Model):
 
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=20, unique=True)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='CORE')
-
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='JNR_CORE')
     class Meta:
         unique_together = ('name', 'code')
 
@@ -78,6 +76,15 @@ class SubjectAssignment(models.Model):
 
     def __str__(self):
         return f"{self.subject.name} — {self.class_arm}"
+    
+
+class StudentSubjectChoice(models.Model):
+    student = models.ForeignKey('profiles.StudentProfile', on_delete=models.CASCADE, related_name='subject_choices')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    session = models.ForeignKey('schools.AcademicSession', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('student', 'subject', 'session')
     
 class Result(models.Model):
     student = models.ForeignKey('profiles.StudentProfile', on_delete=models.CASCADE, related_name='student')

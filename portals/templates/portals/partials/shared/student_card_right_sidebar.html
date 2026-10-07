@@ -1,0 +1,74 @@
+<div id="student-card-inner">
+	<div
+		class="text-[9.5px] font-bold tracking-widest text-amber-700 uppercase mb-3">
+		Selected Student
+	</div>
+
+	{%if student%}
+
+	<div class="flex items-center gap-3 mb-4">
+		<div
+			class="w-10 h-10 rounded-lg bg-info-light text-primary flex items-center justify-center font-bold text-sm shrink-0">
+			CJ
+		</div>
+		<div class="min-w-0">
+			<div class="text-sm font-bold text-main truncate">
+				{{student.user.get_full_name}}
+			</div>
+			<div class="text-[11px] text-muted">#EDU-0421 · SS 2A · M</div>
+		</div>
+	</div>
+	{%endif%}
+
+	<!-- Quick Stats Grid -->
+
+	<div id="student-stats" class="grid grid-cols-2 gap-2 mb-4">
+		<div class="p-2 bg-surface border border-border-light rounded-md shadow-sm">
+			<div class="text-[9.5px] text-muted font-bold uppercase tracking-tight">
+				Attendance
+			</div>
+			<div class="text-[17px] font-bold text-success leading-tight">94%</div>
+		</div>
+		<div class="p-2 bg-surface border border-border-light rounded-md shadow-sm">
+			<div class="text-[9.5px] text-muted font-bold uppercase tracking-tight">
+				Avg Score
+			</div>
+			<div class="text-[17px] font-bold text-main leading-tight">78.4</div>
+		</div>
+		<div class="p-2 bg-surface border border-border-light rounded-md shadow-sm">
+			<div class="text-[9.5px] text-muted font-bold uppercase tracking-tight">
+				Fee Status
+			</div>
+			<div class="mt-1">
+				<span
+					class="px-2 py-0.5 rounded-full bg-success-light text-success text-[10px] font-bold uppercase"
+					>Paid</span
+				>
+			</div>
+		</div>
+		<div class="p-2 bg-surface border border-border-light rounded-md shadow-sm">
+			<div class="text-[9.5px] text-muted font-bold uppercase tracking-tight">
+				Class Rank
+			</div>
+			<div class="text-[17px] font-bold text-main leading-tight">
+				5 <span class="text-[11px] text-dim font-normal">/ 40</span>
+			</div>
+		</div>
+	</div>
+	<!-- Actions -->
+	<div class="flex gap-2">
+		<button
+			{% if student %}
+			hx-get="{%url 'portal:student-detail' student.id%}"
+			hx-target="main"
+			hx-swap="innerHTML"
+			{%endif%}
+			class="flex-1 py-2 bg-surface-dark text-white rounded-md text-[11.5px] font-bold hover:opacity-90 transition-opacity">
+			View Profile
+		</button>
+		<button
+			class="flex-1 py-2 bg-surface border border-border text-main rounded-md text-[11.5px] font-bold hover:bg-background transition-colors">
+			Contact Parent
+		</button>
+	</div>
+</div>

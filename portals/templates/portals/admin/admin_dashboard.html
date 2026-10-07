@@ -1,5 +1,9 @@
-	<div class="p-lg pt-8">
-		<div class="flex items-center gap-3">
+<aside
+	:class="leftSidebarOpen ? 'w-64' : 'w-16'"
+	class="bg-surface-dark text-white h-screen flex-shrink-0 flex flex-col transition-all duration-300 border-r border-border-light overflow-hidden">
+	<!-- Brand / Logo Header with Collapse Button -->
+	<div class="flex items-center justify-between px-4 py-4">
+		<div class="flex items-center gap-3" x-show="leftSidebarOpen" x-transition>
 			<div
 				class="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center shadow-lg shadow-secondary/20">
 				<svg
@@ -14,56 +18,53 @@
 					<path d="M6 12v5c3 3 9 3 12 0v-5" />
 				</svg>
 			</div>
-			<span class="text-xl font-black text-main tracking-tight uppercase"
-				>EduCore</span
-			>
+			<span class="font-bold text-sm">School Portal</span>
 		</div>
 
-		<!-- Admin Profile Badge -->
-		<div
-			class="mt-lg bg-secondary/10 border border-secondary/20 rounded-lg p-md flex items-center gap-3">
-			<div class="avatar placeholder">
-				<div
-					class="bg-secondary text-surface w-9 h-9 rounded-md text-[11px] font-black flex items-center justify-center shadow-sm">
-					AO
-				</div>
-			</div>
-			<div class="overflow-hidden">
-				<div class="text-sm font-bold text-main truncate">
-					{{user.username}}
-				</div>
-				<div
-					class="text-[10px] text-secondary font-black uppercase tracking-wider">
-					Administrator
-				</div>
-			</div>
-		</div>
+		<!-- Toggle Button (always visible) -->
+		<button
+			@click="leftSidebarOpen = !leftSidebarOpen"
+			class="ml-auto p-1.5 rounded-md text-white/60 hover:bg-white/10 hover:text-white transition-colors focus:outline-none">
+			<svg
+				class="w-5 h-5"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				viewBox="0 0 24 24"
+				stroke-linecap="round">
+				<path x-show="leftSidebarOpen" d="M11 19l-7-7 7-7" />
+				<path x-show="!leftSidebarOpen" d="M13 5l7 7-7 7" />
+			</svg>
+		</button>
 	</div>
 
-	<!-- Navigation -->
-	<nav class="flex-1 px-md mt-sm space-y-1">
-		<!-- Section: Overview -->
-		<div
-			class="px-md py-2 text-[10px] font-black text-dim uppercase tracking-widest">
-			Overview
-		</div>
+	<!-- Navigation (your existing nav block) -->
+	<nav class="flex-1 px-2 mt-2 space-y-1">
+		<!-- Keep your existing <a> tags, but adjust padding and alignment -->
+		<!-- I’ll show one example link; repeat for all -->
 
 		<a
-			href="{%url 'portal:admin' %}"
-			class="flex items-center gap-3 px-md py-2.5 rounded-md bg-secondary/10 text-secondary font-bold text-sm transition-all group">
+			href="{% url 'portal:admin' %}"
+			class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all group whitespace-nowrap"
+			:class="leftSidebarOpen ? 'hover:bg-white/10' : 'justify-center'">
 			{% include 'portals/partials/icons/dashboard.html' %}
-			<span>Dashboard</span>
+			<span
+				x-show="leftSidebarOpen"
+				class="text-sm font-medium transition-all duration-200"
+				>Dashboard</span
+			>
 		</a>
 
 		<a
 			href="{% url 'portal:manage-students' %}"
-			class="flex items-center gap-3 px-md py-2.5 rounded-md text-muted hover:bg-background hover:text-main font-medium text-sm transition-all">
-			{%include 'portals/partials/icons/users.html' %}
-
-			<span class="flex-1">Students</span>
+			class="flex items-center gap-3 px-3 py-2.5 rounded-md text-muted hover:bg-background hover:text-main font-medium text-sm transition-all group whitespace-nowrap"
+			:class="leftSidebarOpen ? 'hover:bg-white/10' : 'justify-center'">
+			{% include 'portals/partials/icons/users.html' %}
+			<span x-show="leftSidebarOpen" class="flex-1">Students</span>
 			<span
+				x-show="leftSidebarOpen"
 				class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-black"
-				>{{total_students}}</span
+				>{{ total_students_users }}</span
 			>
 		</a>
 
@@ -72,10 +73,10 @@
 			class="flex items-center gap-3 px-md py-2.5 rounded-md text-muted hover:bg-background hover:text-main font-medium text-sm transition-all">
 			{%include 'portals/partials/icons/users.html' %}
 
-			<span class="flex-1">Teachers</span>
+			<span x-show="leftSidebarOpen === true" class="flex-1">Teachers</span>
 			<span
 				class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-black"
-				>{{total_teachers}}</span
+				>{{total_teachers_users}}</span
 			>
 		</a>
 
@@ -94,34 +95,30 @@
 				<line x1="8" y1="2" x2="8" y2="6" />
 				<line x1="3" y1="10" x2="21" y2="10" />
 			</svg>
-			<span>Classes & Timetable</span>
+			<span x-show="leftSidebarOpen === true">Classes & Timetable</span>
 		</a>
 
 		<a
 			href="{% url 'portal:admin-attendance' %}"
 			class="flex items-center gap-3 px-md py-2.5 rounded-md text-muted hover:bg-background hover:text-main font-medium text-sm transition-all">
 			{%include 'portals/partials/icons/attendance.html' %}
-			<span>Attendance</span>
+			<span x-show="leftSidebarOpen === true">Attendance</span>
 		</a>
 
 		<!-- Section: Academic -->
-		<div
-			class="px-md py-2 mt-md text-[10px] font-black text-dim uppercase tracking-widest">
-			Academic
-		</div>
 
 		<a
 			href="{%url 'portal:admin-result-view' %}"
 			class="flex items-center gap-3 px-md py-2.5 rounded-md text-muted hover:bg-background hover:text-main font-medium text-sm transition-all">
 			{%include 'portals/partials/icons/grades.html'%}
-			<span>Results & Grades</span>
+			<span x-show="leftSidebarOpen === true">Results & Grades</span>
 		</a>
 
-    <a
+		<a
 			href="{%url 'portal:admin-announcements' %}"
 			class="flex items-center gap-3 px-md py-2.5 rounded-md text-muted hover:bg-background hover:text-main font-medium text-sm transition-all">
 			{%include 'portals/partials/icons/announcements.html'%}
-			<span>Announcements</span>
+			<span x-show="leftSidebarOpen === true">Announcements</span>
 		</a>
 
 		<a
@@ -137,14 +134,10 @@
 				<rect x="1" y="4" width="22" height="16" rx="2" />
 				<line x1="1" y1="10" x2="23" y2="10" />
 			</svg>
-			<span>Fee Management</span>
+			<span x-show="leftSidebarOpen === true">Fee Management</span>
 		</a>
 
 		<!-- Section: System -->
-		<div
-			class="px-md py-2 mt-md text-[10px] font-black text-dim uppercase tracking-widest">
-			System
-		</div>
 
 		<a
 			href="{%url 'portal:admin-settings'%}"
@@ -160,12 +153,15 @@
 				<path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
 				<path d="M4.93 4.93a10 10 0 0 0 0 14.14" />
 			</svg>
-			<span>Settings</span>
+			<span x-show="leftSidebarOpen === true">Settings</span>
 		</a>
 
-		<a
-			href="#"
-			class="flex items-center gap-3 px-md py-2.5 rounded-md text-danger/70 hover:bg-danger/5 hover:text-danger font-bold text-sm transition-all mt-lg">
+		<form
+			action="{% url 'users:logout' %}"
+			method="post"
+			class="flex items-center gap-3 px-3 py-2.5 rounded-md text-danger/70 hover:bg-danger/5 hover:text-danger font-bold text-sm transition-all mt-lg whitespace-nowrap"
+			:class="leftSidebarOpen ? 'hover:bg-danger/5' : 'justify-center'">
+			{% csrf_token %}
 			<svg
 				class="w-4 h-4"
 				fill="none"
@@ -177,6 +173,7 @@
 				<polyline points="16 17 21 12 16 7" />
 				<line x1="21" y1="12" x2="9" y2="12" />
 			</svg>
-			<span>Logout</span>
-		</a>
+			<button type="submit" x-show="leftSidebarOpen">Logout</button>
+		</form>
 	</nav>
+</aside>

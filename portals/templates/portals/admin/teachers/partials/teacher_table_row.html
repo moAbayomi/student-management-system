@@ -3,12 +3,12 @@
 					class="hover:bg-[var(--color-background)]/40 transition-colors group"
 					hx-get="{%url 'portal:teacher-detail' teacher.id %}"
 					hx-target="#teacher-card-right-sidebar"
-					hx-swap="outerHTML"
+					hx-swap="innerHTML"
 					hx-headers='{"Trigger-Source": "sidebar-update"}'
 					{%if oob%}
 					hx-swap-oob="#teacher-row-{{teacher.id}}"
 					{%endif%}
-					@click="selectedRow={{teacher.id}}, toggleRightBar=true">
+					@click="selectedRow={{teacher.id}}, selectedTeacher={name: '{{teacher.name}}', isFormTeacher: '{{teacher.class_teacher_of.first}}' ? true : false, formClass: '{{teacher.class_teacher_of.first}}',  }, toggleRightBar=true">
 					<td class="p-4 text-center">
 						<input
 							type="checkbox"
@@ -66,7 +66,7 @@
 							class="flex items-center gap-1.5 text-[10px] font-bold text-[var(--color-success)] uppercase">
 							<span
 								class="w-1.5 h-1.5 rounded-full bg-[var(--color-success)]"></span>
-							Active
+							{{teacher.status}}
 						</span>
 					</td>
 					<td class="p-4">

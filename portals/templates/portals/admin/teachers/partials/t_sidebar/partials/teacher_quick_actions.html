@@ -1,0 +1,24 @@
+
+        <div x-show="selectedRow" class="border-b border-border-light">
+			<div class="flex">
+				<button
+					@click="subjectTab = 'assignments'"
+					class="flex-1 py-2.5 text-[11.5px] font-semibold transition-colors">
+					Assignments
+				</button>
+				<button
+					@click="subjectTab = 'assign'"
+					class="flex-1 py-2.5 text-[11.5px] font-semibold transition-colors">
+					+ Assign
+				</button>
+				<button
+					@click="subjectTab = 'actions'"
+					class="flex-1 py-2.5 text-[11.5px] font-semibold transition-colors">
+					Actions
+				</button>
+			</div>
+		</div>
+
+		{%include 'portals/admin/teachers/partials/t_sidebar/teacher_subject_assignments.html'%} 
+		{%include 'portals/admin/teachers/partials/t_sidebar/assign_subject_assignment.html' %}
+		{%include 'portals/admin/teachers/partials/t_sidebar/teacher_actions.html' %}

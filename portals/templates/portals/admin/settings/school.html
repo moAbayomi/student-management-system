@@ -1,0 +1,38 @@
+{% extends "portals/base.html" %}
+
+{% block content %}
+<h2>School Settings</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                <small class="help-text">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Save Settings</button>
+</form>
+
+<div class="current-branding">
+    {% if school.logo %}
+        <p>Current logo:</p>
+        <img src="{{ school.logo.url }}" alt="School logo" style="max-height: 80px;">
+    {% endif %}
+    {% if school.primary_color %}
+        <p>Current colors:
+            <span style="display:inline-block;width:20px;height:20px;background:{{ school.primary_color }};border:1px solid #ccc;"></span>
+            <span style="display:inline-block;width:20px;height:20px;background:{{ school.secondary_color }};border:1px solid #ccc;"></span>
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

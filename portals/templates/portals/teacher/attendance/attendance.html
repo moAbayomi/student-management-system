@@ -1,0 +1,17 @@
+{%extends 'portals/base.html' %}
+
+{%block title%}Attendance{%endblock%}
+
+{%block aside%}
+{%include 'portals/teacher/teacher_dashboard.html'%}
+{%endblock%}
+
+<div>
+{%block content%}
+{%include 'portals/teacher/attendance/attendance_overview.html'%}
+{%endblock%}
+
+{%block right_sidebar%}
+{%include 'portals/teacher/attendance/right_sidebar.html'%}
+{%endblock%}
+</div>

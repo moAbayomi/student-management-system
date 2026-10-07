@@ -1,0 +1,30 @@
+<div
+	class="flex items-start justify-between px-lg py-2.5 group hover:bg-background/40 transition-colors">
+	<div class="flex items-start gap-2 min-w-0">
+		<div class="w-1.5 h-1.5 rounded-full bg-info mt-1.5 flex-shrink-0"></div>
+		<div>
+			<div class="text-[12px] font-bold text-main leading-tight">
+				{{ass.subject}}
+			</div>
+			<div class="text-[10.5px] text-muted mt-0.5">
+				{{ass.class_arm}} · 
+			</div>
+		</div>
+	</div>
+	<button
+		hx-post=""
+		hx-confirm="Remove Mathematics from SS 2A and SS 2B?"
+		hx-target="closest .group"
+		hx-swap="outerHTML"
+		class="opacity-0 group-hover:opacity-100 w-5 h-5 rounded flex items-center justify-center text-danger hover:bg-danger-light transition-all flex-shrink-0 mt-0.5">
+		<svg
+			class="w-3 h-3"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2.5"
+			viewBox="0 0 24 24">
+			<line x1="18" y1="6" x2="6" y2="18" />
+			<line x1="6" y1="6" x2="18" y2="18" />
+		</svg>
+	</button>
+</div>

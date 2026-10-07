@@ -1,0 +1,432 @@
+{% load static %}
+
+
+
+<div
+  class="w-80 flex flex-col bg-white border-r border-slate-200 min-h-screen text-slate-800 font-sans select-none"
+  x-data="{
+    addArmOpen: false,
+    newArmName: '',
+    deleteArm: null,
+  }">
+
+  <div class="bg-[#0D1117] px-4 pt-5 pb-4">
+    <div class="text-[10px] font-bold tracking-widest text-amber-500 uppercase mb-2">
+      Class Level
+    </div>
+
+    <div class="flex items-start justify-between gap-2 mb-4">
+      <div>
+        <div class="text-3xl font-black text-white tracking-tight leading-none">
+          {{ class.name }}
+        </div>
+        <div class="text-xs text-slate-400 font-medium mt-1">
+          {{ class.get_name_display }}
+        </div>
+      </div>
+      <span class="bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide mt-1">
+        Active
+      </span>
+    </div>
+
+    {# Counter strip #}
+    <div class="grid grid-cols-3 gap-2">
+      <div class="bg-white/[0.07] rounded-lg p-2 text-center border border-white/[0.04]">
+        <div class="text-xl font-black text-white leading-tight">
+          {{ class.class_arms.all.count }}
+        </div>
+        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
+          Arms
+        </div>
+      </div>
+      <div class="bg-white/[0.07] rounded-lg p-2 text-center border border-white/[0.04]">
+        <div class="text-xl font-black text-white leading-tight">
+          {{ total_students|default:"—" }}
+        </div>
+        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
+          Students
+        </div>
+      </div>
+      <div class="bg-white/[0.07] rounded-lg p-2 text-center border border-white/[0.04]">
+        <div class="text-xl font-black text-amber-500 leading-tight">
+          {{ total_teachers|default:"—" }}
+        </div>
+        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
+          Teachers
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── PERFORMANCE SNAPSHOT ── #}
+  <div class="px-4 py-3.5 border-b border-slate-100">
+    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">
+      Performance Snapshot
+    </div>
+
+    <div class="grid grid-cols-2 gap-2 mb-3">
+      <div class="border border-slate-100 bg-slate-50/60 rounded-xl p-2.5">
+        <div class="text-base font-black text-emerald-700 leading-none">
+          {{ avg_attendance|default:"—" }}
+        </div>
+        <div class="text-[10.5px] font-semibold text-slate-500 mt-0.5">
+          Avg Attendance
+        </div>
+        <div class="w-full bg-slate-200 h-1 rounded-full mt-2 overflow-hidden">
+          <div class="bg-emerald-500 h-full rounded-full" style="width: {{ avg_attendance|default:0 }}%"></div>
+        </div>
+      </div>
+
+      <div class="border border-slate-100 bg-slate-50/60 rounded-xl p-2.5">
+        <div class="text-base font-black text-blue-700 leading-none">
+          {{ avg_score|default:"—" }}
+        </div>
+        <div class="text-[10.5px] font-semibold text-slate-500 mt-0.5">
+          Avg Score
+        </div>
+        <div class="w-full bg-slate-200 h-1 rounded-full mt-2 overflow-hidden">
+          <div class="bg-blue-500 h-full rounded-full" style="width: {{ avg_score|default:0 }}%"></div>
+        </div>
+      </div>
+
+      <div class="border border-slate-100 bg-slate-50/60 rounded-xl p-2.5">
+        <div class="text-base font-black text-amber-700 leading-none">
+          {{ class.core_subjects.count|default:"0" }}
+        </div>
+        <div class="text-[10.5px] font-semibold text-slate-500 mt-0.5">
+          Core Subjects
+        </div>
+      </div>
+
+      <div class="border border-slate-100 bg-slate-50/60 rounded-xl p-2.5">
+        <div class="text-base font-black text-rose-700 leading-none">
+          {{ unassigned_count|default:"0" }}
+        </div>
+        <div class="text-[10.5px] font-semibold text-slate-500 mt-0.5">
+          Unassigned
+        </div>
+      </div>
+    </div>
+
+    {# Subject coverage bar #}
+    {% if class.core_subjects.count %}
+    <div>
+      <div class="flex justify-between items-center mb-1.5">
+        <span class="text-[11px] font-bold text-slate-600">Subject Coverage</span>
+        <span class="text-[11px] font-black text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded-md">
+          {{ assigned_count|default:"0" }} / {{ class.core_subjects.count }} filled
+        </span>
+      </div>
+      <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+        <div
+          class="bg-amber-500 h-full rounded-full transition-all duration-500"
+          style="width: {{ coverage_pct|default:0 }}%">
+        </div>
+      </div>
+      {% if unassigned_count %}
+      <div class="text-[10px] text-rose-600 font-semibold mt-1.5 flex items-start gap-1">
+        <span>⚠</span>
+        <span>{{ unassigned_count }} subject{{ unassigned_count|pluralize }} with no teacher assigned</span>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  {# ── QUICK ACTIONS ── #}
+  <div class="px-4 py-3.5 border-b border-slate-100">
+    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">
+      Quick Actions
+    </div>
+    <div class="flex flex-col gap-1.5">
+
+      {# Manage Core Subjects #}
+      <button
+        type="button"
+        hx-get="{% url 'portal:manage-arm-core-subjects' class.id %}"
+        hx-target="#class-details-card"
+        hx-swap="innerHTML"
+        class="group flex items-center justify-between text-left p-2.5 border border-slate-100 hover:border-blue-200 rounded-xl hover:bg-blue-50/40 bg-white transition-all duration-150 shadow-sm">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100 group-hover:bg-blue-100 transition">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-linecap="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-800">Manage Core Subjects</div>
+            <div class="text-[10px] font-medium text-slate-400">
+              {{ class.core_subjects.count }} subject{{ class.core_subjects.count|pluralize }} assigned
+            </div>
+          </div>
+        </div>
+        <svg class="text-slate-300 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+      {# View All Students #}
+      <button
+        type="button"
+        hx-get=""
+        hx-target="#main-content"
+        hx-swap="innerHTML"
+        class="group flex items-center justify-between text-left p-2.5 border border-slate-100 hover:border-emerald-200 rounded-xl hover:bg-emerald-50/40 bg-white transition-all duration-150 shadow-sm">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0 border border-emerald-100 group-hover:bg-emerald-100 transition">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-800">View All Students</div>
+            <div class="text-[10px] font-medium text-slate-400">
+              {{ total_students|default:"0" }} student{{ total_students|pluralize }} across {{ class.class_arms.count }} arm{{ class.class_arms.count|pluralize }}
+            </div>
+          </div>
+        </div>
+        <svg class="text-slate-300 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+      {# Download Timetable #}
+      <button
+        type="button"
+        hx-get=""
+        hx-target="this"
+        hx-swap="outerHTML"
+        class="group flex items-center justify-between text-left p-2.5 border border-slate-100 hover:border-purple-200 rounded-xl hover:bg-purple-50/40 bg-white transition-all duration-150 shadow-sm">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center shrink-0 border border-purple-100 group-hover:bg-purple-100 transition">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-800">Download Timetable</div>
+            <div class="text-[10px] font-medium text-slate-400">
+              All {{ class.class_arms.count }} arm{{ class.class_arms.count|pluralize }} as PDF
+            </div>
+          </div>
+        </div>
+        <svg class="text-slate-300 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+    </div>
+  </div>
+
+  {# ── CLASS ARMS ── #}
+  <div class="px-4 py-3.5 flex-1">
+
+    {# Arms header + Add button #}
+    <div class="flex items-center justify-between mb-3">
+      <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+        Class Arms
+      </div>
+      <button
+        type="button"
+        @click="addArmOpen = !addArmOpen"
+        :class="addArmOpen ? 'bg-amber-100 border-amber-300 text-amber-800' : 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100'"
+        class="inline-flex items-center gap-1 text-[11px] font-bold border rounded-lg px-2.5 py-1 transition">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add Arm
+      </button>
+    </div>
+
+    {# Add arm inline form #}
+    <div
+      x-show="addArmOpen"
+      x-transition:enter="transition ease-out duration-150"
+      x-transition:enter-start="opacity-0 -translate-y-1"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-100"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-3 shadow-sm">
+      <form
+        method="post"
+        hx-post=""
+        hx-target="#class-details-card"
+        hx-swap="innerHTML">
+        {% csrf_token %}
+        <div class="text-xs font-bold text-amber-900 mb-1.5">New Class Arm Name</div>
+        <input
+          type="text"
+          name="arm_name"
+          x-model="newArmName"
+          placeholder="e.g. {{ class.name }}D"
+          class="w-full px-3 py-2 bg-white border border-amber-200 focus:border-amber-500 rounded-lg text-sm font-semibold outline-none transition"
+          required
+        />
+        <div class="flex gap-1.5 mt-2">
+          <button
+            type="submit"
+            class="flex-1 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition">
+            Create Arm
+          </button>
+          <button
+            type="button"
+            @click="addArmOpen = false; newArmName = ''"
+            class="py-1.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-500 transition">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    {# Arms list #}
+    <div class="space-y-2">
+      {% for arm in class.class_arms.all %}
+      <div class="group" x-data="{ confirmDelete: false }">
+
+        {# Arm card #}
+        <div
+          class="flex items-start gap-3 p-3 rounded-xl border transition-all duration-150 shadow-sm relative
+                 {% if forloop.first %}border-amber-400/70 bg-amber-50/60 shadow-amber-100{% else %}border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50/60{% endif %}">
+
+          {# Badge #}
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-black text-xs
+                      {% if forloop.first %}bg-amber-500 text-white shadow-sm shadow-amber-400/30{% else %}bg-slate-100 text-slate-600 border border-slate-200{% endif %}">
+            {{ arm.name|slice:"-1:" }}{{ forloop.counter|stringformat:"s" }}
+          </div>
+
+          {# Info #}
+          <div class="flex-1 min-w-0">
+            <div class="text-xs font-black {% if forloop.first %}text-slate-900{% else %}text-slate-800{% endif %}">
+              {{ arm.name }}
+            </div>
+            <div class="text-[10.5px] font-medium text-slate-500 mt-0.5">
+              {{ arm.students.count }} student{{ arm.students.count|pluralize }}
+              · {% if arm.class_teacher %}{{ arm.class_teacher.user.get_full_name }}{% else %}<span class="text-rose-600 font-semibold">No class teacher</span>{% endif %}
+            </div>
+            {# Capacity bar #}
+            <div class="mt-1.5">
+              <div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+                <div
+                  class="h-full rounded-full transition-all
+                         {% if arm.capacity_pct >= 100 %}bg-rose-500{% elif arm.capacity_pct >= 90 %}bg-amber-500{% else %}bg-emerald-500{% endif %}"
+                  style="width: {{ arm.capacity_pct|default:0 }}%">
+                </div>
+              </div>
+              <div class="text-[9.5px] font-semibold mt-0.5
+                          {% if arm.capacity_pct >= 100 %}text-rose-600{% elif arm.capacity_pct >= 90 %}text-amber-600{% else %}text-slate-400{% endif %}">
+                {{ arm.capacity_pct|default:0 }}% capacity{% if arm.capacity_pct >= 100 %} — arm is full{% endif %}
+              </div>
+            </div>
+          </div>
+
+          {# Action icons — appear on hover #}
+          <div class="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              type="button"
+              hx-get=""
+              hx-target="#modal-container"
+              hx-swap="innerHTML"
+              @click="$dispatch('open-modal')"
+              class="p-1.5 hover:bg-white rounded-lg text-slate-400 hover:text-slate-700 hover:shadow-sm transition"
+              title="Edit {{ arm.name }}">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              @click="confirmDelete = !confirmDelete"
+              class="p-1.5 hover:bg-rose-50 rounded-lg text-slate-400 hover:text-rose-600 transition"
+              title="Delete {{ arm.name }}">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                <path d="M10 11v6"/><path d="M14 11v6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {# Inline delete confirm #}
+        <div
+          x-show="confirmDelete"
+          x-transition:enter="transition ease-out duration-150"
+          x-transition:enter-start="opacity-0 scale-95"
+          x-transition:enter-end="opacity-100 scale-100"
+          class="mt-1.5 bg-rose-50 border border-rose-200 rounded-xl p-3">
+          <div class="text-xs font-bold text-rose-800 mb-0.5">
+            Delete {{ arm.name }}?
+          </div>
+          <div class="text-[10.5px] text-rose-600 leading-relaxed mb-2">
+            This removes {{ arm.students.count }} student assignment{{ arm.students.count|pluralize }} and all timetable slots. Cannot be undone.
+          </div>
+          <div class="flex gap-1.5">
+            <form method="post" hx-post="" hx-target="#class-details-card" hx-swap="innerHTML">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold transition shadow-sm">
+                Delete
+              </button>
+            </form>
+            <button
+              type="button"
+              @click="confirmDelete = false"
+              class="px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-500 transition">
+              Cancel
+            </button>
+          </div>
+        </div>
+
+      </div>
+      {% empty %}
+      <div class="text-center py-6">
+        <div class="text-slate-300 text-3xl mb-2">⬡</div>
+        <div class="text-xs font-semibold text-slate-500">No arms yet</div>
+        <div class="text-[10.5px] text-slate-400 mt-0.5">Click "Add Arm" to get started</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {# ── RECENT ACTIVITY ── #}
+  <div class="px-4 py-3.5 border-t border-slate-100 bg-slate-50/40">
+    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+      Recent Activity
+    </div>
+    <div class="flex flex-col divide-y divide-slate-100">
+      {% for log in recent_logs %}
+      <div class="flex items-start gap-2.5 py-2.5">
+        <div class="w-1.5 h-1.5 rounded-full shrink-0 mt-[5px]
+                    {% if log.type == 'success' %}bg-emerald-500
+                    {% elif log.type == 'info' %}bg-blue-500
+                    {% elif log.type == 'warning' %}bg-amber-500
+                    {% elif log.type == 'danger' %}bg-rose-500
+                    {% else %}bg-slate-400{% endif %}">
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-xs text-slate-700 font-medium leading-relaxed">
+            {{ log.message }}
+          </div>
+          <div class="text-[10px] text-slate-400 font-medium mt-0.5">
+            {{ log.created_at|timesince }} ago
+            {% if log.actor %} · {{ log.actor }}{% endif %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="py-3 text-[11px] text-slate-400 text-center">No recent activity</div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>

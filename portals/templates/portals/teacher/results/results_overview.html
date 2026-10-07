@@ -1,0 +1,839 @@
+<div
+	x-data="resultsApp()"
+	x-init="init()"
+	id="results-main"
+	class="w-full min-h-screen bg-slate-50 text-slate-800 font-sans antialiased select-none pb-24">
+	<div
+		class="w-full bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between gap-4">
+		<div
+			class="flex items-center gap-2 text-xs font-semibold text-slate-500 tracking-wide">
+			<a href="#" class="hover:text-slate-900 transition"
+				>Results &amp; Grades</a
+			>
+			<span class="text-slate-300 font-normal">›</span>
+			<a href="#" class="hover:text-slate-900 transition">My Assignments</a>
+			<span class="text-slate-300 font-normal">›</span>
+			<span class="text-slate-900 font-bold tracking-normal"
+				>Mathematics — SS 2A</span
+			>
+		</div>
+		<div class="flex items-center gap-2">
+			<button
+				type="button"
+				class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold text-slate-600 rounded-lg transition shadow-sm"
+				@click="showHistory = !showHistory">
+				<svg
+					class="text-slate-400"
+					width="13"
+					height="13"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					stroke-linecap="round">
+					<circle cx="12" cy="12" r="10" />
+					<polyline points="12 6 12 12 16 14" />
+				</svg>
+				Past Records
+			</button>
+			<button
+				type="button"
+				class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold text-slate-600 rounded-lg transition shadow-sm"
+				@click="exportCSV()">
+				<svg
+					class="text-slate-400"
+					width="13"
+					height="13"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					stroke-linecap="round">
+					<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+					<polyline points="7 10 12 15 17 10" />
+					<line x1="12" y1="15" x2="12" y2="3" />
+				</svg>
+				Export CSV
+			</button>
+		</div>
+	</div>
+
+	<div class="p-6 bg-white border-b border-slate-200 space-y-4">
+		<div class="flex items-start justify-between gap-4 flex-wrap">
+			<div>
+				<div class="flex items-center gap-2.5 flex-wrap">
+					<div
+						class="text-2xl font-black text-slate-900 tracking-tight leading-none">
+						Mathematics
+					</div>
+					<span
+						class="bg-purple-50 border border-purple-200 text-purple-700 px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider"
+						>SS 2, Arm A</span
+					>
+					<span
+						class="bg-blue-50 border border-blue-200 text-blue-700 px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider"
+						>2nd Term 2026</span
+					>
+					<span
+						class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider"
+						x-show="isSubmitted"
+						style="background: #dcfce7; color: #15803d">
+						<svg
+							width="10"
+							height="10"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="3"
+							stroke-linecap="round">
+							<polyline points="20 6 9 17 4 12" />
+						</svg>
+						Submitted
+					</span>
+					<span
+						class="bg-amber-50 border border-amber-200 text-amber-700 px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider"
+						x-show="!isSubmitted && savedDraft"
+						>Draft saved</span
+					>
+				</div>
+				<div class="text-[13px] font-medium text-slate-400 mt-1.5">
+					Mr. Samuel Adeyemi &nbsp;·&nbsp; 40 students &nbsp;·&nbsp; CA max: 30
+					&nbsp;·&nbsp; Exam max: 70
+				</div>
+			</div>
+			<div class="flex items-center gap-1.5 flex-wrap">
+				<div
+					class="text-xs text-slate-400 text-right font-medium leading-relaxed">
+					Session: <strong class="text-slate-800 font-bold">2025/2026</strong
+					><br />
+					Assignment:
+					<strong class="text-slate-800 font-bold">#ASN-0042</strong>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="flex items-center gap-2 bg-amber-50/60 border border-amber-200/80 rounded-xl px-4 py-3 text-xs text-amber-900 flex-wrap">
+			<svg
+				width="14"
+				height="14"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="#B45309"
+				stroke-width="2.5"
+				stroke-linecap="round">
+				<circle cx="12" cy="12" r="10" />
+				<polyline points="12 6 12 12 16 14" />
+			</svg>
+			<span class="font-black text-amber-800 uppercase tracking-wide"
+				>Submission deadline:</span
+			>
+			<span class="text-slate-900 font-bold">Friday, 23 May 2026</span>
+			<span
+				class="text-amber-700 font-black tracking-wide"
+				x-text="deadlineCountdown"></span>
+			<div
+				class="ml-auto flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+				Last saved:
+				<span
+					class="font-bold text-slate-800"
+					x-text="lastSaved || 'Not yet'"></span>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 p-6 pb-0">
+		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+			<div
+				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				Total Students
+			</div>
+			<div
+				class="text-xl font-black text-slate-900 leading-tight mt-0.5"
+				x-text="students.length">
+				40
+			</div>
+			<div class="text-[10px] font-medium text-slate-400 mt-0.5">
+				In this arm
+			</div>
+		</div>
+		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+			<div
+				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				Filled In
+			</div>
+			<div
+				class="text-xl font-black text-emerald-700 leading-tight mt-0.5"
+				x-text="filledCount">
+				36
+			</div>
+			<div
+				class="text-[10px] font-medium text-slate-400 mt-0.5"
+				x-text="`of ${students.length}`"></div>
+		</div>
+		<div
+			class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm transition-colors"
+			:style="missingCount > 0 ? 'border-color:#FECACA; background-color:#FEF2F2;' : ''">
+			<div
+				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider"
+				:style="missingCount > 0 ? 'color:#B91C1C;' : ''">
+				Missing
+			</div>
+			<div
+				class="text-xl font-black leading-tight mt-0.5"
+				:style="missingCount > 0 ? 'color:#DC2626;' : 'color:#15803D;'"
+				x-text="missingCount">
+				4
+			</div>
+			<div
+				class="text-[10px] font-medium text-slate-400 mt-0.5"
+				x-text="missingCount > 0 ? 'Need scores' : 'All good'"></div>
+		</div>
+		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+			<div
+				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				Class Average
+			</div>
+			<div
+				class="text-xl font-black text-slate-900 leading-tight mt-0.5"
+				x-text="classAvg">
+				74.6
+			</div>
+			<div class="text-[10px] font-medium text-slate-400 mt-0.5">
+				Out of 100
+			</div>
+		</div>
+		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+			<div
+				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				Highest Score
+			</div>
+			<div
+				class="text-xl font-black text-emerald-700 leading-tight mt-0.5"
+				x-text="highestScore">
+				97
+			</div>
+			<div
+				class="text-[10px] font-medium text-slate-500 mt-0.5 truncate"
+				x-text="highestName">
+				T. Oke
+			</div>
+		</div>
+		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+			<div
+				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				Lowest Score
+			</div>
+			<div
+				class="text-xl font-black leading-tight mt-0.5"
+				:style="`color: ${lowestScore < 50 ? '#DC2626' : '#D97706'}`"
+				x-text="lowestScore">
+				34
+			</div>
+			<div
+				class="text-[10px] font-medium text-slate-500 mt-0.5 truncate"
+				x-text="lowestName">
+				K. Ibe
+			</div>
+		</div>
+	</div>
+
+	<div class="flex items-center gap-4 px-6 pt-5 pb-3 flex-wrap">
+		<div class="flex items-center gap-2">
+			<span
+				class="text-[10px] font-black text-slate-400 uppercase tracking-widest"
+				>Bulk Fill:</span
+			>
+			<button
+				type="button"
+				class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 active:bg-amber-200 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+				@click="bulkTarget='ca'; showBulk=true"
+				:disabled="isSubmitted">
+				<svg
+					width="12"
+					height="12"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					stroke-linecap="round">
+					<rect x="3" y="3" width="7" height="7" />
+					<rect x="14" y="3" width="7" height="7" />
+					<rect x="3" y="14" width="7" height="7" />
+					<rect x="14" y="14" width="7" height="7" />
+				</svg>
+				Fill all CA
+			</button>
+			<button
+				type="button"
+				class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 active:bg-amber-200 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+				@click="bulkTarget='exam'; showBulk=true"
+				:disabled="isSubmitted">
+				<svg
+					width="12"
+					height="12"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					stroke-linecap="round">
+					<rect x="3" y="3" width="7" height="7" />
+					<rect x="14" y="3" width="7" height="7" />
+					<rect x="3" y="14" width="7" height="7" />
+					<rect x="14" y="14" width="7" height="7" />
+				</svg>
+				Fill all Exam
+			</button>
+		</div>
+
+		<div class="hidden lg:block w-px h-5 bg-slate-200"></div>
+
+		<div class="flex items-center gap-1.5">
+			<span
+				class="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-1"
+				>Filter:</span
+			>
+			<button
+				type="button"
+				class="px-3 py-1.5 text-xs font-bold border rounded-lg transition"
+				:class="filterMode === 'all' ? 'bg-slate-900 text-white border-slate-900 shadow-sm' : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-600'"
+				@click="filterMode = 'all'">
+				All
+			</button>
+			<button
+				type="button"
+				class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold border rounded-lg transition"
+				:class="filterMode === 'missing' ? 'bg-rose-600 text-white border-rose-600 shadow-sm' : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-600'"
+				@click="filterMode = 'missing'">
+				Missing
+				<span
+					x-show="missingCount > 0"
+					class="bg-rose-700 text-white rounded-full px-1.5 py-0.5 text-[9.5px] font-black leading-none"
+					x-text="missingCount"></span>
+			</button>
+			<button
+				type="button"
+				class="px-3 py-1.5 text-xs font-bold border rounded-lg transition"
+				:class="filterMode === 'failing' ? 'bg-orange-600 text-white border-orange-600 shadow-sm' : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-600'"
+				@click="filterMode = 'failing'">
+				Failing (&lt;50)
+			</button>
+		</div>
+
+		<div class="hidden lg:block w-px h-5 bg-slate-200"></div>
+
+		<div class="flex items-center gap-2">
+			<label
+				class="text-[10px] font-black text-slate-400 uppercase tracking-widest"
+				>Search:</label
+			>
+			<div class="relative">
+				<svg
+					class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400"
+					width="12"
+					height="12"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					stroke-linecap="round">
+					<circle cx="11" cy="11" r="8" />
+					<line x1="21" y1="21" x2="16.65" y2="16.65" />
+				</svg>
+				<input
+					type="text"
+					placeholder="Student name or ID…"
+					x-model="searchQuery"
+					class="pl-7 pr-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold w-48 outline-none focus:border-slate-400 transition shadow-inner" />
+			</div>
+		</div>
+
+		<div class="ml-auto text-xs font-medium text-slate-400">
+			Showing
+			<strong
+				class="text-slate-800 font-bold"
+				x-text="filteredStudents.length"></strong>
+			students
+		</div>
+	</div>
+
+	<div
+		class="mx-6 my-2 bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center gap-3 text-xs text-amber-900"
+		x-show="showBulk"
+		x-cloak
+		x-transition.duration.150ms>
+		<svg
+			class="text-amber-600 shrink-0"
+			width="14"
+			height="14"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2.5"
+			stroke-linecap="round">
+			<rect x="3" y="3" width="7" height="7" />
+			<rect x="14" y="3" width="7" height="7" />
+			<rect x="3" y="14" width="7" height="7" />
+			<rect x="14" y="14" width="7" height="7" />
+		</svg>
+		<span
+			class="font-bold"
+			x-text="bulkTarget === 'ca' ? 'Set CA score for all students:' : 'Set Exam score for all students:'"></span>
+		<div class="flex items-center gap-1.5">
+			<input
+				class="w-16 px-2 py-1 bg-white border border-amber-200 focus:border-amber-400 rounded-md font-bold text-center outline-none shadow-sm"
+				type="number"
+				x-ref="bulkInput"
+				x-model="bulkValue"
+				:max="bulkTarget === 'ca' ? 30 : 70"
+				min="0"
+				placeholder="0"
+				@keyup.enter="applyBulk()" />
+			<span
+				class="text-[11px] text-amber-600 font-medium shrink-0"
+				x-text="bulkTarget === 'ca' ? 'max 30' : 'max 70'"></span>
+		</div>
+		<button
+			type="button"
+			class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded-md font-bold transition shadow-sm"
+			@click="applyBulk()">
+			Apply to all
+		</button>
+		<span class="text-[11px] text-amber-600 font-medium"
+			>— you can edit individuals after</span
+		>
+		<button
+			type="button"
+			class="ml-auto w-5 h-5 rounded-md hover:bg-amber-100 flex items-center justify-center font-bold text-amber-700 transition"
+			@click="showBulk=false;bulkValue=''">
+			✕
+		</button>
+	</div>
+
+	<div
+		class="mx-6 my-2 bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-center gap-2.5 text-xs text-emerald-900"
+		x-show="isSubmitted"
+		x-cloak>
+		<svg
+			class="text-emerald-600 shrink-0"
+			width="16"
+			height="16"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2.5"
+			stroke-linecap="round">
+			<polyline points="20 6 9 17 4 12" />
+		</svg>
+		<span class="font-medium leading-normal"
+			>These results were submitted on
+			<strong class="font-bold mx-0.5">14 May 2026 at 10:42 AM</strong> and are
+			now read-only. Contact the admin to unlock if corrections are
+			needed.</span
+		>
+		<button
+			type="button"
+			class="ml-auto shrink-0 font-bold text-emerald-700 bg-white hover:bg-emerald-100 border border-emerald-200 rounded-lg px-3 py-1.5 transition shadow-sm">
+			Request unlock
+		</button>
+	</div>
+
+	<div
+		x-show="showHistory"
+		x-cloak
+		x-transition.duration.150ms
+		class="mx-6 mb-3 bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+		<div
+			class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+			<span class="text-xs font-black text-slate-700 uppercase tracking-wider"
+				>Past Result Records — Mathematics SS 2A</span
+			>
+			<button
+				type="button"
+				@click="showHistory=false"
+				class="text-slate-400 hover:text-slate-600 text-xl font-light leading-none">
+				×
+			</button>
+		</div>
+		<div class="divide-y divide-slate-100">
+			<div
+				class="p-3.5 hover:bg-slate-50/60 flex items-center justify-between gap-4 flex-wrap cursor-pointer group transition"
+				@click="loadRecord('1st-term-2026')">
+				<div>
+					<div
+						class="text-xs font-bold text-slate-800 group-hover:text-slate-900">
+						1st Term 2026
+					</div>
+					<div class="text-[11px] text-slate-400 font-medium mt-0.5">
+						Submitted 15 Jan 2026 · Class avg: 71.3
+					</div>
+				</div>
+				<div class="flex items-center gap-2" @click.stop>
+					<span
+						class="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-md px-1.5 py-0.5 text-[10px] font-bold"
+						>Submitted</span
+					>
+					<button
+						type="button"
+						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						@click.stop="viewRecord('1st-term-2026')">
+						View
+					</button>
+					<button
+						type="button"
+						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						@click.stop="exportRecord('1st-term-2026')">
+						Export
+					</button>
+				</div>
+			</div>
+			<div
+				class="p-3.5 hover:bg-slate-50/60 flex items-center justify-between gap-4 flex-wrap cursor-pointer group transition"
+				@click="loadRecord('3rd-term-2025')">
+				<div>
+					<div
+						class="text-xs font-bold text-slate-800 group-hover:text-slate-900">
+						3rd Term 2025
+					</div>
+					<div class="text-[11px] text-slate-400 font-medium mt-0.5">
+						Submitted 2 Aug 2025 · Class avg: 68.9
+					</div>
+				</div>
+				<div class="flex items-center gap-2" @click.stop>
+					<span
+						class="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-md px-1.5 py-0.5 text-[10px] font-bold"
+						>Submitted</span
+					>
+					<button
+						type="button"
+						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						@click.stop="viewRecord('3rd-term-2025')">
+						View
+					</button>
+					<button
+						type="button"
+						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						@click.stop="exportRecord('3rd-term-2025')">
+						Export
+					</button>
+				</div>
+			</div>
+			<div
+				class="p-3.5 hover:bg-slate-50/60 flex items-center justify-between gap-4 flex-wrap cursor-pointer group transition"
+				@click="loadRecord('2nd-term-2025')">
+				<div>
+					<div
+						class="text-xs font-bold text-slate-800 group-hover:text-slate-900">
+						2nd Term 2025
+					</div>
+					<div class="text-[11px] text-slate-400 font-medium mt-0.5">
+						Submitted 18 Apr 2025 · Class avg: 66.1
+					</div>
+				</div>
+				<div class="flex items-center gap-2" @click.stop>
+					<span
+						class="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-md px-1.5 py-0.5 text-[10px] font-bold"
+						>Submitted</span
+					>
+					<button
+						type="button"
+						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						@click.stop="viewRecord('2nd-term-2025')">
+						View
+					</button>
+					<button
+						type="button"
+						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						@click.stop="exportRecord('2nd-term-2025')">
+						Export
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="px-6">
+		<div
+			class="w-full bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+			<div class="overflow-x-auto w-full">
+				<table class="w-full table-auto border-collapse text-left">
+					<thead>
+						<tr
+							class="bg-slate-50/75 border-b border-slate-200 text-slate-400 text-[11px] font-black uppercase tracking-wider select-none">
+							<th class="p-3.5 w-8">
+								<input
+									type="checkbox"
+									class="w-3.5 h-3.5 rounded border-slate-300 focus:ring-0 cursor-pointer accent-slate-800"
+									@change="toggleAll($event.target.checked)" />
+							</th>
+							<th class="p-3.5 min-w-[220px]">Student</th>
+							<th class="p-3.5 w-24">Adm. No.</th>
+							<th class="p-3.5 w-28 whitespace-nowrap">
+								CA Score
+								<span class="font-normal text-slate-400 lowercase">(/30)</span>
+							</th>
+							<th class="p-3.5 w-28 whitespace-nowrap">
+								Exam Score
+								<span class="font-normal text-slate-400 lowercase">(/70)</span>
+							</th>
+							<th class="p-3.5 w-24">Total</th>
+							<th class="p-3.5 w-16">Grade</th>
+							<th class="p-3.5">Remarks</th>
+							<th class="p-3.5 w-12 text-center"></th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-slate-150">
+						<template
+							x-for="(student, index) in filteredStudents"
+							:key="student.id">
+							<tr
+								class="hover:bg-slate-50/40 transition-colors"
+								:class="{
+                  'bg-rose-50/40 hover:bg-rose-50/60': isMissing(student),
+                  'bg-slate-50/60 opacity-90': isSubmitted
+                }">
+								<td class="p-3.5">
+									<input
+										type="checkbox"
+										class="w-3.5 h-3.5 rounded border-slate-300 focus:ring-0 cursor-pointer accent-slate-800"
+										x-model="student.selected" />
+								</td>
+								<td class="p-3.5">
+									<div class="flex items-center gap-2.5">
+										<span
+											class="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"
+											x-show="isMissing(student)"
+											title="Missing scores"></span>
+										<div
+											class="w-7 h-7 rounded-md font-black text-[10px] flex items-center justify-center shrink-0 border border-black/5 shadow-sm"
+											:style="`background:${student.avatarBg};color:${student.avatarColor};`"
+											x-text="student.initials"></div>
+										<div class="min-w-0">
+											<div
+												class="text-xs font-bold text-slate-800 truncate"
+												x-text="student.name"></div>
+											<div
+												class="text-[9.5px] font-black text-rose-600 uppercase tracking-wide mt-0.5"
+												x-show="student.status === 'flagged'">
+												⚑ At Risk
+											</div>
+										</div>
+									</div>
+								</td>
+								<td
+									class="p-3.5 text-xs font-bold text-slate-500 tracking-monospace"
+									x-text="student.admNo"></td>
+								<td class="p-3.5">
+									<input
+										type="number"
+										min="0"
+										max="30"
+										x-model.number="student.ca"
+										:readonly="isSubmitted"
+										@input="student.caError = false; validateCA(student); recalc(student)"
+										@blur="validateCA(student)"
+										placeholder="—"
+										class="w-[72px] px-2 py-1 bg-white border border-slate-200 rounded-md font-bold text-center text-xs outline-none focus:border-slate-400 transition"
+										:class="{ 'border-rose-500 bg-rose-50 text-rose-700 focus:border-rose-500 shadow-inner': student.caError, 'bg-slate-100 text-slate-500 cursor-not-allowed border-transparent shadow-none': isSubmitted }" />
+								</td>
+								<td class="p-3.5">
+									<input
+										type="number"
+										min="0"
+										max="70"
+										x-model.number="student.exam"
+										:readonly="isSubmitted"
+										@input="student.examError = false; validateExam(student); recalc(student)"
+										@blur="validateExam(student)"
+										placeholder="—"
+										class="w-[72px] px-2 py-1 bg-white border border-slate-200 rounded-md font-bold text-center text-xs outline-none focus:border-slate-400 transition"
+										:class="{ 'border-rose-500 bg-rose-50 text-rose-700 focus:border-rose-500 shadow-inner': student.examError, 'bg-slate-100 text-slate-500 cursor-not-allowed border-transparent shadow-none': isSubmitted }" />
+								</td>
+								<td class="p-3.5">
+									<span
+										class="text-xs font-black tracking-wide"
+										:style="getScoreColor(student.total)"
+										x-text="student.total !== null ? student.total : '—'">
+									</span>
+								</td>
+								<td class="p-3.5">
+									<span
+										class="inline-block px-1.5 py-0.5 rounded text-[10px] font-black w-6 text-center shadow-sm"
+										:class="'grade-' + (student.grade || 'blank')"
+										x-text="student.grade || '—'">
+									</span>
+								</td>
+								<td class="p-3.5">
+									<input
+										type="text"
+										x-model="student.remark"
+										:readonly="isSubmitted"
+										:placeholder="student.grade ? getDefaultRemark(student.grade) : 'Optional remark…'"
+										class="w-full max-w-xs px-2.5 py-1 bg-white border border-transparent rounded-md text-xs font-semibold text-slate-700 placeholder-slate-300 outline-none hover:border-slate-200 focus:bg-white focus:border-slate-400 transition"
+										:class="{ 'bg-slate-100/50 text-slate-500 cursor-not-allowed hover:border-transparent': isSubmitted }" />
+								</td>
+								<td class="p-3.5 text-center">
+									<button
+										type="button"
+										x-show="!isSubmitted"
+										@click="clearStudent(student)"
+										class="rounded p-1 transition cursor-pointer"
+										title="Clear scores"
+										:style="(student.ca !== '' || student.exam !== '') ? 'color:#9CA3AF;' : 'color:#E5E7EB;'">
+										<svg
+											class="hover:text-rose-600 transition"
+											width="13"
+											height="13"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2.5"
+											stroke-linecap="round">
+											<polyline points="3 6 5 6 21 6" />
+											<path d="M19 6l-1 14H6L5 6" />
+											<path d="M10 11v6" />
+											<path d="M14 11v6" />
+											<path d="M9 6V4h6v2" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+						</template>
+
+						<tr x-show="filteredStudents.length === 0" x-cloak>
+							<td
+								colspan="9"
+								class="text-center py-10 px-4 text-xs font-medium text-slate-400 border-none">
+								No students match your current filter.
+								<button
+									type="button"
+									@click="filterMode='all';searchQuery=''"
+									class="text-blue-600 font-bold hover:underline ml-1">
+									Clear filters
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div
+				class="px-4 py-3 bg-slate-50 border-t border-slate-200/80 flex items-center gap-2 flex-wrap text-[11px] font-semibold text-slate-500 select-none">
+				<span class="font-black text-slate-400 uppercase tracking-wider mr-1"
+					>Grade Key:</span
+				>
+				<span
+					class="bg-emerald-50 border border-emerald-100 text-emerald-800 rounded px-1.5 py-0.5 font-bold"
+					>A &nbsp;70–100</span
+				>
+				<span
+					class="bg-blue-50 border border-blue-100 text-blue-800 rounded px-1.5 py-0.5 font-bold"
+					>B &nbsp;60–69</span
+				>
+				<span
+					class="bg-sky-50 border border-sky-100 text-sky-800 rounded px-1.5 py-0.5 font-bold"
+					>C &nbsp;50–59</span
+				>
+				<span
+					class="bg-amber-50 border border-amber-100 text-amber-800 rounded px-1.5 py-0.5 font-bold"
+					>D &nbsp;45–49</span
+				>
+				<span
+					class="bg-orange-50 border border-orange-100 text-orange-800 rounded px-1.5 py-0.5 font-bold"
+					>E &nbsp;40–44</span
+				>
+				<span
+					class="bg-rose-50 border border-rose-100 text-rose-800 rounded px-1.5 py-0.5 font-bold"
+					>F &nbsp;0–39</span
+				>
+				<div
+					class="ml-auto flex items-center gap-1.5 text-slate-400 font-medium">
+					<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Missing
+					scores require attention before submission
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div
+		class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-200 px-6 flex items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+		<div class="flex items-center gap-3">
+			<div class="text-xs font-bold text-slate-500">
+				<span class="text-slate-800 font-black" x-text="filledCount"></span> /
+				<span class="text-slate-800 font-black" x-text="students.length"></span>
+				students filled &nbsp;·&nbsp;
+				<span
+					x-text="missingCount > 0 ? missingCount + ' missing' : 'All complete'"
+					:style="missingCount > 0 ? 'color:#DC2626;font-weight:700;' : 'color:#15803D;font-weight:700;'">
+				</span>
+			</div>
+			<div
+				x-show="saveStatus"
+				x-text="saveStatus"
+				class="text-xs font-bold text-emerald-700 flex items-center gap-1"></div>
+		</div>
+
+		<div class="flex items-center gap-2" x-show="!isSubmitted">
+			<button
+				type="button"
+				class="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 rounded-lg shadow-sm transition disabled:opacity-50"
+				@click="saveDraft()"
+				:disabled="saving">
+				<svg
+					class="text-slate-400"
+					width="13"
+					height="13"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					stroke-linecap="round">
+					<path
+						d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+					<polyline points="17 21 17 13 7 13 7 21" />
+					<polyline points="7 3 7 8 15 8" />
+				</svg>
+				<span x-text="saving ? 'Saving…' : 'Save Draft'"></span>
+			</button>
+			<button
+				type="button"
+				class="inline-flex items-center justify-center gap-1.5 px-5 py-2 bg-slate-900 hover:bg-slate-800 active:bg-black text-white text-xs font-bold rounded-lg shadow-md transition disabled:opacity-50 min-w-[140px]"
+				@click="submitResults()"
+				:disabled="saving || isSubmitted">
+				<svg
+					width="13"
+					height="13"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="3"
+					stroke-linecap="round">
+					<polyline points="20 6 9 17 4 12" />
+				</svg>
+				Submit Results
+			</button>
+		</div>
+
+		<div x-show="isSubmitted" class="flex items-center gap-2" x-cloak>
+			<span
+				class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg px-3 py-1.5 text-xs font-black uppercase tracking-wider shadow-sm">
+				<svg
+					width="11"
+					height="11"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="3"
+					stroke-linecap="round">
+					<polyline points="20 6 9 17 4 12" />
+				</svg>
+				Submitted — Read Only
+			</span>
+			<button
+				type="button"
+				class="px-3 py-1.5 border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold text-slate-600 rounded-lg shadow-sm transition">
+				Request unlock
+			</button>
+		</div>
+	</div>
+</div>

@@ -1,15 +1,12 @@
-<!-- Top bar -->
+<!-- Teacher Header -->
 <header class="z-30 bg-surface/80 backdrop-blur border-b border-border-light px-lg h-16 flex items-center justify-between sticky top-0">
     <div>
-        <h1 class="text-sm font-bold text-main">
-            Welcome, {{ user.first_name }}
-        </h1>
-        <p class="text-[10px] text-dim uppercase tracking-widest font-semibold">
-            {{my_date}}
+        <h1 class="text-[13px] font-black text-main uppercase tracking-tight">Teacher Dashboard</h1>
+        <p class="text-[10px] text-dim uppercase tracking-widest font-bold">
+            {{date}} — 2nd Term, Week 9
         </p>
     </div>
-    <a href="{% url 'portal:add-student' %}"
-        class="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-wider hover:bg-primary-dark transition-all shadow-sm shadow-primary/20">
+    <a href="#" class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded text-[10.5px] font-black uppercase tracking-wider hover:bg-primary-dark transition-all shadow-sm">
         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
@@ -18,210 +15,230 @@
 </header>
 
 <div class="p-md md:p-lg space-y-lg">
-    
-    <!-- Today's Schedule Card -->
-    <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm">
-        <!-- Header -->
-        <div class="flex items-center justify-between mb-lg">
-            <div>
-                <h3 class="text-base font-bold text-main">Today's Schedule</h3>
-                <p class="text-xs text-muted">Thursday, 7 May</p>
+
+    <!-- Stat Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+        <!-- Active Classes Stat -->
+        <div class="bg-surface p-lg border border-border-light rounded-sm relative overflow-hidden group">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 bg-gray-50 border border-border-light rounded flex items-center justify-center text-primary">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.5 1.5H2.5A1 1 0 001.5 2.5v15a1 1 0 001 1h15a1 1 0 001-1v-8.5M10 11H4M10 7H4M10 15H4M14.5 3.5v4m0 4v4m2-5h-4m6 0h-4" />
+                    </svg>
+                </div>
+                <span class="text-[10px] font-black text-success bg-success/10 px-2 py-0.5 rounded-full uppercase">↑ 1</span>
             </div>
-            <a class="text-xs text-primary font-bold hover:underline cursor-pointer">
-                Full Timetable →
-            </a>
+            <div class="text-3xl font-black text-main tracking-tighter leading-none">{{ arm_count }}</div>
+            <div class="text-[10px] text-dim font-bold uppercase tracking-widest mt-2">Active Classes</div>
         </div>
 
-        <!-- Timetable List -->
-        <div class="flex flex-col gap-sm">
-            <!-- Completed Period -->
-            <div class="flex items-center justify-between p-md bg-success-light/30 border-l-4 border-success rounded-r-md">
-                <div class="flex items-center gap-10">
-                    <div class="text-xs text-success font-bold min-w-[80px]">08:00 – 09:00</div>
-                    <div>
-                        <div class="text-sm font-bold text-main">Mathematics</div>
-                        <div class="text-xs text-success-dark font-medium">SS 2A · Room 14</div>
-                    </div>
+        <!-- Total Students Stat -->
+        <div class="bg-surface p-lg border border-border-light rounded-sm relative overflow-hidden group">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 bg-gray-50 border border-border-light rounded flex items-center justify-center text-success">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                    </svg>
                 </div>
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-success/20 text-success">
-                    Completed
-                </span>
+                <span class="text-[10px] font-black text-success bg-success/10 px-2 py-0.5 rounded-full uppercase">Steady</span>
             </div>
+            <div class="text-3xl font-black text-main tracking-tighter leading-none">{{ total_student_count }}</div>
+            <div class="text-[10px] text-dim font-bold uppercase tracking-widest mt-2">Total Students</div>
+        </div>
 
-            <!-- Up Next Period (Active) -->
-            <div class="flex items-center justify-between p-md bg-primary/5 border-l-4 border-primary rounded-r-md shadow-sm">
-                <div class="flex items-center gap-10">
-                    <div class="text-xs text-primary font-bold min-w-[80px]">10:00 – 11:00</div>
-                    <div>
-                        <div class="text-sm font-bold text-main">Further Maths</div>
-                        <div class="text-xs text-primary font-medium">SS 3B · Room 7</div>
-                    </div>
+        <!-- Avg Attendance Stat -->
+        <div class="bg-surface p-lg border border-border-light rounded-sm relative overflow-hidden group">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 bg-gray-50 border border-border-light rounded flex items-center justify-center text-warning">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v2a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a2 2 0 002 2h8a2 2 0 002-2V5H6v2z" />
+                    </svg>
                 </div>
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary text-white">
-                    Up Next
-                </span>
+                <span class="text-[10px] font-black text-danger bg-danger/10 px-2 py-0.5 rounded-full uppercase">↓ 2.1%</span>
             </div>
+            <div class="text-3xl font-black text-main tracking-tighter leading-none">82.4%</div>
+            <div class="text-[10px] text-dim font-bold uppercase tracking-widest mt-2">Avg. Attendance</div>
+        </div>
 
-            <!-- Future Period -->
-            <div class="flex items-center justify-between p-md bg-background/50 border-l-4 border-border-light rounded-r-md opacity-70">
-                <div class="flex items-center gap-10">
-                    <div class="text-xs text-dim font-bold min-w-[80px]">11:00 – 12:00</div>
-                    <div>
-                        <div class="text-sm font-bold text-main">Mathematics</div>
-                        <div class="text-xs text-muted">JSS 3A · Room 3</div>
-                    </div>
+        <!-- Submissions Due Stat -->
+        <div class="bg-surface p-lg border border-border-light rounded-sm relative overflow-hidden group">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 bg-gray-50 border border-border-light rounded flex items-center justify-center text-info">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 1 1 0 000-2 4 4 0 00-4 4v10a4 4 0 004 4h12a4 4 0 004-4V5a4 4 0 00-4-4 1 1 0 000 2 2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" />
+                    </svg>
                 </div>
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-background text-dim">
-                    Later
-                </span>
+                <span class="text-[10px] font-black text-info bg-info/10 px-2 py-0.5 rounded-full uppercase">This week</span>
             </div>
+            <div class="text-3xl font-black text-main tracking-tighter leading-none">12</div>
+            <div class="text-[10px] text-dim font-bold uppercase tracking-widest mt-2">Submissions Due</div>
         </div>
     </div>
 
-    <!-- Assigned Classes & Grading Grid -->
+    <!-- Today's Schedule & Activity Row -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-        <!-- My Classes Section -->
-        <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm">
-            <h3 class="text-base font-bold text-main mb-1">My Classes</h3>
-            <p class="text-xs text-muted mb-lg">3 classes assigned this term</p>
-
-            <div class="flex flex-col gap-md">
-                <!-- Class Card -->
-                <div class="border border-border-light rounded-md p-md hover:bg-background/40 transition-all group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-bold text-main">SS 2A</span>
-                        <span class="badge badge-success badge-sm py-1 font-bold text-[10px]">40 students</span>
+        
+        <!-- Today's Schedule -->
+        <div class="bg-surface border border-border-light rounded-sm">
+            <div class="p-lg border-b border-border-light flex items-center justify-between bg-gray-50/50">
+                <div>
+                    <h3 class="text-[12px] font-black text-main uppercase tracking-tight">Today's Schedule</h3>
+                    <p class="text-[10px] text-dim font-bold uppercase tracking-wider">{{date}}</p>
+                </div>
+                <a href="#" class="text-[9px] font-black bg-main text-surface px-2 py-0.5 rounded uppercase hover:bg-main/90 transition-all">Full Timetable</a>
+            </div>
+            <div class="p-lg space-y-3">
+                <!-- Completed Class -->
+                <div class="border-l-4 border-success bg-success/5 rounded-r p-md">
+                    <div class="flex items-start justify-between mb-2">
+                        <div>
+                            <div class="text-[11px] font-black text-success">08:00 – 09:00</div>
+                            <div class="text-sm font-bold text-main mt-1">Mathematics</div>
+                            <div class="text-[10px] text-muted font-medium">SS 2A · Room 14</div>
+                        </div>
+                        <span class="text-[9px] font-black bg-success/20 text-success px-2 py-0.5 rounded uppercase whitespace-nowrap">✓ Done</span>
                     </div>
-                    <p class="text-xs text-muted mb-3">Mathematics</p>
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="text-[11px] text-dim font-bold">Avg. Attendance</span>
+                    <div class="text-[10px] text-success font-bold">38/40 present</div>
+                </div>
+
+                <!-- Up Next -->
+                <div class="border-l-4 border-primary bg-primary/5 rounded-r p-md">
+                    <div class="flex items-start justify-between mb-2">
+                        <div>
+                            <div class="text-[11px] font-black text-primary">10:00 – 11:00</div>
+                            <div class="text-sm font-bold text-main mt-1">Further Maths</div>
+                            <div class="text-[10px] text-muted font-medium">SS 3B · Room 7</div>
+                        </div>
+                        <span class="text-[9px] font-black bg-primary text-white px-2 py-0.5 rounded uppercase whitespace-nowrap">⏱ Next</span>
+                    </div>
+                    <div class="text-[10px] text-primary font-bold">In 2 hours</div>
+                </div>
+
+                <!-- Later -->
+                <div class="border-l-4 border-border-light bg-background/30 rounded-r p-md opacity-70">
+                    <div class="flex items-start justify-between mb-2">
+                        <div>
+                            <div class="text-[11px] font-black text-dim">11:00 – 12:00</div>
+                            <div class="text-sm font-bold text-main mt-1">Mathematics</div>
+                            <div class="text-[10px] text-muted font-medium">JSS 3A · Room 3</div>
+                        </div>
+                        <span class="text-[9px] font-black bg-background text-dim px-2 py-0.5 rounded uppercase">Later</span>
+                    </div>
+                    <div class="text-[10px] text-muted font-bold">35 students</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Classes Overview -->
+        <div class="bg-surface border border-border-light rounded-sm">
+            <div class="p-lg border-b border-border-light bg-gray-50/50">
+                <h3 class="text-[12px] font-black text-main uppercase tracking-tight">My Classes</h3>
+                <p class="text-[10px] text-dim font-bold uppercase tracking-wider">{{subject_assignment_count}} classes assigned</p>
+            </div>
+            
+            <div class="divide-y divide-border-light">
+                {% for subject in subject_assignments %}
+                <div class="p-lg hover:bg-gray-50/50 transition-colors group cursor-pointer">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-primary/10 text-primary border border-primary/20 rounded flex items-center justify-center text-[10px] font-black">
+                                {{ subject.class_arm.class_level.name|slice:":2" }}
+                            </div>
+                            <div>
+                                <div class="text-[12px] font-black text-main">{{ subject.subject.name }}</div>
+                                <div class="text-[12px] font-black text-main">{{ subject.class_arm }}</div>
+                                <div class="text-[10px] text-dim font-bold">{{ subject.class_arm.students.count }} students</div>
+                            </div>
+                        </div>
                         <span class="text-[11px] font-black text-success">89%</span>
                     </div>
-                    <div class="w-full bg-background rounded-full h-1.5">
-                        <div class="bg-success h-1.5 rounded-full shadow-sm" style="width: 89%"></div>
+                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                        <div class="bg-success h-full" style="width: 89%"></div>
                     </div>
                 </div>
-
-                <!-- Class Card (Amber status) -->
-                <div class="border border-border-light rounded-md p-md hover:bg-background/40 transition-all">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-bold text-main">SS 3B</span>
-                        <span class="badge badge-info badge-sm py-1 font-bold text-[10px]">40 students</span>
-                    </div>
-                    <p class="text-xs text-muted mb-3">Further Mathematics</p>
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="text-[11px] text-dim font-bold">Avg. Attendance</span>
-                        <span class="text-[11px] font-black text-warning">74%</span>
-                    </div>
-                    <div class="w-full bg-background rounded-full h-1.5">
-                        <div class="bg-warning h-1.5 rounded-full shadow-sm" style="width: 74%"></div>
-                    </div>
-                </div>
+                {%empty%}
+                <p class="text-[10px] text-dim font-bold uppercase tracking-wider">No classes Assigned. </p>
+                {% endfor %}
             </div>
-        </div>
-
-        <!-- Assignments Section -->
-        <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm flex flex-col">
-            <div class="flex items-center justify-between mb-1">
-                <h3 class="text-base font-bold text-main">Assignments to Grade</h3>
-                <span class="badge badge-error badge-sm font-bold text-[10px]">5 pending</span>
-            </div>
-            <p class="text-xs text-muted mb-lg">Due for review</p>
-
-            <div class="flex flex-col divide-y divide-border-light">
-                <!-- Overdue -->
-                <div class="flex items-center justify-between py-md">
-                    <div>
-                        <h4 class="text-sm font-bold text-main">Mid-Term Test — Algebra</h4>
-                        <p class="text-[11px] text-muted font-medium">SS 2A · 40 submissions</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-[11px] text-danger font-black uppercase tracking-tighter">Overdue</p>
-                        <p class="text-[10px] text-dim font-bold">Due May 5</p>
-                    </div>
-                </div>
-
-                <!-- Due Today -->
-                <div class="flex items-center justify-between py-md">
-                    <div>
-                        <h4 class="text-sm font-bold text-main">Calculus Exercise Set 3</h4>
-                        <p class="text-[11px] text-muted font-medium">SS 3B · 38 submissions</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-[11px] text-warning font-black uppercase tracking-tighter">Due Today</p>
-                        <p class="text-[10px] text-dim font-bold">May 7</p>
-                    </div>
-                </div>
-            </div>
-
-            <button class="mt-auto w-full py-3 bg-primary hover:bg-primary-dark text-white rounded-md text-[13px] font-bold transition-all shadow-md shadow-primary/10">
-                Start Grading
-            </button>
         </div>
     </div>
 
-    <!-- Performance Table Card -->
-    <div class="bg-surface p-lg rounded-lg border border-border-light shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-md mb-lg">
+    <!-- Student Performance Table -->
+    <div class="bg-surface border border-border-light rounded-sm">
+        <div class="p-lg border-b border-border-light flex items-center justify-between">
             <div>
-                <h3 class="text-base font-bold text-main">Student Performance — SS 2A</h3>
-                <p class="text-xs text-muted">Mathematics · Term 2 Average</p>
+                <h3 class="text-[13px] font-black text-main uppercase tracking-tight">Student Performance — SS 2A</h3>
+                <p class="text-[10px] text-dim font-bold uppercase tracking-wider">Mathematics · Term 2 Average</p>
             </div>
-
             <div class="flex gap-2">
-                <button class="px-4 py-2 bg-primary/10 border border-primary/20 rounded-md text-[11px] font-bold text-primary">SS 2A</button>
-                <button class="px-4 py-2 border border-border-light rounded-md text-[11px] font-bold text-dim hover:bg-background transition-all">SS 3B</button>
-                <button class="px-4 py-2 border border-border-light rounded-md text-[11px] font-bold text-dim hover:bg-background transition-all">JSS 3A</button>
+                <button class="px-3 py-1.5 bg-primary/10 border border-primary/20 rounded text-[10px] font-black text-primary uppercase tracking-widest hover:bg-primary/20 transition-all">SS 2A</button>
+                <button class="px-3 py-1.5 border border-border-light rounded text-[10px] font-black text-dim uppercase tracking-widest hover:bg-gray-50 transition-all">SS 3B</button>
+                <button class="px-3 py-1.5 border border-border-light rounded text-[10px] font-black text-dim uppercase tracking-widest hover:bg-gray-50 transition-all">JSS 3A</button>
             </div>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="table table-zebra w-full">
-                <thead class="bg-background/30">
-                    <tr class="text-dim border-b border-border-light">
-                        <th class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest">Student</th>
-                        <th class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-center">Attendance</th>
-                        <th class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-center">CA Score</th>
-                        <th class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-center">Exam</th>
-                        <th class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-center">Total</th>
-                        <th class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-right">Grade</th>
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-gray-50 text-dim border-b border-border-light">
+                    <tr>
+                        <th class="py-3 px-lg text-[10px] font-black uppercase tracking-widest">Student</th>
+                        <th class="py-3 px-4 text-[10px] font-black uppercase tracking-widest text-center">Attendance</th>
+                        <th class="py-3 px-4 text-[10px] font-black uppercase tracking-widest text-center">CA Score</th>
+                        <th class="py-3 px-4 text-[10px] font-black uppercase tracking-widest text-center">Exam</th>
+                        <th class="py-3 px-4 text-[10px] font-black uppercase tracking-widest text-center">Total</th>
+                        <th class="py-3 px-lg text-[10px] font-black uppercase tracking-widest text-right">Grade</th>
                     </tr>
                 </thead>
-                <tbody class="text-sm">
-                    <tr class="hover:bg-background/50">
-                        <td class="py-md px-4">
+                <tbody class="divide-y divide-border-light">
+                    <tr class="hover:bg-gray-50/50 transition-colors group">
+                        <td class="py-3 px-lg">
                             <div class="flex items-center gap-3">
-                                <div class="bg-primary/10 text-primary rounded-full w-8 h-8 text-[10px] font-black flex items-center justify-center">CJ</div>
-                                <span class="font-bold text-main">Chukwuemeka J.</span>
+                                <div class="w-8 h-8 rounded bg-primary/10 text-primary flex items-center justify-center font-black text-[10px] border border-primary/10">CJ</div>
+                                <div>
+                                    <div class="text-[12px] font-black text-main leading-none">Chukwuemeka J.</div>
+                                    <div class="text-[10px] text-dim font-bold uppercase mt-1">Excellent progress</div>
+                                </div>
                             </div>
                         </td>
-                        <td class="py-md px-4 text-center"><span class="badge badge-success badge-sm font-bold">94%</span></td>
-                        <td class="py-md px-4 text-center font-bold text-muted">28/30</td>
-                        <td class="py-md px-4 text-center font-bold text-muted">58/70</td>
-                        <td class="py-md px-4 text-center font-black text-main">86</td>
-                        <td class="py-md px-4 text-right"><span class="badge badge-success badge-sm font-black">A</span></td>
+                        <td class="py-3 px-4 text-center">
+                            <span class="text-[10px] font-black text-success bg-success/10 px-2 py-0.5 rounded uppercase">94%</span>
+                        </td>
+                        <td class="py-3 px-4 text-center font-black text-main text-[12px]">28/30</td>
+                        <td class="py-3 px-4 text-center font-black text-main text-[12px]">58/70</td>
+                        <td class="py-3 px-4 text-center font-black text-main text-[13px]">86</td>
+                        <td class="py-3 px-lg text-right">
+                            <span class="text-[9px] font-black text-success border border-success/30 px-2 py-0.5 rounded uppercase">A</span>
+                        </td>
                     </tr>
-                    <tr class="hover:bg-background/50">
-                        <td class="py-md px-4">
+                    <tr class="hover:bg-gray-50/50 transition-colors group">
+                        <td class="py-3 px-lg">
                             <div class="flex items-center gap-3">
-                                <div class="bg-secondary/10 text-secondary rounded-full w-8 h-8 text-[10px] font-black flex items-center justify-center">TO</div>
-                                <span class="font-bold text-main">Tolulope O.</span>
+                                <div class="w-8 h-8 rounded bg-secondary/10 text-secondary flex items-center justify-center font-black text-[10px] border border-secondary/10">TO</div>
+                                <div>
+                                    <div class="text-[12px] font-black text-main leading-none">Tolulope O.</div>
+                                    <div class="text-[10px] text-dim font-bold uppercase mt-1">Top performer</div>
+                                </div>
                             </div>
                         </td>
-                        <td class="py-md px-4 text-center"><span class="badge badge-success badge-sm font-bold">97%</span></td>
-                        <td class="py-md px-4 text-center font-bold text-muted">30/30</td>
-                        <td class="py-md px-4 text-center font-bold text-muted">64/70</td>
-                        <td class="py-md px-4 text-center font-black text-main">94</td>
-                        <td class="py-md px-4 text-right"><span class="badge badge-success badge-sm font-black">A+</span></td>
+                        <td class="py-3 px-4 text-center">
+                            <span class="text-[10px] font-black text-success bg-success/10 px-2 py-0.5 rounded uppercase">97%</span>
+                        </td>
+                        <td class="py-3 px-4 text-center font-black text-main text-[12px]">30/30</td>
+                        <td class="py-3 px-4 text-center font-black text-main text-[12px]">64/70</td>
+                        <td class="py-3 px-4 text-center font-black text-main text-[13px]">94</td>
+                        <td class="py-3 px-lg text-right">
+                            <span class="text-[9px] font-black text-success border border-success/30 px-2 py-0.5 rounded uppercase">A+</span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Table Footer -->
-        <div class="mt-lg pt-md border-t border-border-light flex items-center justify-between">
-            <p class="text-[11px] text-dim font-bold">Showing 5 of 40 students</p>
-            <a class="text-[11px] text-primary font-black uppercase tracking-tighter hover:underline cursor-pointer">View full class →</a>
+        <div class="p-lg border-t border-border-light flex items-center justify-between text-[11px]">
+            <span class="text-dim font-bold">Showing 5 of 40 students</span>
+            <a href="#" class="text-primary font-black uppercase hover:underline">View Full Class →</a>
         </div>
     </div>
+
 </div>

@@ -1,0 +1,5 @@
+<form hx-post="{%url 'portal:assign-class-teacher' arm.id %}" hx-target="#arm-teacher-card-container" hx-swap="innerHTML"  method="post">
+    {%csrf_token%}
+    {{form.as_p}}
+    <input type="submit">
+</form>

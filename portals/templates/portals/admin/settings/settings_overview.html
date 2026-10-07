@@ -108,6 +108,26 @@
           </div>
         </button>
 
+        <a  href="{%url 'portal:school-settings' %}" class="group flex items-center gap-3 p-3 bg-surface border border-border-light rounded-xl hover:border-primary transition-all text-left shadow-sm">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+          </div>
+          <div>
+            <div class="text-[12.5px] font-black text-main">School Settings</div>
+            <div class="text-[10.5px] text-dim font-bold mt-0.5">Edit school info</div>
+          </div>
+        </a>
+
+        <a href="{% url 'portal:session-list' %}" class="group flex items-center gap-3 p-3 bg-surface border border-border-light rounded-xl hover:border-primary transition-all text-left shadow-sm">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+          </div>
+          <div>
+            <div class="text-[12.5px] font-black text-main">School Sessions</div>
+            <div class="text-[10.5px] text-dim font-bold mt-0.5">Edit school sessions</div>
+          </div>
+        </a>
+
       </div>
     </section>
 

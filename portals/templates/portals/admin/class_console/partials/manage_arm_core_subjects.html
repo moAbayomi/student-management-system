@@ -1,0 +1,95 @@
+<form
+  method="post"
+  hx-post="{% url 'portal:manage-arm-core-subjects' class.id %}"
+  hx-target="#class-details-card"
+  hx-swap="innerHTML">
+  {% csrf_token %}
+
+  <div x-data="{
+    search: '',
+    allSubjects: [
+      {% for subject in subjects %}
+      { id: '{{ subject.id }}', name: '{{ subject.name|escapejs }}', cat: '{{ subject.category|escapejs }}' }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ],
+    selectedSubjects: [{% for sub in class.core_subjects.all %}'{{ sub.id }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+    get filteredSubjects() {
+      const q = this.search.toLowerCase().trim();
+      let list = q === '' ? this.allSubjects : this.allSubjects.filter(s => s.name.toLowerCase().includes(q));
+      return [...list].sort((a, b) => {
+        const aSel = this.selectedSubjects.includes(String(a.id)) ? 0 : 1;
+        const bSel = this.selectedSubjects.includes(String(b.id)) ? 0 : 1;
+        if (aSel !== bSel) return aSel - bSel;
+        return a.name.localeCompare(b.name);
+      });
+    },
+    toggleSubject(id) {
+      const sid = String(id);
+      const idx = this.selectedSubjects.indexOf(sid);
+      idx > -1 ? this.selectedSubjects.splice(idx, 1) : this.selectedSubjects.push(sid);
+    }
+  }"
+  x-init="$watch('selectedSubjects', value => {
+    const sel = $refs.coreSubjectsSelect;
+    for (let opt of sel.options) opt.selected = value.includes(opt.value);
+  })">
+
+    <div class="hidden">{{ form.core_subjects }}</div>
+
+    <div style="background:#0D1117;padding:16px 18px;">
+      <p style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#F0A500;text-transform:uppercase;margin:0 0 4px;">{{ class.name }} · Subjects</p>
+      <p style="font-size:18px;font-weight:700;color:#fff;margin:0 0 2px;">Manage core subjects</p>
+      <p style="font-size:11px;color:#6B7280;margin:0;">Select all subjects taught in this class arm</p>
+    </div>
+
+    <div style="padding:16px 18px;">
+
+      <div style="position:relative;margin-bottom:14px;">
+        <input
+          type="text"
+          x-model="search"
+          placeholder="Search subjects…"
+          style="width:100%;padding:8px 36px 8px 32px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;background:#F9FAFB;outline:none;"
+          :style="search !== '' ? 'border-color:#F0A500;' : ''"
+        />
+        <button type="button" x-show="search !== ''" @click="search = ''"
+          style="position:absolute;right:9px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:13px;">✕</button>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:11px;color:#6B7280;" x-text="`${filteredSubjects.length} subjects available`"></span>
+        <span style="font-size:11px;font-weight:600;background:#FEF3C7;color:#B45309;padding:2px 8px;border-radius:99px;"
+          x-text="`${selectedSubjects.length} selected`"></span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:7px;min-height:60px;max-height:280px;overflow-y:auto;">
+        <template x-for="subject in filteredSubjects" :key="subject.id">
+          <button
+            type="button"
+            @click="toggleSubject(subject.id)"
+            :aria-pressed="selectedSubjects.includes(String(subject.id))"
+            style="padding:5px 12px;border-radius:99px;font-size:12px;font-weight:600;cursor:pointer;transition:all .12s;user-select:none;border:1px solid;"
+            :style="selectedSubjects.includes(String(subject.id))
+              ? 'background:#0D1117;border-color:#0D1117;color:#fff;'
+              : 'background:#F9FAFB;border-color:#E5E7EB;color:#6B7280;'"
+            x-text="subject.name + ' (' + subject.cat + ')'">
+          </button>
+        </template>
+      </div>
+    </div>
+
+    <div style="padding:13px 18px;border-top:1px solid #E5E7EB;background:#F9FAFB;display:flex;align-items:center;gap:10px;">
+      <a hx-get="{% url 'portal:class-details' class.id %}"
+         hx-target="#class-details-card"
+         hx-swap="innerHTML"
+         style="font-size:12px;color:#6B7280;border:1px solid #E5E7EB;border-radius:7px;padding:7px 13px;cursor:pointer;text-decoration:none;">
+        ← Back
+      </a>
+      <button type="submit"
+        style="margin-left:auto;padding:8px 18px;background:#F0A500;color:#0D1117;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">
+        Save subjects
+      </button>
+    </div>
+
+  </div>
+</form>
