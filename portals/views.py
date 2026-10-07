@@ -12,23 +12,48 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from .decorators import role_required
 from django.views.decorators.http import require_http_methods
+from django.db.models import ProtectedError
+from django.utils.html import format_html_join
 from django.template.loader import render_to_string
 from django.core.exceptions import ValidationError
 import calendar
 from datetime import timedelta, date as python_date, datetime
 from .services import AdminOverviewAggregator, AdminStudentOverviewAggregator, AdminTeacherOverviewAggregator, AdminClassConsoleOverviewAggregator, TeacherOverviewAggregator, TeacherAttendanceOverviewAggregator, TeacherSubjectAssignmentOverViewAggregator
-from profiles.services import StudentProfileService, TeacherProfileService, StudentRegistrationService, TeacherRegistrationService, TeacherOnboardingService, StudentOnboardingService
+from profiles.services import StudentProfileService, TeacherProfileService, StudentRegistrationService, TeacherRegistrationService
 from academics.services import AcademicsManagementService
 import plotly.graph_objects as go
 import plotly.io as pio
 from academics.models import ClassArm, Subject, SubjectAssignment, Class, DailyAttendance
-from schools.models import AcademicSession, AcademicTerm, get_school
+from schools.models import AcademicSession, AcademicTerm
+from schools.services import get_school, get_current_session, get_current_term
 from schools.forms import AcademicSessionForm
 from profiles.models import TeacherProfile, StudentProfile
 from users.models import User
 from .forms import TeacherCreationForm, StudentCreationForm, NewArm, AssignClassTeacher, CoreSubjects, SchoolSettingsForm
 import json
 
+
+def _teacher_profile(user):
+    return get_object_or_404(TeacherProfile, user=user)
+
+
+def _get_form_teacher_arm(request, arm_id):
+    """The arm, but only if the logged-in teacher is its form (class) teacher."""
+    arm = get_object_or_404(ClassArm, id=arm_id)
+    if arm.class_teacher_id != _teacher_profile(request.user).id:
+        raise PermissionDenied
+    return arm
+
+
+def _teacher_can_view_student(user, student):
+    """A teacher may see students in an arm they form-teach or teach a subject in."""
+    teacher = _teacher_profile(user)
+    if student.class_arm_id is None:
+        return False
+    return (
+        student.class_arm.class_teacher_id == teacher.id
+        or SubjectAssignment.objects.filter(teacher=teacher, class_arm_id=student.class_arm_id).exists()
+    )
 
 
 @login_required
@@ -70,7 +95,6 @@ def teachers_view_students(request):
         search = request.GET.get('q')
         page_no= request.GET.get('page', 1)
 
-        print(search)
         context = TeacherOverviewAggregator.get_paginated_students(request.user, page_no=page_no, search_query=search)
         html = render_to_string('portals/teacher/my_students/partials/_student_table.html', context, request=request)
         return HttpResponse(html)
@@ -86,14 +110,13 @@ def attendance_teacher(request):
 @login_required
 @role_required('TEACHER')
 def arm_attendance_data(request, arm_id):
-    class_arm = get_object_or_404(ClassArm, id=arm_id)
+    class_arm = _get_form_teacher_arm(request, arm_id)
     today = python_date.today()
     date = request.GET.get('curr-date', str(today))
-    print(date)
     try:
         date = python_date.fromisoformat(date)
     except ValueError:
-        return JsonResponse({'error': 'invalid response'}, status=400)
+        return JsonResponse({'error': 'invalid date'}, status=400)
     
     students_qs = class_arm.students.select_related('user').all()
 
@@ -101,51 +124,62 @@ def arm_attendance_data(request, arm_id):
         class_arm=class_arm, date=date
     ).values('student_id', 'status', 'remarks', 'date')
 
-    record_map = {rec['student_id']: (rec['status'], rec['remarks'], rec['date']) for rec in attendance_records}
-    
-    
+    record_map = {rec['student_id']: (rec['status'], rec['remarks']) for rec in attendance_records}
+
     # Build the response list
     students_list = []
     for student in students_qs:
-        status, remarks, date = record_map.get(student.id, ('P', ''))  # default to Present if no record
+        status, remarks = record_map.get(student.id, ('P', ''))  # default to Present if no record
         students_list.append({
             'id': student.id,
             'name': student.user.get_full_name(),
             'admission_number': student.admission_number or '',
             'initials': student.user.get_full_name()[:2].upper(),  # first two letters, adjust if needed
             'status': status,
-            'remarks': remarks,
+            'remarks': remarks or '',
         })
     
     return JsonResponse(students_list, safe=False)
 
 @login_required
 @role_required('TEACHER')
+@require_POST
 def save_attendance(request, arm_id):
-    arm = get_object_or_404(ClassArm, pk=arm_id)
-    term = get_object_or_404(AcademicTerm, is_current=True)
+    arm = _get_form_teacher_arm(request, arm_id)
+    term = get_current_term()
+    if term is None:
+        return JsonResponse({'error': 'No current term is set. Ask the admin to set one.'}, status=400)
+
     try:
         data = json.loads(request.body)
         target_date = python_date.fromisoformat(data['date'])
         records = data.get('records', [])
-    except (KeyError, ValueError, json.JSONDecodeError):
+    except (KeyError, ValueError, TypeError, json.JSONDecodeError):
         return JsonResponse({'error': 'Invalid data'}, status=400)
 
-    # Optional: verify that the arm belongs to the logged‑in user's school
-    # if arm.class_level.school != request.user.school: ...
+    if target_date > python_date.today():
+        return JsonResponse({'error': "You can't mark attendance for a future date."}, status=400)
 
+    valid_statuses = {code for code, _ in DailyAttendance.STATUS_CHOICES}
+    arm_student_ids = set(arm.students.values_list('id', flat=True))
     for rec in records:
-        DailyAttendance.objects.update_or_create(
-            student_id=rec['student_id'],
-            class_arm=arm,
-            date=target_date,
-            term=term,
-            defaults={
-                'status': rec['status'],
-                'remarks': rec.get('remarks', ''),
-                'updated_by': request.user
-            }
-        )
+        if rec.get('student_id') not in arm_student_ids or rec.get('status') not in valid_statuses:
+            return JsonResponse({'error': 'Invalid student or status in records'}, status=400)
+
+    with transaction.atomic():
+        for rec in records:
+            # (student, date) is unique, so look up by exactly that
+            DailyAttendance.objects.update_or_create(
+                student_id=rec['student_id'],
+                date=target_date,
+                defaults={
+                    'class_arm': arm,
+                    'term': term,
+                    'status': rec['status'],
+                    'remarks': rec.get('remarks', ''),
+                    'updated_by': request.user,
+                }
+            )
 
     return JsonResponse({'success': True})
 
@@ -153,10 +187,10 @@ def save_attendance(request, arm_id):
 @login_required
 @role_required('STUDENT')
 def student_dashboard(request):
-    from profiles.models import StudentProfile
-    profile = StudentProfile.objects.select_related(
-        'class_arm', 'class_arm__class_level', 'class_arm__class_teacher'
-    ).get(user=request.user)
+    profile = get_object_or_404(
+        StudentProfile.objects.select_related('class_arm', 'class_arm__class_level', 'class_arm__class_teacher'),
+        user=request.user,
+    )
 
     return render(request, 'portals/student/student_dashboard.html', {
         'profile': profile,
@@ -181,6 +215,9 @@ def students_directory(request):
 @login_required
 @role_required('ADMIN', 'TEACHER')
 def student_detail(request, id):
+    student = get_object_or_404(StudentProfile, id=id)
+    if request.user.role == 'TEACHER' and not _teacher_can_view_student(request.user, student):
+        raise PermissionDenied
     context = StudentProfileService.get_student(id)
     if request.headers.get('Trigger-Source') == 'sidebar-update':
         return render(request, 'portals/partials/shared/student_card_right_sidebar.html', context)
@@ -206,7 +243,6 @@ def create_student(request):
                     f'<div id="modal-container" hx-swap-oob="innerHTML"></div>'
                 )
 
-                print('student created', std.user.first_name)
                 return HttpResponse(response_payload)
             else:
                 return HttpResponse('missing required params to complete draft reg')
@@ -220,7 +256,6 @@ def create_student(request):
                     f'<div id="modal-container" hx-swap-oob="innerHTML"></div>'
                 )
 
-            print('student created', std_profile)
             return HttpResponse(response_payload)
         else:
             return HttpResponse('missing required params to complete draft reg')
@@ -230,63 +265,23 @@ def create_student(request):
 
     return render(request, 'portals/admin/students/partials/create_student_modal.html', {'form': form})
 
-@transaction.atomic
-def onboard_student(request, token):
-    student, status = StudentOnboardingService.get_valid_student_and_status(token)
-    print(student, status)
-
-    if status == 'already_active':
-        return redirect('users:login')
-    if status == 'expired':
-        return render(request, 'portals/admin/students/partials/token_expired.html', {'message': 'this is expired. you can regenerate another one. okay', 'student': student})
-    if status == 'invalid':
-        return render(request, 'portals/admin/students/partials/link_invalid.html'), {'message': 'what can i say? nothing for you dawg'}
-
-    if request.method == 'POST':
-        password = request.POST.get('password')
-        password_confirm = request.POST.get('password_confirm')
-
-        if password != password_confirm or not password or not password_confirm:
-            print('hell foking no')
-            return render(request, 'portals/admin/students/partials/onboarding_set_password.html', {'token': token})
-        StudentOnboardingService.set_student_password(student, password)
-        login_url = reverse('users:login')
-
-        return HttpResponse(f"Password set successfully. You can now <a href='{login_url}'>log in</a>.")
-
-
-    
-    return render(request, 'portals/admin/students/partials/onboarding_set_password.html', {'token': token})
-
-@transaction.atomic
-def resend_student_token(request, student_id):
-    student = get_object_or_404(StudentProfile, id=student_id, status='PENDING_REVIEW')
-    StudentOnboardingService.renegerate_onboarding_token(student)
-    StudentRegistrationService.send_student_onboarding_email(student)
-
-    return render(request, 'portals/admin/students/partials/link_sent.html')
-
-
 @login_required
 @role_required('ADMIN')
 def edit_student(request, id):
-    student = StudentProfile.objects.get(id=id)
+    student = get_object_or_404(StudentProfile, id=id)
     if request.method == 'POST':
         save_mode = request.POST.get('save_mode', 'complete')
         form = StudentCreationForm(request.POST)
-        print('okay, wagwan')
         if save_mode == 'draft':
             required_fields = ['first_name', 'last_name', 'dob', 'gender']
 
             if all(request.POST.get(fields) for fields in required_fields):
                 std = StudentRegistrationService.edit_draft_student(id, request.POST)
                 row_html = render_to_string('portals/admin/students/partials/student-table-row.html', {'std': std, 'oob': True}, request=request)
-                print(std)
                 response_payload = (
                     f'{row_html}<div id="modal-container" hx-swap-oob="innerHTML"></div>'
                 )
 
-                print('student edited', std.user.first_name)
                 return HttpResponse(response_payload)
             else:
                 return HttpResponse('missing required params to complete draft reg')
@@ -355,7 +350,7 @@ def create_teacher(request):
 
             return HttpResponse(response_payload)
         else:
-            return HttpResponse('omo something don sup for inside your form or somewhere sha. your from no dey valid. fix up!!')
+            return HttpResponse('Some fields are missing or invalid. Please check the form.', status=400)
 
 
     else:
@@ -364,53 +359,14 @@ def create_teacher(request):
         subjects = form.fields['subjects'].queryset
     return render(request, 'portals/admin/teachers/partials/create_teacher_modal.html', {'form': form, 'subjects': subjects, 'departments': departments})
 
-@transaction.atomic
-def teacher_onboard(request, token):
-    teacher, status = TeacherOnboardingService.get_valid_teacher_and_status(token)
-
-    if status == 'invalid':
-        return render(request, 'portals/admin/teachers/partials/link_invalid.html', {'message': 'alright what is this? is this whole thing a joke to you? what are you even trying to do?'})
-
-    if status == 'already-active':
-        return redirect('users:login')
-    
-    if status == 'expired':
-        return render(request, 'portals/admin/teachers/partials/token_expired.html', {'message': 'this token is expired baby, do something', 'teacher': teacher})
-    
-    if request.method == 'POST':
-        password = request.POST.get('password')
-        password_confirm = request.POST.get('password_confirm')
-
-        if password != password_confirm:
-            return render(request, 'public/set_password.html', {'error': 'Passwords do not match.', 'token': token})
-        TeacherOnboardingService.set_teacher_password(teacher, password)
-        login_url = reverse('users:login')
-
-        return HttpResponse(f"Password set successfully. You can now <a href='{login_url}'>log in</a>.")
-    
-    return render(request, 'portals/admin/teachers/partials/onboarding_set_password.html', {'token': token})
-
-
-
-@transaction.atomic
-def resend_teacher_token(request, teacher_id):
-    teacher = get_object_or_404(TeacherProfile, id=teacher_id, status='PENDING_REVIEW')
-
-    TeacherOnboardingService.regenerate_onboarding_token(teacher)
-    TeacherRegistrationService.send_onboarding_email(teacher)
-
-    return render(request, 'portals/admin/teachers/partials/link_sent.html')
-
-
-
 @login_required
 @role_required('ADMIN')
 def edit_teacher(request, id):
-    teacher_profile = TeacherProfile.objects.get(id=id)
+    teacher_profile = get_object_or_404(TeacherProfile, id=id)
     if request.method == 'POST':
         form = TeacherCreationForm(request.POST)
         if form.is_valid():
-            teacher_profile = TeacherRegistrationService.edit_complete_student(id, form)
+            teacher_profile = TeacherRegistrationService.edit_complete_teacher(id, form)
 
             row_html = render_to_string('portals/admin/teachers/partials/teacher_table_row.html', {'teacher': teacher_profile, 'oob':True}, request=request)
 
@@ -421,7 +377,7 @@ def edit_teacher(request, id):
 
             return HttpResponse(response_payload)
         else:
-            return HttpResponse('omo something don sup for inside your form or somewhere sha. your from no dey valid. fix up!!')
+            return HttpResponse('Some fields are missing or invalid. Please check the form.', status=400)
 
     else:
         initial = TeacherRegistrationService.get_initial_data(id)
@@ -430,29 +386,34 @@ def edit_teacher(request, id):
 
 @login_required
 @role_required('ADMIN')
+@require_POST
 def assign_teacher_subject(request):
-    if request.method == 'POST':
-        teacher_id = request.POST.get('teacher_id')
-        subject_id = request.POST.get('subject_id')
-        class_arms = request.POST.getlist('arms')
-        session = AcademicSession.objects.get(is_current=True)
+    teacher_id = request.POST.get('teacher_id')
+    subject_id = request.POST.get('subject_id')
+    class_arm_ids = request.POST.getlist('arms')
 
-        if not all(['teacher_id', 'subject_id', 'class_arms']):
-            return HttpResponse('what is wrong with you bro??', status=400)
-        
-        teacher = get_object_or_404(TeacherProfile, id=teacher_id)
-        subject = get_object_or_404(Subject, id=subject_id)
+    # Check the actual values (not the strings 'teacher_id', etc., which are always truthy)
+    if not (teacher_id and subject_id and class_arm_ids):
+        return HttpResponse("<p class='text-xs text-red-600 font-bold'>Pick a subject and at least one arm.</p>", status=400)
 
-        for arm_id in class_arms:
-            class_arm = get_object_or_404(ClassArm, id=arm_id)
-            assignment, created = SubjectAssignment.objects.update_or_create(
-             subject=subject,
-             class_arm=class_arm,
-             session=session,
-             defaults={'teacher': teacher}   
+    session = get_current_session()
+    if session is None:
+        return HttpResponse("<p class='text-xs text-red-600 font-bold'>Set a current session in Settings first.</p>", status=400)
+
+    teacher = get_object_or_404(TeacherProfile, id=teacher_id)
+    subject = get_object_or_404(Subject, id=subject_id)
+    class_arms = ClassArm.objects.filter(id__in=class_arm_ids)
+
+    with transaction.atomic():
+        for class_arm in class_arms:
+            SubjectAssignment.objects.update_or_create(
+                subject=subject,
+                class_arm=class_arm,
+                session=session,
+                defaults={'teacher': teacher}
             )
-        
-        return HttpResponse("<p class='text-xs text-green-600 font-bold'>Teacher assigned successfully.</p>")
+
+    return HttpResponse("<p class='text-xs text-green-600 font-bold'>Teacher assigned successfully.</p>")
 
 
 @login_required
@@ -467,8 +428,7 @@ def load_subjects(request):
         'VOCATIONAL_TRADE': ['SNR_CORE', 'VOCATIONAL_TRADE']
     }
 
-    if dept:
-        subjects = Subject.objects.filter(category__in=dept_query[dept])    
+    subjects = Subject.objects.filter(category__in=dept_query.get(dept, [])) if dept else Subject.objects.none()
 
     return render(request, 'portals/admin/teachers/partials/subject_checkboxes.html', {'subjects': subjects, 'selected_subject_ids': request.GET.getlist('selected')})
 
@@ -480,15 +440,13 @@ def load_arms(request):
     if not class_level_id:
         return HttpResponse('<option value="">-- Select class level first --</option>')
     
-    try:
-        class_obj = Class.objects.get(id=class_level_id)
-    except Class.DoesNotExist:
-        HttpResponse("<option value=''>invalid class level</option>")
-
-    class_arm = ClassArm.objects.filter(class_level=class_obj)
-    html = ''
-    for arm in class_arm:
-        html += f'<label class="flex items-center gap-1.5 text-[11.5px] text-main cursor-pointer"> <input type="checkbox" name="arms" value="{arm.id}" class="accent-main" /> {arm.name} </label>'
+    class_arms = ClassArm.objects.filter(class_level_id=class_level_id)
+    # format_html_join escapes arm.name, so a name like "<script>" can't inject HTML
+    html = format_html_join(
+        '',
+        '<label class="flex items-center gap-1.5 text-[11.5px] text-main cursor-pointer"> <input type="checkbox" name="arms" value="{}" class="accent-main" /> {} </label>',
+        ((arm.id, arm.name) for arm in class_arms),
+    )
     return HttpResponse(html)
 
 
@@ -517,7 +475,9 @@ def arm_details(request, arm_id):
 @role_required('ADMIN')
 def load_core_subjects(request, arm_id):
     arm = get_object_or_404(ClassArm, id=arm_id)
-    curr_session = AcademicSession.objects.get(is_current=True)
+    curr_session = get_current_session()
+    if curr_session is None:
+        return HttpResponse("<p class='text-xs text-red-600 font-bold'>Set a current session in Settings first.</p>")
     class_level = arm.class_level
 
     for subject in class_level.core_subjects.all():
@@ -557,12 +517,12 @@ def add_arm(request, level_id):
     if request.method == 'POST':
         form = NewArm(request.POST)
         if form.is_valid():
-            arm_name = form.cleaned_data['name']
-            ClassArm.objects.create(
-                class_level=level,
-                name=arm_name,
-            )
-            return render(request, 'portals/admin/class_console/partials/arm_grid.html', {'arm': ClassArm.objects.get(class_level=level, name=arm_name)})
+            arm_name = form.cleaned_data['name'].strip().upper()
+            if ClassArm.objects.filter(class_level=level, name__iexact=arm_name).exists():
+                form.add_error('name', f'{level.name}{arm_name} already exists.')
+                return render(request, 'portals/admin/class_console/partials/add_arm.html', {'form': form, 'level': level})
+            arm = ClassArm.objects.create(class_level=level, name=arm_name)
+            return render(request, 'portals/admin/class_console/partials/arm_grid.html', {'arm': arm})
         else:
             return render(request, 'portals/admin/class_console/partials/add_arm.html', {'form': form, 'level': level})
     else:
@@ -571,9 +531,14 @@ def add_arm(request, level_id):
 
 @login_required
 @role_required('ADMIN')
+@require_http_methods(['DELETE', 'POST'])
 def delete_arm(request, arm_id):
     arm = get_object_or_404(ClassArm, id=arm_id)
-    arm.delete()
+    try:
+        arm.delete()
+    except ProtectedError:
+        # StudentProfile.class_arm uses on_delete=PROTECT
+        return HttpResponse(f'{arm} still has students. Move them to another arm first.', status=400)
     return HttpResponse(status=200)
 
 @login_required
@@ -584,6 +549,9 @@ def assign_arm_class_teacher(request, arm_id):
         form = AssignClassTeacher(request.POST)
         if form.is_valid():
             teacher = form.cleaned_data['teacher']
+            if teacher.class_teacher_of.exclude(id=arm.id).exists():
+                form.add_error('teacher', f'{teacher} is already form teacher of {teacher.class_teacher_of.first()}.')
+                return render(request, 'portals/admin/class_console/partials/assign_teacher_form.html', {'form': form, 'arm': arm})
             arm.class_teacher = teacher
             arm.save()
             html = render_to_string('portals/admin/class_console/partials/arm_teacher_card.html', {'arm': arm}, request=request)
@@ -594,6 +562,7 @@ def assign_arm_class_teacher(request, arm_id):
 
 @login_required
 @role_required('ADMIN')
+@require_POST
 def remove_arm_class_teacher(request, arm_id):
     arm = get_object_or_404(ClassArm, id=arm_id)
     arm.class_teacher = None
@@ -629,11 +598,14 @@ def admin_settings_view(request):
 
 
 
+@login_required
+@role_required('TEACHER')
 def subject_assignments_view(request):
     context = TeacherSubjectAssignmentOverViewAggregator.get_subject_assignments_overview(user=request.user)
-    print(context)
     return render(request, 'portals/teacher/subject_assignments/subject_assignments.html', context)
 
+@login_required
+@role_required('TEACHER')
 def results_view(request):
     return render(request, 'portals/teacher/results/results.html')
 

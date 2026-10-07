@@ -4,4 +4,4 @@ __pycache__/
 *.pyc
 media/
 staticfiles/
-.DS_Store
+.DS_Store.idea/

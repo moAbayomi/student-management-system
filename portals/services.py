@@ -137,22 +137,20 @@ class TeacherAttendanceOverviewAggregator:
         attendance_data = DailyAttendance.objects.filter(date=date, class_arm=class_arm)
         students = StudentProfile.objects.none() if not class_arm else StudentProfile.objects.filter(class_arm=class_arm).select_related('user')
         total_students = students.count()
-        status_map = {}
-        for std in students:
-            status_map[std.id] = 'P'
 
-        existing_status = {data.id: data.status for data in attendance_data}
-        status_map.update(existing_status)
+        # Keyed by student id; anyone without a record yet defaults to Present
+        saved = {rec.student_id: rec for rec in attendance_data}
         students_data = []
 
         for s in students:
+            rec = saved.get(s.id)
             students_data.append({
                 'id': s.id,
                 'name': s.user.get_full_name(),
                 'admission': s.admission_number or '',
-                'initials': s.user.first_name[0].upper() + s.user.last_name[0].upper(),
-                'status': status_map.get(str(s.id), 'P'),
-                'remark': ''
+                'initials': (s.user.first_name[:1] + s.user.last_name[:1]).upper(),
+                'status': rec.status if rec else 'P',
+                'remark': (rec.remarks or '') if rec else '',
             })
 
 

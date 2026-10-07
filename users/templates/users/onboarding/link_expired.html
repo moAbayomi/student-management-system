@@ -1,0 +1,9 @@
+{% extends "users/onboarding/_card.html" %}
+{% block heading %}Link Expired{% endblock %}
+{% block intro %}This link has expired. We can send a fresh one to the email address the school has on file.{% endblock %}
+{% block body %}
+<form method="post" action="{% url 'users:onboard-resend' token %}">
+    {% csrf_token %}
+    <button type="submit" class="w-full bg-gray-900 text-white font-black py-4 rounded-2xl uppercase tracking-widest hover:bg-black transition-all shadow-lg">Send New Link</button>
+</form>
+{% endblock %}

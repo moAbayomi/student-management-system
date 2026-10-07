@@ -1,0 +1,6 @@
+{% extends "users/onboarding/_card.html" %}
+{% block heading %}You're All Set{% endblock %}
+{% block intro %}Your account is active. Log in with the username <strong class="text-gray-900">{{ username }}</strong>.{% endblock %}
+{% block body %}
+<a href="{% url 'users:login' %}" class="block text-center w-full bg-gray-900 text-white font-black py-4 rounded-2xl uppercase tracking-widest hover:bg-black transition-all shadow-lg">Go to Login</a>
+{% endblock %}

@@ -130,6 +130,14 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesSto
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Uploaded files (profile pictures, school logo...)
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Used to build absolute links in emails (e.g. onboarding links)
+SITE_URL = os.environ.get('SITE_URL', 'http://localhost:8000')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'School Portal <noreply@localhost>')
+
 LOGIN_REDIRECT_URL = 'portal:portal_home'
 LOGIN_URL = 'users:login'
 LOGOUT_REDIRECT_URL = 'users:login'

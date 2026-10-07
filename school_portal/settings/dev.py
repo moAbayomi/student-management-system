@@ -4,7 +4,8 @@ import dj_database_url
 
 
 
-DEBUG = os.getenv('DEBUG')
+# os.getenv returns a string, and the string 'False' is truthy, so compare explicitly
+DEBUG = os.getenv('DEBUG', 'True').lower() in ('1', 'true', 'yes')
 SECRET_KEY =  os.getenv('SECRET_KEY')
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -12,7 +13,6 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025  # Default SMTP port for Mailpit
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
-DEFAULT_FROM_EMAIL = 'test@localhost'
 
 
 

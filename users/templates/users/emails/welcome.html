@@ -1,4 +1,4 @@
-<h1>Welcome! {{teacher_profile.user.username}}</h1>
-<p>we are excited to onboard you</p>
-<p>go to this link here to set your password so you can proceed to login. abi how you see am idanski <a href="{{full_url}}">click here</a>
-</p>
+<p>Hello {{ profile.user.get_full_name }},</p>
+<p>An account has been created for you on the {{ school.name|default:"school" }} portal.</p>
+<p>Please <a href="{{ full_url }}">click here to set your password</a>. This link expires in 7 days.</p>
+<p>If you weren't expecting this email, you can ignore it.</p>

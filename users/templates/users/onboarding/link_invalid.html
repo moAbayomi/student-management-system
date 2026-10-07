@@ -1,0 +1,6 @@
+{% extends "users/onboarding/_card.html" %}
+{% block heading %}Link Not Valid{% endblock %}
+{% block intro %}This link is invalid or has already been used. If you still need access, please contact the school office.{% endblock %}
+{% block body %}
+<a href="{% url 'users:login' %}" class="block text-center text-sm font-bold text-gray-900 underline">Go to Login</a>
+{% endblock %}
