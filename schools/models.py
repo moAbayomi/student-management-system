@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from colorfield.fields import ColorField
@@ -65,11 +65,6 @@ class School(models.Model):
         super().save(*args, **kwargs)
 
 
-def get_school():
-    school, _ = School.objects.get_or_create(pk=1)
-    return school
-
-
 class AcademicSession(models.Model):
 
     class SessionStatus(models.TextChoices):
@@ -125,14 +120,14 @@ class AcademicSession(models.Model):
     
     
     def make_current(self):
-        """Mark this session ACTIVE and current. Unsets all others."""
-        from django.db import transaction
-    
+        """Mark this session ACTIVE and current, and its First Term current."""
         with transaction.atomic():
-            AcademicSession.objects.exclude(pk=self.pk).update(
-                is_current=False,
-                status=AcademicSession.SessionStatus.ARCHIVED,
-            )
+            # Archive the session that was running. Sessions still in
+            # PLANNING (e.g. next year being prepared) are left alone.
+            AcademicSession.objects.exclude(pk=self.pk).filter(
+                status=AcademicSession.SessionStatus.ACTIVE,
+            ).update(status=AcademicSession.SessionStatus.ARCHIVED)
+            AcademicSession.objects.exclude(pk=self.pk).update(is_current=False)
             AcademicTerm.objects.update(is_current=False)
     
             self.is_current = True

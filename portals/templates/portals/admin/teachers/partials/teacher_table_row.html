@@ -43,7 +43,7 @@
 							<span class="text-xs font-bold text-[var(--color-muted)]"
 								>Teacher</span
 							>
-							{%for cls in teacher.user.class_teacher_of.all%}
+							{%for cls in teacher.class_teacher_of.all%}
 							<span class="text-[10px] text-[var(--color-dim)] font-medium"
 								>Form: {{cls}}</span
 							>

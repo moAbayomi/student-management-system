@@ -1,0 +1,3 @@
+{% extends "users/onboarding/_card.html" %}
+{% block heading %}{% if sent %}Check Your Email{% else %}Couldn't Send Email{% endif %}{% endblock %}
+{% block intro %}{% if sent %}A new link has been sent to the email address the school has on file.{% else %}We couldn't send the email. Please contact the school office.{% endif %}{% endblock %}

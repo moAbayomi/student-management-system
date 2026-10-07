@@ -71,13 +71,7 @@ class TeacherProfile(models.Model):
     max_weekly_hours = models.PositiveSmallIntegerField(default=30)
 
     # ── Form teacher assignment ──
-    assigned_class_arm = models.ForeignKey(
-        "academics.ClassArm",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="form_teachers",
-    )
+    # Lives on ClassArm.class_teacher (reverse: teacher.class_teacher_of)
 
     # ── Additional roles ──
     roles = models.ManyToManyField("TeacherRole", blank=True, related_name="teachers")
@@ -118,7 +112,7 @@ class StudentProfile(models.Model):
         max_length=20, unique=True, null=True, blank=True
     )
     onboarding_token = models.UUIDField(null=True, blank=True, unique=True)
-    onboarding_token_expires_at = models.DateTimeField(auto_now=True)
+    onboarding_token_expires_at = models.DateTimeField(null=True, blank=True)
     class_arm = models.ForeignKey(
         "academics.ClassArm",
         on_delete=models.PROTECT,  # Protect prevents deleting an arm if students are in it

@@ -11,6 +11,7 @@ from .models import StudentProfile, TeacherProfile
 from academics.models import Subject
 from django.contrib.auth import get_user_model
 from academics.models import ClassArm
+from schools.services import get_school
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Q
@@ -18,6 +19,18 @@ from django.core.exceptions import ValidationError
 import secrets
 
 User = get_user_model()
+
+ONBOARDING_LINK_LIFETIME = timedelta(days=7)
+
+
+def _token_status(profile):
+     """'already_active', 'expired' or 'valid' for a profile found by its onboarding token."""
+     if profile.status == 'ACTIVE':
+          return 'already_active'
+     expires_at = profile.onboarding_token_expires_at
+     if expires_at is None or expires_at < timezone.now():
+          return 'expired'
+     return 'valid'
 
 
 class StudentProfileService:
@@ -118,15 +131,34 @@ class TeacherProfileService:
 
          
 
+def _send_onboarding_email(profile, recipient):
+     """Email the set-your-password link. Returns True if the email went out."""
+     if not recipient:
+          return False
+     html = render_to_string('users/emails/welcome.html', {
+          'profile': profile,
+          'school': get_school(),
+          'full_url': urljoin(settings.SITE_URL, reverse('users:onboard', kwargs={'token': profile.onboarding_token})),
+     })
+     try:
+          send_mail(
+               subject='Set your password - School Portal',
+               message='',
+               from_email=settings.DEFAULT_FROM_EMAIL,
+               recipient_list=[recipient],
+               html_message=html,
+          )
+          return True
+     except Exception as e:
+          # The token is saved either way, so the admin can resend later.
+          print(f"Failed to send onboarding email: {e}")
+          return False
+
+
 class StudentRegistrationService:
      @staticmethod
-     def generate_temp_password():
-          return 'pswdtakbir1234'
-          
-     
-     @staticmethod
      @transaction.atomic
-     def create_draft_student(school, data:dict) -> StudentProfile:
+     def create_draft_student(data:dict) -> StudentProfile:
           first_name = data.get('first_name')
           last_name = data.get('last_name')
           gender = data.get('gender')
@@ -135,35 +167,35 @@ class StudentRegistrationService:
           suffix = secrets.token_hex(3)
           username = f'{base_username}.{suffix}'
 
-          temp_password = StudentRegistrationService.generate_temp_password()
-          user = User.objects.create(
+          # No password until the student/guardian sets one via the onboarding link
+          user = User(
                username=username,
                first_name=first_name,
                gender=gender,
                last_name=last_name,
                role='STUDENT',
+               is_active=False,
           )
-          user.set_password(temp_password)
+          user.set_unusable_password()
           user.save()
 
           class_arm_id = data.get('class_arm')
-          class_arm_instance = ClassArm.objects.get(id=class_arm_id)
+          class_arm_instance = ClassArm.objects.filter(id=class_arm_id).first() if class_arm_id else None
 
           std = StudentProfile.objects.create(
                user=user,
-               school=school,
+               status=StudentProfile.Status.DRAFT,
                admission_number=None,
                class_arm=class_arm_instance,
                date_of_birth=data.get('dob')
           )
 
-          return StudentProfile
+          return std
      
      @staticmethod
      @transaction.atomic
      def create_complete_student(form) -> StudentProfile:
-          data = form.clean()
-          temp_password = StudentRegistrationService.generate_temp_password()
+          data = form.cleaned_data
 
 
           base_username = f'{data['first_name'].lower()}{data['last_name'].lower()}'
@@ -179,13 +211,15 @@ class StudentRegistrationService:
           role='STUDENT',
           state_of_origin=data.get('state_of_origin', ''),
           religion=data.get('religion', ''),
-          address=data.get('address', '')
+          address=data.get('address', ''),
+          is_active=False,
           )
-          user.set_password(temp_password)         
+          # No password until the student/guardian sets one via the onboarding link
+          user.set_unusable_password()
           user.save()
 
           token = uuid.uuid4()
-          token_expires_at = timezone.now() + timedelta(3)
+          token_expires_at = timezone.now() + ONBOARDING_LINK_LIFETIME
 
           std_profile = StudentProfile.objects.create(
           user=user,
@@ -223,26 +257,8 @@ class StudentRegistrationService:
      
      @staticmethod
      def send_student_onboarding_email(student_profile):
-          token = student_profile.onboarding_token
-          full_url = urljoin(settings.SITE_URL, reverse('portal:onboard-student', kwargs={'token': token}))
-          html = render_to_string('users/emails/welcome.html', {
-               'teacher_profile': student_profile,
-               'full_url': full_url
-          })
-
-          try:
-               send_mail(
-                    subject='welcome!',
-                    message='',
-                    from_email='test@localhost',
-                    recipient_list=[student_profile.guardian_email],
-                    html_message=html
-               )
-          except Exception as e:
-               # Log the error properly in production
-               print(f"Failed to send onboarding email: {e}")
-               # You can also silently fail – the token is still saved, so admin can resend later.
-                    
+          # Students usually have no email of their own, so the link goes to the guardian
+          return _send_onboarding_email(student_profile, student_profile.guardian_email)
 
 
      @staticmethod
@@ -272,7 +288,7 @@ class StudentRegistrationService:
 
      @staticmethod
      def edit_complete_student(id, form) -> StudentProfile:
-          data = form.clean()
+          data = form.cleaned_data
           student_profile = StudentProfile.objects.get(id=id)
           user = student_profile.user
 
@@ -319,49 +335,7 @@ class StudentRegistrationService:
           return student_profile
 
 
-class StudentOnboardingService:
-     @staticmethod
-     def get_valid_student_and_status(token):
-          try:
-               student = StudentProfile.objects.select_related('user').get(onboarding_token=token)
-          except StudentProfile.DoesNotExist:
-               return (None, 'invalid')
-          
-          token_expired = student.onboarding_token_expires_at and student.onboarding_token_expires_at < timezone.now()
-
-          if token_expired:      
-               if student.has_usable_password():
-                    return (student, 'already_active')
-               return (student, 'expired')
-          
-          return (student, 'valid')
-     
-     @staticmethod
-     def set_student_password(student, password):
-          user = student.user
-          user.is_active = True
-          user.set_password(password)
-          user.save()
-
-          student.status = 'ACTIVE'
-          student.onboarding_token = None
-          student.onboarding_token_expires_at = None
-          student.save()
-
-     @staticmethod
-     def renegerate_onboarding_token(student):
-          student.onboarding_token = uuid.uuid4()
-          student.onboarding_token_expires_at = timezone.now() + timedelta(7)
-          student.save()
-
-          
-
 class TeacherRegistrationService:
-     @staticmethod
-     def generate_temp_password():
-          return 'pswdtakbir1234'
-     
-     
      @staticmethod
      @transaction.atomic
      def create_full_teacher(form, send_invite=True) -> TeacherProfile:
@@ -389,7 +363,7 @@ class TeacherRegistrationService:
           user.save()
 
           token = uuid.uuid4()
-          expires_at = timezone.now() + timedelta(days=7)
+          expires_at = timezone.now() + ONBOARDING_LINK_LIFETIME
 
           teacher_profile = TeacherProfile.objects.create(
                user=user,
@@ -412,36 +386,13 @@ class TeacherRegistrationService:
 
      @staticmethod
      def send_onboarding_email(teacher_profile):
-          token = teacher_profile.onboarding_token
-
-          full_url = urljoin(settings.SITE_URL, reverse('portal:teacher-onboard', kwargs={'token': token}))
-
-          html = render_to_string('users/emails/welcome.html', {
-               'profile': teacher_profile,
-               'full_url': full_url
-          })
-
-
-          subject = 'set your password - School Portal'
-          try:
-               send_mail(
-                    subject=subject,
-                    message='',
-                    from_email='test@localhost',                # uses DEFAULT_FROM_EMAIL from settings
-                    recipient_list=[teacher_profile.user.email],
-                    html_message=html,
-               )
-          except Exception as e:
-               # Log the error properly in production
-               print(f"Failed to send onboarding email: {e}")
-               # You can also silently fail – the token is still saved, so admin can resend later.
-                    
+          return _send_onboarding_email(teacher_profile, teacher_profile.user.email)
 
 
 
      @staticmethod
      @transaction.atomic
-     def edit_complete_student(id, form) -> TeacherProfile:
+     def edit_complete_teacher(id, form) -> TeacherProfile:
           data = form.cleaned_data
           teacher_profile = TeacherProfile.objects.get(id=id)
 
@@ -500,43 +451,38 @@ class TeacherRegistrationService:
                'subjects': subjects
           }
           
-class TeacherOnboardingService:
-     @staticmethod
-     def get_valid_teacher_and_status(token):
-          try:
-               teacher = TeacherProfile.objects.select_related('user').get(onboarding_token=token)
-          except TeacherProfile.DoesNotExist:
-               return (None, 'invalid')
-          
-          token_expired = teacher.onboarding_token_expires_at and teacher.onboarding_token_expires_at < timezone.now()
-
-          if token_expired:
-               if teacher.has_usable_password():
-                    return (teacher, 'already_active')
-               return (teacher, 'expired')
-          
-          return (teacher, 'valid')
-
+class OnboardingService:
+     """The "set your password" flow shared by teachers and students."""
 
      @staticmethod
-     def set_teacher_password(teacher, password):
-          user = teacher.user
-          user.set_password(password)
-          user.is_active = True
-          user.save()
-
-          teacher.status = 'ACTIVE'
-          teacher.onboarding_token = None
-          teacher.onboarding_token_expires_at = None
-          teacher.save()
+     def find_profile(token):
+          """Return the TeacherProfile or StudentProfile holding this token, or None."""
+          for model in (TeacherProfile, StudentProfile):
+               profile = model.objects.select_related('user').filter(onboarding_token=token).first()
+               if profile:
+                    return profile
+          return None
 
      @staticmethod
-     def regenerate_onboarding_token(teacher):
-          teacher.onboarding_token = uuid.uuid4()
-          teacher.onboarding_token_expires_at = timezone.now() + timedelta(7)
-          teacher.save()
+     def status(profile):
+          return _token_status(profile)
 
+     @staticmethod
+     @transaction.atomic
+     def complete(profile):
+          """Call after the password form has been saved: activate the account and burn the token."""
+          profile.user.is_active = True
+          profile.user.save(update_fields=['is_active'])
+          profile.status = 'ACTIVE'
+          profile.onboarding_token = None
+          profile.onboarding_token_expires_at = None
+          profile.save(update_fields=['status', 'onboarding_token', 'onboarding_token_expires_at'])
 
-
-
-
+     @staticmethod
+     def regenerate_and_send(profile):
+          profile.onboarding_token = uuid.uuid4()
+          profile.onboarding_token_expires_at = timezone.now() + ONBOARDING_LINK_LIFETIME
+          profile.save(update_fields=['onboarding_token', 'onboarding_token_expires_at'])
+          if isinstance(profile, TeacherProfile):
+               return TeacherRegistrationService.send_onboarding_email(profile)
+          return StudentRegistrationService.send_student_onboarding_email(profile)
