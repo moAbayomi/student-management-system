@@ -109,7 +109,8 @@ class GradeComponent(models.Model):
 
 class ResultEntry(models.Model):
     result = models.ForeignKey(Result, on_delete=models.CASCADE, related_name='entries')
-    component = models.ForeignKey(GradeComponent, on_delete=models.CASCADE)
+    # PROTECT: deleting a component must never silently delete students' scores
+    component = models.ForeignKey(GradeComponent, on_delete=models.PROTECT)
     score = models.FloatField(default=0)
 
     def clean(self):

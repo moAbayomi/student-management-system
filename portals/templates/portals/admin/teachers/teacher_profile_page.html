@@ -1,0 +1,3 @@
+{% extends "portals/layout.html" %}
+{% block title %}{{ teacher.user.get_full_name }}{% endblock %}
+{% block content %}{% include "portals/admin/teachers/teacher_profile.html" %}{% endblock %}

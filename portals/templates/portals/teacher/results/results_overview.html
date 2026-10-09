@@ -2,28 +2,28 @@
 	x-data="resultsApp()"
 	x-init="init()"
 	id="results-main"
-	class="w-full min-h-screen bg-slate-50 text-slate-800 font-sans antialiased select-none pb-24">
+	class="w-full min-h-screen bg-gray-50 text-gray-800 font-sans antialiased select-none pb-24">
 	<div
-		class="w-full bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between gap-4">
+		class="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between gap-4">
 		<div
-			class="flex items-center gap-2 text-xs font-semibold text-slate-500 tracking-wide">
-			<a href="#" class="hover:text-slate-900 transition"
+			class="flex items-center gap-2 text-xs font-semibold text-gray-500 tracking-wide">
+			<a href="#" class="hover:text-gray-900 transition"
 				>Results &amp; Grades</a
 			>
-			<span class="text-slate-300 font-normal">›</span>
-			<a href="#" class="hover:text-slate-900 transition">My Assignments</a>
-			<span class="text-slate-300 font-normal">›</span>
-			<span class="text-slate-900 font-bold tracking-normal"
+			<span class="text-gray-300 font-normal">›</span>
+			<a href="#" class="hover:text-gray-900 transition">My Assignments</a>
+			<span class="text-gray-300 font-normal">›</span>
+			<span class="text-gray-900 font-bold tracking-normal"
 				>Mathematics — SS 2A</span
 			>
 		</div>
 		<div class="flex items-center gap-2">
 			<button
 				type="button"
-				class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold text-slate-600 rounded-lg transition shadow-sm"
+				class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-gray-600 rounded-lg transition shadow-sm"
 				@click="showHistory = !showHistory">
 				<svg
-					class="text-slate-400"
+					class="text-gray-400"
 					width="13"
 					height="13"
 					viewBox="0 0 24 24"
@@ -38,10 +38,10 @@
 			</button>
 			<button
 				type="button"
-				class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold text-slate-600 rounded-lg transition shadow-sm"
+				class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-gray-600 rounded-lg transition shadow-sm"
 				@click="exportCSV()">
 				<svg
-					class="text-slate-400"
+					class="text-gray-400"
 					width="13"
 					height="13"
 					viewBox="0 0 24 24"
@@ -58,12 +58,12 @@
 		</div>
 	</div>
 
-	<div class="p-6 bg-white border-b border-slate-200 space-y-4">
+	<div class="p-6 bg-white border-b border-gray-200 space-y-4">
 		<div class="flex items-start justify-between gap-4 flex-wrap">
 			<div>
 				<div class="flex items-center gap-2.5 flex-wrap">
 					<div
-						class="text-2xl font-black text-slate-900 tracking-tight leading-none">
+						class="text-2xl font-black text-gray-900 tracking-tight leading-none">
 						Mathematics
 					</div>
 					<span
@@ -96,18 +96,18 @@
 						>Draft saved</span
 					>
 				</div>
-				<div class="text-[13px] font-medium text-slate-400 mt-1.5">
+				<div class="text-[13px] font-medium text-gray-400 mt-1.5">
 					Mr. Samuel Adeyemi &nbsp;·&nbsp; 40 students &nbsp;·&nbsp; CA max: 30
 					&nbsp;·&nbsp; Exam max: 70
 				</div>
 			</div>
 			<div class="flex items-center gap-1.5 flex-wrap">
 				<div
-					class="text-xs text-slate-400 text-right font-medium leading-relaxed">
-					Session: <strong class="text-slate-800 font-bold">2025/2026</strong
+					class="text-xs text-gray-400 text-right font-medium leading-relaxed">
+					Session: <strong class="text-gray-800 font-bold">2025/2026</strong
 					><br />
 					Assignment:
-					<strong class="text-slate-800 font-bold">#ASN-0042</strong>
+					<strong class="text-gray-800 font-bold">#ASN-0042</strong>
 				</div>
 			</div>
 		</div>
@@ -128,38 +128,38 @@
 			<span class="font-black text-amber-800 uppercase tracking-wide"
 				>Submission deadline:</span
 			>
-			<span class="text-slate-900 font-bold">Friday, 23 May 2026</span>
+			<span class="text-gray-900 font-bold">Friday, 23 May 2026</span>
 			<span
 				class="text-amber-700 font-black tracking-wide"
 				x-text="deadlineCountdown"></span>
 			<div
-				class="ml-auto flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+				class="ml-auto flex items-center gap-1.5 text-xs text-gray-400 font-medium">
 				Last saved:
 				<span
-					class="font-bold text-slate-800"
+					class="font-bold text-gray-800"
 					x-text="lastSaved || 'Not yet'"></span>
 			</div>
 		</div>
 	</div>
 
 	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 p-6 pb-0">
-		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+		<div class="bg-white border border-gray-200/80 rounded-xl p-3.5 shadow-sm">
 			<div
-				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
 				Total Students
 			</div>
 			<div
-				class="text-xl font-black text-slate-900 leading-tight mt-0.5"
+				class="text-xl font-black text-gray-900 leading-tight mt-0.5"
 				x-text="students.length">
 				40
 			</div>
-			<div class="text-[10px] font-medium text-slate-400 mt-0.5">
+			<div class="text-[10px] font-medium text-gray-400 mt-0.5">
 				In this arm
 			</div>
 		</div>
-		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+		<div class="bg-white border border-gray-200/80 rounded-xl p-3.5 shadow-sm">
 			<div
-				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
 				Filled In
 			</div>
 			<div
@@ -168,14 +168,14 @@
 				36
 			</div>
 			<div
-				class="text-[10px] font-medium text-slate-400 mt-0.5"
+				class="text-[10px] font-medium text-gray-400 mt-0.5"
 				x-text="`of ${students.length}`"></div>
 		</div>
 		<div
-			class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm transition-colors"
+			class="bg-white border border-gray-200/80 rounded-xl p-3.5 shadow-sm transition-colors"
 			:style="missingCount > 0 ? 'border-color:#FECACA; background-color:#FEF2F2;' : ''">
 			<div
-				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider"
+				class="text-[10px] font-bold text-gray-400 uppercase tracking-wider"
 				:style="missingCount > 0 ? 'color:#B91C1C;' : ''">
 				Missing
 			</div>
@@ -186,26 +186,26 @@
 				4
 			</div>
 			<div
-				class="text-[10px] font-medium text-slate-400 mt-0.5"
+				class="text-[10px] font-medium text-gray-400 mt-0.5"
 				x-text="missingCount > 0 ? 'Need scores' : 'All good'"></div>
 		</div>
-		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+		<div class="bg-white border border-gray-200/80 rounded-xl p-3.5 shadow-sm">
 			<div
-				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
 				Class Average
 			</div>
 			<div
-				class="text-xl font-black text-slate-900 leading-tight mt-0.5"
+				class="text-xl font-black text-gray-900 leading-tight mt-0.5"
 				x-text="classAvg">
 				74.6
 			</div>
-			<div class="text-[10px] font-medium text-slate-400 mt-0.5">
+			<div class="text-[10px] font-medium text-gray-400 mt-0.5">
 				Out of 100
 			</div>
 		</div>
-		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+		<div class="bg-white border border-gray-200/80 rounded-xl p-3.5 shadow-sm">
 			<div
-				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
 				Highest Score
 			</div>
 			<div
@@ -214,14 +214,14 @@
 				97
 			</div>
 			<div
-				class="text-[10px] font-medium text-slate-500 mt-0.5 truncate"
+				class="text-[10px] font-medium text-gray-500 mt-0.5 truncate"
 				x-text="highestName">
 				T. Oke
 			</div>
 		</div>
-		<div class="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+		<div class="bg-white border border-gray-200/80 rounded-xl p-3.5 shadow-sm">
 			<div
-				class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+				class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
 				Lowest Score
 			</div>
 			<div
@@ -231,7 +231,7 @@
 				34
 			</div>
 			<div
-				class="text-[10px] font-medium text-slate-500 mt-0.5 truncate"
+				class="text-[10px] font-medium text-gray-500 mt-0.5 truncate"
 				x-text="lowestName">
 				K. Ibe
 			</div>
@@ -241,7 +241,7 @@
 	<div class="flex items-center gap-4 px-6 pt-5 pb-3 flex-wrap">
 		<div class="flex items-center gap-2">
 			<span
-				class="text-[10px] font-black text-slate-400 uppercase tracking-widest"
+				class="text-[10px] font-black text-gray-400 uppercase tracking-widest"
 				>Bulk Fill:</span
 			>
 			<button
@@ -286,24 +286,24 @@
 			</button>
 		</div>
 
-		<div class="hidden lg:block w-px h-5 bg-slate-200"></div>
+		<div class="hidden lg:block w-px h-5 bg-gray-200"></div>
 
 		<div class="flex items-center gap-1.5">
 			<span
-				class="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-1"
+				class="text-[10px] font-black text-gray-400 uppercase tracking-widest mr-1"
 				>Filter:</span
 			>
 			<button
 				type="button"
 				class="px-3 py-1.5 text-xs font-bold border rounded-lg transition"
-				:class="filterMode === 'all' ? 'bg-slate-900 text-white border-slate-900 shadow-sm' : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-600'"
+				:class="filterMode === 'all' ? 'bg-gray-900 text-white border-gray-900 shadow-sm' : 'bg-white border-gray-200 hover:bg-gray-50 text-gray-600'"
 				@click="filterMode = 'all'">
 				All
 			</button>
 			<button
 				type="button"
 				class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold border rounded-lg transition"
-				:class="filterMode === 'missing' ? 'bg-rose-600 text-white border-rose-600 shadow-sm' : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-600'"
+				:class="filterMode === 'missing' ? 'bg-rose-600 text-white border-rose-600 shadow-sm' : 'bg-white border-gray-200 hover:bg-gray-50 text-gray-600'"
 				@click="filterMode = 'missing'">
 				Missing
 				<span
@@ -314,22 +314,22 @@
 			<button
 				type="button"
 				class="px-3 py-1.5 text-xs font-bold border rounded-lg transition"
-				:class="filterMode === 'failing' ? 'bg-orange-600 text-white border-orange-600 shadow-sm' : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-600'"
+				:class="filterMode === 'failing' ? 'bg-orange-600 text-white border-orange-600 shadow-sm' : 'bg-white border-gray-200 hover:bg-gray-50 text-gray-600'"
 				@click="filterMode = 'failing'">
 				Failing (&lt;50)
 			</button>
 		</div>
 
-		<div class="hidden lg:block w-px h-5 bg-slate-200"></div>
+		<div class="hidden lg:block w-px h-5 bg-gray-200"></div>
 
 		<div class="flex items-center gap-2">
 			<label
-				class="text-[10px] font-black text-slate-400 uppercase tracking-widest"
+				class="text-[10px] font-black text-gray-400 uppercase tracking-widest"
 				>Search:</label
 			>
 			<div class="relative">
 				<svg
-					class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400"
+					class="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400"
 					width="12"
 					height="12"
 					viewBox="0 0 24 24"
@@ -344,14 +344,14 @@
 					type="text"
 					placeholder="Student name or ID…"
 					x-model="searchQuery"
-					class="pl-7 pr-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold w-48 outline-none focus:border-slate-400 transition shadow-inner" />
+					class="pl-7 pr-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-semibold w-48 outline-none focus:border-gray-400 transition shadow-inner" />
 			</div>
 		</div>
 
-		<div class="ml-auto text-xs font-medium text-slate-400">
+		<div class="ml-auto text-xs font-medium text-gray-400">
 			Showing
 			<strong
-				class="text-slate-800 font-bold"
+				class="text-gray-800 font-bold"
 				x-text="filteredStudents.length"></strong>
 			students
 		</div>
@@ -395,7 +395,7 @@
 		</div>
 		<button
 			type="button"
-			class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded-md font-bold transition shadow-sm"
+			class="ui-btn ui-btn-primary ui-btn-sm"
 			@click="applyBulk()">
 			Apply to all
 		</button>
@@ -442,29 +442,29 @@
 		x-show="showHistory"
 		x-cloak
 		x-transition.duration.150ms
-		class="mx-6 mb-3 bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+		class="mx-6 mb-3 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
 		<div
-			class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-			<span class="text-xs font-black text-slate-700 uppercase tracking-wider"
+			class="px-4 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+			<span class="text-xs font-black text-gray-700 uppercase tracking-wider"
 				>Past Result Records — Mathematics SS 2A</span
 			>
 			<button
 				type="button"
 				@click="showHistory=false"
-				class="text-slate-400 hover:text-slate-600 text-xl font-light leading-none">
+				class="text-gray-400 hover:text-gray-600 text-xl font-light leading-none">
 				×
 			</button>
 		</div>
-		<div class="divide-y divide-slate-100">
+		<div class="divide-y divide-gray-100">
 			<div
-				class="p-3.5 hover:bg-slate-50/60 flex items-center justify-between gap-4 flex-wrap cursor-pointer group transition"
+				class="p-3.5 hover:bg-gray-50/60 flex items-center justify-between gap-4 flex-wrap cursor-pointer group transition"
 				@click="loadRecord('1st-term-2026')">
 				<div>
 					<div
-						class="text-xs font-bold text-slate-800 group-hover:text-slate-900">
+						class="text-xs font-bold text-gray-800 group-hover:text-gray-900">
 						1st Term 2026
 					</div>
-					<div class="text-[11px] text-slate-400 font-medium mt-0.5">
+					<div class="text-[11px] text-gray-400 font-medium mt-0.5">
 						Submitted 15 Jan 2026 · Class avg: 71.3
 					</div>
 				</div>
@@ -475,27 +475,27 @@
 					>
 					<button
 						type="button"
-						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						class="px-2.5 py-1 border border-gray-200 hover:border-gray-300 bg-white text-[11px] font-bold text-gray-600 rounded-md shadow-sm transition"
 						@click.stop="viewRecord('1st-term-2026')">
 						View
 					</button>
 					<button
 						type="button"
-						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						class="px-2.5 py-1 border border-gray-200 hover:border-gray-300 bg-white text-[11px] font-bold text-gray-600 rounded-md shadow-sm transition"
 						@click.stop="exportRecord('1st-term-2026')">
 						Export
 					</button>
 				</div>
 			</div>
 			<div
-				class="p-3.5 hover:bg-slate-50/60 flex items-center justify-between gap-4 flex-wrap cursor-pointer group transition"
+				class="p-3.5 hover:bg-gray-50/60 flex items-center justify-between gap-4 flex-wrap cursor-pointer group transition"
 				@click="loadRecord('3rd-term-2025')">
 				<div>
 					<div
-						class="text-xs font-bold text-slate-800 group-hover:text-slate-900">
+						class="text-xs font-bold text-gray-800 group-hover:text-gray-900">
 						3rd Term 2025
 					</div>
-					<div class="text-[11px] text-slate-400 font-medium mt-0.5">
+					<div class="text-[11px] text-gray-400 font-medium mt-0.5">
 						Submitted 2 Aug 2025 · Class avg: 68.9
 					</div>
 				</div>
@@ -506,27 +506,27 @@
 					>
 					<button
 						type="button"
-						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						class="px-2.5 py-1 border border-gray-200 hover:border-gray-300 bg-white text-[11px] font-bold text-gray-600 rounded-md shadow-sm transition"
 						@click.stop="viewRecord('3rd-term-2025')">
 						View
 					</button>
 					<button
 						type="button"
-						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						class="px-2.5 py-1 border border-gray-200 hover:border-gray-300 bg-white text-[11px] font-bold text-gray-600 rounded-md shadow-sm transition"
 						@click.stop="exportRecord('3rd-term-2025')">
 						Export
 					</button>
 				</div>
 			</div>
 			<div
-				class="p-3.5 hover:bg-slate-50/60 flex items-center justify-between gap-4 flex-wrap cursor-pointer group transition"
+				class="p-3.5 hover:bg-gray-50/60 flex items-center justify-between gap-4 flex-wrap cursor-pointer group transition"
 				@click="loadRecord('2nd-term-2025')">
 				<div>
 					<div
-						class="text-xs font-bold text-slate-800 group-hover:text-slate-900">
+						class="text-xs font-bold text-gray-800 group-hover:text-gray-900">
 						2nd Term 2025
 					</div>
-					<div class="text-[11px] text-slate-400 font-medium mt-0.5">
+					<div class="text-[11px] text-gray-400 font-medium mt-0.5">
 						Submitted 18 Apr 2025 · Class avg: 66.1
 					</div>
 				</div>
@@ -537,13 +537,13 @@
 					>
 					<button
 						type="button"
-						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						class="px-2.5 py-1 border border-gray-200 hover:border-gray-300 bg-white text-[11px] font-bold text-gray-600 rounded-md shadow-sm transition"
 						@click.stop="viewRecord('2nd-term-2025')">
 						View
 					</button>
 					<button
 						type="button"
-						class="px-2.5 py-1 border border-slate-200 hover:border-slate-300 bg-white text-[11px] font-bold text-slate-600 rounded-md shadow-sm transition"
+						class="px-2.5 py-1 border border-gray-200 hover:border-gray-300 bg-white text-[11px] font-bold text-gray-600 rounded-md shadow-sm transition"
 						@click.stop="exportRecord('2nd-term-2025')">
 						Export
 					</button>
@@ -554,27 +554,27 @@
 
 	<div class="px-6">
 		<div
-			class="w-full bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+			class="w-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
 			<div class="overflow-x-auto w-full">
 				<table class="w-full table-auto border-collapse text-left">
 					<thead>
 						<tr
-							class="bg-slate-50/75 border-b border-slate-200 text-slate-400 text-[11px] font-black uppercase tracking-wider select-none">
+							class="bg-gray-50/75 border-b border-gray-200 text-gray-400 text-[11px] font-black uppercase tracking-wider select-none">
 							<th class="p-3.5 w-8">
 								<input
 									type="checkbox"
-									class="w-3.5 h-3.5 rounded border-slate-300 focus:ring-0 cursor-pointer accent-slate-800"
+									class="w-3.5 h-3.5 rounded border-gray-300 focus:ring-0 cursor-pointer accent-slate-800"
 									@change="toggleAll($event.target.checked)" />
 							</th>
 							<th class="p-3.5 min-w-[220px]">Student</th>
 							<th class="p-3.5 w-24">Adm. No.</th>
 							<th class="p-3.5 w-28 whitespace-nowrap">
 								CA Score
-								<span class="font-normal text-slate-400 lowercase">(/30)</span>
+								<span class="font-normal text-gray-400 lowercase">(/30)</span>
 							</th>
 							<th class="p-3.5 w-28 whitespace-nowrap">
 								Exam Score
-								<span class="font-normal text-slate-400 lowercase">(/70)</span>
+								<span class="font-normal text-gray-400 lowercase">(/70)</span>
 							</th>
 							<th class="p-3.5 w-24">Total</th>
 							<th class="p-3.5 w-16">Grade</th>
@@ -582,20 +582,20 @@
 							<th class="p-3.5 w-12 text-center"></th>
 						</tr>
 					</thead>
-					<tbody class="divide-y divide-slate-150">
+					<tbody class="divide-y divide-gray-150">
 						<template
 							x-for="(student, index) in filteredStudents"
 							:key="student.id">
 							<tr
-								class="hover:bg-slate-50/40 transition-colors"
+								class="hover:bg-gray-50/40 transition-colors"
 								:class="{
                   'bg-rose-50/40 hover:bg-rose-50/60': isMissing(student),
-                  'bg-slate-50/60 opacity-90': isSubmitted
+                  'bg-gray-50/60 opacity-90': isSubmitted
                 }">
 								<td class="p-3.5">
 									<input
 										type="checkbox"
-										class="w-3.5 h-3.5 rounded border-slate-300 focus:ring-0 cursor-pointer accent-slate-800"
+										class="w-3.5 h-3.5 rounded border-gray-300 focus:ring-0 cursor-pointer accent-slate-800"
 										x-model="student.selected" />
 								</td>
 								<td class="p-3.5">
@@ -610,7 +610,7 @@
 											x-text="student.initials"></div>
 										<div class="min-w-0">
 											<div
-												class="text-xs font-bold text-slate-800 truncate"
+												class="text-xs font-bold text-gray-800 truncate"
 												x-text="student.name"></div>
 											<div
 												class="text-[9.5px] font-black text-rose-600 uppercase tracking-wide mt-0.5"
@@ -621,7 +621,7 @@
 									</div>
 								</td>
 								<td
-									class="p-3.5 text-xs font-bold text-slate-500 tracking-monospace"
+									class="p-3.5 text-xs font-bold text-gray-500 tracking-monospace"
 									x-text="student.admNo"></td>
 								<td class="p-3.5">
 									<input
@@ -633,8 +633,8 @@
 										@input="student.caError = false; validateCA(student); recalc(student)"
 										@blur="validateCA(student)"
 										placeholder="—"
-										class="w-[72px] px-2 py-1 bg-white border border-slate-200 rounded-md font-bold text-center text-xs outline-none focus:border-slate-400 transition"
-										:class="{ 'border-rose-500 bg-rose-50 text-rose-700 focus:border-rose-500 shadow-inner': student.caError, 'bg-slate-100 text-slate-500 cursor-not-allowed border-transparent shadow-none': isSubmitted }" />
+										class="w-[72px] px-2 py-1 bg-white border border-gray-200 rounded-md font-bold text-center text-xs outline-none focus:border-gray-400 transition"
+										:class="{ 'border-rose-500 bg-rose-50 text-rose-700 focus:border-rose-500 shadow-inner': student.caError, 'bg-gray-100 text-gray-500 cursor-not-allowed border-transparent shadow-none': isSubmitted }" />
 								</td>
 								<td class="p-3.5">
 									<input
@@ -646,8 +646,8 @@
 										@input="student.examError = false; validateExam(student); recalc(student)"
 										@blur="validateExam(student)"
 										placeholder="—"
-										class="w-[72px] px-2 py-1 bg-white border border-slate-200 rounded-md font-bold text-center text-xs outline-none focus:border-slate-400 transition"
-										:class="{ 'border-rose-500 bg-rose-50 text-rose-700 focus:border-rose-500 shadow-inner': student.examError, 'bg-slate-100 text-slate-500 cursor-not-allowed border-transparent shadow-none': isSubmitted }" />
+										class="w-[72px] px-2 py-1 bg-white border border-gray-200 rounded-md font-bold text-center text-xs outline-none focus:border-gray-400 transition"
+										:class="{ 'border-rose-500 bg-rose-50 text-rose-700 focus:border-rose-500 shadow-inner': student.examError, 'bg-gray-100 text-gray-500 cursor-not-allowed border-transparent shadow-none': isSubmitted }" />
 								</td>
 								<td class="p-3.5">
 									<span
@@ -669,8 +669,8 @@
 										x-model="student.remark"
 										:readonly="isSubmitted"
 										:placeholder="student.grade ? getDefaultRemark(student.grade) : 'Optional remark…'"
-										class="w-full max-w-xs px-2.5 py-1 bg-white border border-transparent rounded-md text-xs font-semibold text-slate-700 placeholder-slate-300 outline-none hover:border-slate-200 focus:bg-white focus:border-slate-400 transition"
-										:class="{ 'bg-slate-100/50 text-slate-500 cursor-not-allowed hover:border-transparent': isSubmitted }" />
+										class="w-full max-w-[20rem] px-2.5 py-1 bg-white border border-transparent rounded-md text-xs font-semibold text-gray-700 placeholder-gray-300 outline-none hover:border-gray-200 focus:bg-white focus:border-gray-400 transition"
+										:class="{ 'bg-gray-100/50 text-gray-500 cursor-not-allowed hover:border-transparent': isSubmitted }" />
 								</td>
 								<td class="p-3.5 text-center">
 									<button
@@ -703,7 +703,7 @@
 						<tr x-show="filteredStudents.length === 0" x-cloak>
 							<td
 								colspan="9"
-								class="text-center py-10 px-4 text-xs font-medium text-slate-400 border-none">
+								class="text-center py-10 px-4 text-xs font-medium text-gray-400 border-none">
 								No students match your current filter.
 								<button
 									type="button"
@@ -718,8 +718,8 @@
 			</div>
 
 			<div
-				class="px-4 py-3 bg-slate-50 border-t border-slate-200/80 flex items-center gap-2 flex-wrap text-[11px] font-semibold text-slate-500 select-none">
-				<span class="font-black text-slate-400 uppercase tracking-wider mr-1"
+				class="px-4 py-3 bg-gray-50 border-t border-gray-200/80 flex items-center gap-2 flex-wrap text-[11px] font-semibold text-gray-500 select-none">
+				<span class="font-black text-gray-400 uppercase tracking-wider mr-1"
 					>Grade Key:</span
 				>
 				<span
@@ -747,7 +747,7 @@
 					>F &nbsp;0–39</span
 				>
 				<div
-					class="ml-auto flex items-center gap-1.5 text-slate-400 font-medium">
+					class="ml-auto flex items-center gap-1.5 text-gray-400 font-medium">
 					<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Missing
 					scores require attention before submission
 				</div>
@@ -756,11 +756,11 @@
 	</div>
 
 	<div
-		class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-200 px-6 flex items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+		class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-200 px-6 flex items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
 		<div class="flex items-center gap-3">
-			<div class="text-xs font-bold text-slate-500">
-				<span class="text-slate-800 font-black" x-text="filledCount"></span> /
-				<span class="text-slate-800 font-black" x-text="students.length"></span>
+			<div class="text-xs font-bold text-gray-500">
+				<span class="text-gray-800 font-black" x-text="filledCount"></span> /
+				<span class="text-gray-800 font-black" x-text="students.length"></span>
 				students filled &nbsp;·&nbsp;
 				<span
 					x-text="missingCount > 0 ? missingCount + ' missing' : 'All complete'"
@@ -776,11 +776,11 @@
 		<div class="flex items-center gap-2" x-show="!isSubmitted">
 			<button
 				type="button"
-				class="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 rounded-lg shadow-sm transition disabled:opacity-50"
+				class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-gray-700 rounded-lg shadow-sm transition disabled:opacity-50"
 				@click="saveDraft()"
 				:disabled="saving">
 				<svg
-					class="text-slate-400"
+					class="text-gray-400"
 					width="13"
 					height="13"
 					viewBox="0 0 24 24"
@@ -797,7 +797,7 @@
 			</button>
 			<button
 				type="button"
-				class="inline-flex items-center justify-center gap-1.5 px-5 py-2 bg-slate-900 hover:bg-slate-800 active:bg-black text-white text-xs font-bold rounded-lg shadow-md transition disabled:opacity-50 min-w-[140px]"
+				class="inline-flex items-center justify-center gap-1.5 px-5 py-2 bg-gray-900 hover:bg-gray-800 active:bg-black text-white text-xs font-bold rounded-lg shadow-md transition disabled:opacity-50 min-w-[140px]"
 				@click="submitResults()"
 				:disabled="saving || isSubmitted">
 				<svg
@@ -831,7 +831,7 @@
 			</span>
 			<button
 				type="button"
-				class="px-3 py-1.5 border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold text-slate-600 rounded-lg shadow-sm transition">
+				class="px-3 py-1.5 border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-gray-600 rounded-lg shadow-sm transition">
 				Request unlock
 			</button>
 		</div>

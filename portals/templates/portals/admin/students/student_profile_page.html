@@ -1,0 +1,3 @@
+{% extends "portals/layout.html" %}
+{% block title %}{{ student.user.get_full_name }}{% endblock %}
+{% block content %}{% include "portals/admin/students/student_profile.html" %}{% endblock %}

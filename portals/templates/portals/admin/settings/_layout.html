@@ -1,0 +1,15 @@
+{% extends "portals/layout.html" %}
+{% comment %}Shared frame for the Settings sub-pages: back link + page header.{% endcomment %}
+{% block content %}
+<div class="max-w-5xl">
+	<a href="{% url 'portal:admin-settings' %}" class="inline-flex items-center gap-1 text-[11.5px] font-bold text-muted hover:text-main mb-sm">&larr; Settings</a>
+	<div class="page-header">
+		<div>
+			<h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+			<p class="page-subtitle">{% block page_subtitle %}{% endblock %}</p>
+		</div>
+		<div class="flex items-center gap-2">{% block page_actions %}{% endblock %}</div>
+	</div>
+	{% block settings_content %}{% endblock %}
+</div>
+{% endblock %}

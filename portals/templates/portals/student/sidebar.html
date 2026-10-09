@@ -1,0 +1,13 @@
+{% extends "portals/partials/sidebar.html" %}
+{% load ui %}
+{% comment %}Student sidebar. Links marked soon=True are pages that don't exist yet (Section 6).{% endcomment %}
+{% block nav %}
+	{% nav_link "portal:student" "Dashboard" "dashboard" %}
+	{% nav_link "portal:student" "My Timetable" "calendar" soon=True %}
+	{% nav_link "portal:student" "My Grades" "grades" soon=True %}
+	{% nav_link "portal:student" "Attendance" "attendance" soon=True %}
+	{% include "portals/partials/nav_section.html" with title="Communication" %}
+	{% nav_link "portal:student" "Announcements" "megaphone" soon=True %}
+	{% include "portals/partials/nav_section.html" with title="Account" %}
+	{% nav_link "portal:student" "Profile" "user" soon=True %}
+{% endblock %}

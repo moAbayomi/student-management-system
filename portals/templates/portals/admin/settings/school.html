@@ -1,38 +1,67 @@
-{% extends "portals/base.html" %}
+{% extends "portals/admin/settings/_layout.html" %}
+{% block title %}School Profile{% endblock %}
+{% block page_title %}School Profile{% endblock %}
+{% block page_subtitle %}Name, branding and contact details shown across the portal and emails.{% endblock %}
 
-{% block content %}
-<h2>School Settings</h2>
+{% block settings_content %}
+<form method="post" enctype="multipart/form-data" class="space-y-lg">
+	{% csrf_token %}
+	{% if form.non_field_errors %}<div class="ui-alert ui-alert-error">{{ form.non_field_errors }}</div>{% endif %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
+	<section class="ui-card">
+		<div class="ui-card-header"><div><h2 class="ui-card-title">Identity</h2></div></div>
+		<div class="ui-card-body grid grid-cols-1 md:grid-cols-2 gap-md">
+			{% include "portals/partials/form_field.html" with field=form.name %}
+			{% include "portals/partials/form_field.html" with field=form.slug %}
+			{% include "portals/partials/form_field.html" with field=form.tagline %}
+			<div class="md:col-span-2">{% include "portals/partials/form_field.html" with field=form.about %}</div>
+		</div>
+	</section>
 
-    {% for field in form %}
-        <div class="form-group">
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-            {% if field.help_text %}
-                <small class="help-text">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-                <div class="error">{{ error }}</div>
-            {% endfor %}
-        </div>
-    {% endfor %}
+	<section class="ui-card">
+		<div class="ui-card-header"><div><h2 class="ui-card-title">Branding</h2></div></div>
+		<div class="ui-card-body grid grid-cols-1 md:grid-cols-2 gap-md">
+			<div class="md:col-span-2 flex items-center gap-md">
+				{% if school.logo %}<img src="{{ school.logo.url }}" alt="Current logo" class="h-14 w-14 rounded-lg object-cover border border-border-light" />{% endif %}
+				<div class="flex-1">{% include "portals/partials/form_field.html" with field=form.logo %}</div>
+			</div>
+			{% include "portals/partials/form_field.html" with field=form.favicon %}
+			{% include "portals/partials/form_field.html" with field=form.hero_image %}
+			{% include "portals/partials/form_field.html" with field=form.primary_color %}
+			{% include "portals/partials/form_field.html" with field=form.secondary_color %}
+		</div>
+	</section>
 
-    <button type="submit" class="btn btn-primary">Save Settings</button>
+	<section class="ui-card">
+		<div class="ui-card-header"><div><h2 class="ui-card-title">Contact</h2></div></div>
+		<div class="ui-card-body grid grid-cols-1 md:grid-cols-2 gap-md">
+			<div class="md:col-span-2">{% include "portals/partials/form_field.html" with field=form.address %}</div>
+			{% include "portals/partials/form_field.html" with field=form.phone %}
+			{% include "portals/partials/form_field.html" with field=form.email %}
+			{% include "portals/partials/form_field.html" with field=form.website %}
+		</div>
+	</section>
+
+	<section class="ui-card">
+		<div class="ui-card-header"><div><h2 class="ui-card-title">Leadership</h2></div></div>
+		<div class="ui-card-body grid grid-cols-1 md:grid-cols-2 gap-md">
+			{% include "portals/partials/form_field.html" with field=form.principal_name %}
+			{% include "portals/partials/form_field.html" with field=form.principal_photo %}
+			<div class="md:col-span-2">{% include "portals/partials/form_field.html" with field=form.principal_message %}</div>
+		</div>
+	</section>
+
+	<section class="ui-card">
+		<div class="ui-card-header"><div><h2 class="ui-card-title">Grading &amp; Region</h2></div></div>
+		<div class="ui-card-body grid grid-cols-1 md:grid-cols-3 gap-md">
+			{% include "portals/partials/form_field.html" with field=form.pass_mark %}
+			{% include "portals/partials/form_field.html" with field=form.grading_system %}
+			{% include "portals/partials/form_field.html" with field=form.timezone %}
+		</div>
+	</section>
+
+	<div class="flex justify-end">
+		<button type="submit" class="ui-btn ui-btn-primary">Save School Profile</button>
+	</div>
 </form>
-
-<div class="current-branding">
-    {% if school.logo %}
-        <p>Current logo:</p>
-        <img src="{{ school.logo.url }}" alt="School logo" style="max-height: 80px;">
-    {% endif %}
-    {% if school.primary_color %}
-        <p>Current colors:
-            <span style="display:inline-block;width:20px;height:20px;background:{{ school.primary_color }};border:1px solid #ccc;"></span>
-            <span style="display:inline-block;width:20px;height:20px;background:{{ school.secondary_color }};border:1px solid #ccc;"></span>
-        </p>
-    {% endif %}
-</div>
 {% endblock %}

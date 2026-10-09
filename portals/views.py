@@ -254,7 +254,7 @@ def student_dashboard(request):
 
     return render(
         request,
-        "portals/student/student_dashboard.html",
+        "portals/student/student.html",
         {
             "profile": profile,
         },
@@ -297,7 +297,9 @@ def student_detail(request, id):
             request, "portals/partials/shared/student_card_right_sidebar.html", context
         )
 
-    return render(request, "portals/admin/students/student_profile.html", context)
+    if request.htmx:
+        return render(request, "portals/admin/students/student_profile.html", context)
+    return render(request, "portals/admin/students/student_profile_page.html", context)
 
 
 @login_required
@@ -438,7 +440,9 @@ def teacher_detail(request, id):
             context,
         )
 
-    return render(request, "portals/admin/teachers/teacher_profile.html", context)
+    if request.htmx:
+        return render(request, "portals/admin/teachers/teacher_profile.html", context)
+    return render(request, "portals/admin/teachers/teacher_profile_page.html", context)
 
 
 @login_required
@@ -813,7 +817,11 @@ def fees_view(request):
 @login_required
 @role_required("ADMIN")
 def admin_settings_view(request):
-    return render(request, "portals/admin/settings/settings.html")
+    components = GradeComponent.objects.all()
+    return render(request, "portals/admin/settings/settings.html", {
+        "grade_total": sum(c.max_score for c in components),
+        "grade_component_count": len(components),
+    })
 
 
 @login_required
@@ -917,13 +925,13 @@ def term_edit(request, term_id):
         if form.is_valid():
             form.save()
             messages.success(request, f"{term} updated.")
-            return redirect("portal:term-list")
+            return redirect("portal:session-list")
     else:
         form = AcademicTermForm(instance=term)
 
     return render(
         request,
-        "portals/settings/term_edit.html",
+        "portals/admin/settings/term_edit.html",
         {
             "form": form,
             "term": term,
@@ -940,39 +948,19 @@ def term_set_current(request, term_id):
         pk=term_id,
     )
 
-    with transaction.atomic():
-        # 1. If the term's session isn't current, make it current too.
-        #    This keeps session and term in sync — you can't have
-        #    "Second Term 2026/2027" current while "2025/2026" is the
-        #    current session.
-        if not term.session.is_current:
-            AcademicSession.objects.exclude(pk=term.session.pk).update(
-                is_current=False,
-                status=AcademicSession.SessionStatus.ARCHIVED,
-            )
-            term.session.is_current = True
-            term.session.status = AcademicSession.SessionStatus.ACTIVE
-            term.session.save(update_fields=["is_current", "status"])
-
-        # 2. Flip the term. AcademicTerm.save() already unsets any
-        #    other current term, so we just set this one and save.
-        term.is_current = True
-        term.save(update_fields=["is_current"])
-
-    # Invalidate the header context processor cache, if you added one
-    cache.delete("current_term")
+    term.make_current()
 
     messages.success(
         request,
         f"{term.get_term_type_display()} {term.session.name} is now the current term.",
     )
-    return redirect("portal:term-list")
+    return redirect("portal:session-list")
 
 
 @login_required
 @role_required("ADMIN")
 def grade_component_list(request):
-    queryset = GradeComponent.objects.order_by("name")
+    queryset = GradeComponent.objects.order_by("is_exam", "name")
 
     if request.method == "POST":
         formset = GradeComponentFormSet(request.POST, queryset=queryset)
@@ -980,13 +968,13 @@ def grade_component_list(request):
             with transaction.atomic():
                 formset.save()
             messages.success(request, "Grade components updated.")
-            return redirect("portal:grade-component-list")
+            return redirect("portal:grade-components")
     else:
         formset = GradeComponentFormSet(queryset=queryset)
 
     return render(
         request,
-        "portals/settings/grade_components.html",
+        "portals/admin/settings/grade_components.html",
         {
             "formset": formset,
             "total": sum(c.max_score for c in GradeComponent.objects.all()),

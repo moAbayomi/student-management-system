@@ -188,7 +188,14 @@ class BaseGradeComponentFormSet(forms.BaseModelFormSet):
         seen_names = set()
 
         for form in self.forms:
-            if not form.cleaned_data or form.cleaned_data.get("DELETE"):
+            if not form.cleaned_data:
+                continue
+            if form.cleaned_data.get("DELETE"):
+                # Raised for the whole formset: Django skips errors on rows marked for deletion
+                if form.instance.pk and form.instance.resultentry_set.exists():
+                    raise forms.ValidationError(
+                        f'"{form.instance.name}" already has scores entered, so it can\'t be deleted.'
+                    )
                 continue
 
             name = (form.cleaned_data.get("name") or "").strip().lower()

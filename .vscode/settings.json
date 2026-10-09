@@ -1,3 +1,12 @@
 {
-	"djlint.showInstallError": false
+	"djlint.showInstallError": false,
+	// Treat templates as Django HTML so tags like {% if %} are understood
+	"files.associations": {
+		"**/templates/**/*.html": "django-html"
+	},
+	// Format templates with djlint (extension: monosans.djlint), never Prettier.
+	// Prettier wraps {% ... %} tags across lines, which Django can't parse.
+	"[django-html]": {
+		"editor.defaultFormatter": "monosans.djlint"
+	}
 }

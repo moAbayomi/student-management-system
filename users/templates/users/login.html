@@ -1,14 +1,13 @@
 {% extends "users/base.html" %} 
-{% block title %}Sign In | School Portal
-{% endblock %} 
+{% block title %}Sign In{% endblock %} 
 
 {% block content %}
 <div
-	class="min-h-screen flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50">
+	class="min-h-screen flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 bg-background">
 	<div class="mb-8 w-full text-center">
 		<div class="flex justify-center mb-6">
 			<div
-				class="w-14 h-14 bg-gray-900 rounded-2xl flex items-center justify-center shadow-xl">
+				class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center shadow-xl">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-7 w-7 text-white block mx-auto"
@@ -31,13 +30,13 @@
 			Welcome back
 		</h2>
 		<p class="mt-2 text-sm text-gray-500 font-medium">
-			Please enter your details to sign in.
+			Sign in to {{ school.name|default:"the school portal" }}.
 		</p>
 	</div>
 
-	<div class="w-full">
+	<div class="w-full max-w-[28rem]">
 		<div
-			class="bg-white py-10 px-8 shadow-2xl shadow-slate-200/50 border border-slate-200 rounded-3xl">
+			class="bg-white py-10 px-8 shadow-2xl shadow-gray-200/50 border border-gray-200 rounded-3xl">
 			<form class="space-y-5" method="POST" novalidate>
 				{% csrf_token %}
 

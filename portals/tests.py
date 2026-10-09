@@ -3,7 +3,8 @@ from datetime import date, timedelta
 
 from django.test import TestCase
 
-from academics.models import Class, ClassArm, DailyAttendance, Subject, SubjectAssignment
+from academics.models import (Class, ClassArm, DailyAttendance, GradeComponent, Result, ResultEntry,
+                              Subject, SubjectAssignment)
 from profiles.models import StudentProfile, TeacherProfile
 from schools.models import AcademicSession, AcademicTerm
 from users.models import User
@@ -145,3 +146,93 @@ class SessionSettingsTests(PortalTestCase):
         planning.refresh_from_db()
         self.assertEqual(self.session.status, AcademicSession.SessionStatus.ARCHIVED)
         self.assertEqual(planning.status, AcademicSession.SessionStatus.PLANNING)
+
+
+class TermSettingsTests(PortalTestCase):
+    def setUp(self):
+        self.login(self.admin)
+
+    def test_settings_pages_render(self):
+        for url in ['/e-portal/admin/settings', '/e-portal/admin-portal/settings/school/',
+                    '/e-portal/admin-portal/settings/sessions/', f'/e-portal/admin-portal/settings/terms/{self.term.id}/edit/',
+                    '/e-portal/admin-portal/settings/grade-components/']:
+            self.assertEqual(self.client.get(url).status_code, 200, url)
+
+    def test_editing_a_term_saves_and_returns_to_sessions(self):
+        response = self.client.post(f'/e-portal/admin-portal/settings/terms/{self.term.id}/edit/', {
+            'start_date': '2026-09-08', 'end_date': '2026-12-18',
+            'grading_deadline': '2026-12-10T17:00', 'next_term_begins': '2027-01-06'})
+        self.assertRedirects(response, '/e-portal/admin-portal/settings/sessions/')
+        self.term.refresh_from_db()
+        self.assertEqual(str(self.term.end_date), '2026-12-18')
+
+    def test_grading_deadline_after_term_end_is_rejected(self):
+        response = self.client.post(f'/e-portal/admin-portal/settings/terms/{self.term.id}/edit/', {
+            'start_date': '2026-09-08', 'end_date': '2026-12-18', 'grading_deadline': '2027-01-10T17:00'})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['form'].errors)
+
+    def test_setting_a_term_in_another_session_switches_the_session_too(self):
+        new = AcademicSession.objects.create(name='2027/2028', start_year=2027, end_year=2028)
+        new.create_default_terms()
+        second = new.terms.get(term_type='SECOND')
+        self.client.post(f'/e-portal/admin-portal/settings/terms/{second.id}/set-current/')
+        self.assertEqual(AcademicTerm.objects.get(is_current=True), second)
+        self.assertEqual(AcademicSession.objects.get(is_current=True), new)
+
+
+class GradeComponentTests(PortalTestCase):
+    url = '/e-portal/admin-portal/settings/grade-components/'
+
+    def setUp(self):
+        self.login(self.admin)
+
+    def post_rows(self, rows, existing=()):
+        data = {'form-TOTAL_FORMS': str(len(rows)), 'form-INITIAL_FORMS': str(len(existing)),
+                'form-MIN_NUM_FORMS': '0', 'form-MAX_NUM_FORMS': '1000'}
+        for i, row in enumerate(rows):
+            for key, value in row.items():
+                data[f'form-{i}-{key}'] = value
+        return self.client.post(self.url, data)
+
+    def test_components_must_add_up_to_100(self):
+        self.post_rows([{'name': 'CA1', 'max_score': '20'}, {'name': 'Exam', 'max_score': '60', 'is_exam': 'on'}])
+        self.assertFalse(GradeComponent.objects.exists())
+        self.post_rows([{'name': 'CA1', 'max_score': '40'}, {'name': 'Exam', 'max_score': '60', 'is_exam': 'on'}])
+        self.assertEqual(GradeComponent.objects.count(), 2)
+
+    def test_component_with_scores_cannot_be_deleted(self):
+        ca = GradeComponent.objects.create(name='CA1', max_score=40)
+        exam = GradeComponent.objects.create(name='Exam', max_score=60, is_exam=True)
+        assignment = SubjectAssignment.objects.create(class_arm=self.arm_a, session=self.session, teacher=self.teacher_a,
+                                                      subject=Subject.objects.create(name='Maths', code='MTH1'))
+        result = Result.objects.create(student=self.student_a, subject_assignment=assignment, term=self.term, total_score=30)
+        ResultEntry.objects.create(result=result, component=ca, score=15)
+        self.post_rows([{'id': str(ca.id), 'name': 'CA1', 'max_score': '40', 'DELETE': 'on'},
+                        {'id': str(exam.id), 'name': 'Exam', 'max_score': '100', 'is_exam': 'on'}], existing=[ca, exam])
+        self.assertTrue(GradeComponent.objects.filter(id=ca.id).exists())
+        self.assertTrue(ResultEntry.objects.exists())
+
+
+class LayoutTests(PortalTestCase):
+    def test_sidebar_highlights_the_current_page(self):
+        self.login(self.admin)
+        html = self.client.get('/e-portal/admin-portal/settings/sessions/').content.decode()
+        settings_link = html.split('aria-current="page"')[0].rsplit('<a', 1)[1]
+        self.assertIn('/e-portal/admin/settings', settings_link)
+
+    def test_students_can_log_out(self):
+        # The old student sidebar's logout was a dead href="#" link
+        self.login(self.student_a)
+        self.assertContains(self.client.get('/e-portal/student-portal/'), 'action="/users/logout/"')
+
+    def test_profile_is_a_full_page_but_a_fragment_over_htmx(self):
+        self.login(self.admin)
+        url = f'/e-portal/admin-portal/students/details/{self.student_a.id}'
+        self.assertTemplateUsed(self.client.get(url), 'portals/admin/students/student_profile_page.html')
+        self.assertTemplateNotUsed(self.client.get(url, HTTP_HX_REQUEST='true'), 'portals/base.html')
+
+    def test_header_warns_when_no_term_is_current(self):
+        AcademicTerm.objects.update(is_current=False)
+        self.login(self.admin)
+        self.assertContains(self.client.get('/e-portal/admin/settings'), 'No current term set')

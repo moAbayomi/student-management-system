@@ -1,7 +1,7 @@
 <!-- Admin Header -->
-<header class="z-30 bg-surface/80 backdrop-blur border-b border-border-light px-lg h-16 flex items-center justify-between sticky top-0">
+<header class="page-header">
     <div>
-        <h1 class="text-[13px] font-black text-main uppercase tracking-tight">Admin Dashboard</h1>
+        <h1 class="page-title">Admin Dashboard</h1>
         <p class="text-[10px] text-dim uppercase tracking-widest font-bold">
             {{date}} — 2nd Term, Week 9
         </p>
@@ -14,12 +14,12 @@
     </button>
 </header>
 
-<div class="p-md md:p-lg space-y-lg">
+<div class="space-y-lg">
 
     <!-- Stat Cards Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
         <!-- Students Stat -->
-        <div class="bg-surface p-lg border border-border-light rounded-sm relative overflow-hidden group">
+        <div class="bg-surface p-lg border border-border-light rounded-lg relative overflow-hidden group">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-50 border border-border-light rounded flex items-center justify-center text-main">
                     {% include 'portals/partials/icons/users.html' %}
@@ -31,7 +31,7 @@
         </div>
 
         <!-- Teachers Stat -->
-        <div class="bg-surface p-lg border border-border-light rounded-sm relative overflow-hidden group">
+        <div class="bg-surface p-lg border border-border-light rounded-lg relative overflow-hidden group">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-50 border border-border-light rounded flex items-center justify-center text-main">
                     {% include 'portals/partials/icons/work.html' %}
@@ -43,7 +43,7 @@
         </div>
 
         <!-- Active Classes Stat -->
-        <div class="bg-surface p-lg border border-border-light rounded-sm relative overflow-hidden group">
+        <div class="bg-surface p-lg border border-border-light rounded-lg relative overflow-hidden group">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-50 border border-border-light rounded flex items-center justify-center text-main">
                     {% include 'portals/partials/icons/grad-cap.html' %}
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Attendance Stat -->
-        <div class="bg-surface p-lg border border-border-light rounded-sm relative overflow-hidden group">
+        <div class="bg-surface p-lg border border-border-light rounded-lg relative overflow-hidden group">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-50 border border-border-light rounded flex items-center justify-center text-main">
                     {% include 'portals/partials/icons/attendance.html' %}
@@ -71,7 +71,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
         
         <!-- Attendance by Class -->
-        <div class="bg-surface border border-border-light rounded-sm">
+        <div class="bg-surface border border-border-light rounded-lg">
             <div class="p-lg border-b border-border-light flex items-center justify-between bg-gray-50/50">
                 <div>
                     <h3 class="text-[12px] font-black text-main uppercase tracking-tight">Attendance by Class</h3>
@@ -114,7 +114,7 @@
         </div>
 
         <!-- Recent Activity Feed -->
-        <div class="bg-surface border border-border-light rounded-sm">
+        <div class="bg-surface border border-border-light rounded-lg">
             <div class="p-lg border-b border-border-light bg-gray-50/50">
                 <h3 class="text-[12px] font-black text-main uppercase tracking-tight">Recent Activity</h3>
                 <p class="text-[10px] text-dim font-bold uppercase tracking-wider">System-wide logs</p>
@@ -142,7 +142,7 @@
     </div>
 
     <!-- Student Management Table -->
-    <div class="bg-surface border border-border-light rounded-sm">
+    <div class="bg-surface border border-border-light rounded-lg">
         <div class="p-lg border-b border-border-light flex items-center justify-between">
             <div>
                 <h3 class="text-[13px] font-black text-main uppercase tracking-tight">Recent Registrations</h3>
