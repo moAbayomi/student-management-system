@@ -1,69 +1,47 @@
-{% extends "portals/base.html" %} {% block title %}Grade Components{% endblock
-%} {% block content %}
-<div class="max-w-3xl mx-auto">
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold">Grade Components</h1>
-        <p class="text-sm text-white/60 mt-1">
-            Define how a term mark out of 100 is composed.
-            <strong>Total must equal 100.</strong>
-        </p>
-    </div>
+{% extends "portals/admin/settings/_layout.html" %}
+{% load ui %}
+{% block title %}Grade Components{% endblock %}
+{% block page_title %}Grade Components{% endblock %}
+{% block page_subtitle %}How a term mark out of 100 is made up, e.g. CA1 20 + CA2 20 + Exam 60.{% endblock %}
+{% block page_actions %}
+<span class="ui-badge {% if total == 100 %}ui-badge-success{% else %}ui-badge-danger{% endif %} !text-[11.5px] !px-3 !py-1">Total: {{ total|floatformat:"-2" }} / 100</span>
+{% endblock %}
 
-    <div class="mb-4 flex items-center gap-3">
-        <span class="text-sm">Current total:</span>
-        <span
-            class="px-2 py-0.5 rounded font-bold {% if total == 100 %}bg-green-600/20 text-green-400 {% else %}bg-red-600/20 text-red-400{% endif %}"
-        >
-            {{ total|floatformat:"-2" }}
-        </span>
-    </div>
-
-    <form method="post">
-        {% csrf_token %} {{ formset.management_form }} {% if
-        formset.non_form_errors %}
-        <div class="mb-4 p-3 rounded bg-red-600/20 text-red-300 text-sm">
-            {% for error in formset.non_form_errors %}
-            <div>{{ error }}</div>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        <table class="w-full text-sm">
-            <thead class="text-left text-white/60 border-b border-white/10">
-                <tr>
-                    <th class="py-2">Name</th>
-                    <th class="py-2 w-32">Max Score</th>
-                    <th class="py-2 w-20 text-center">Exam?</th>
-                    <th class="py-2 w-16 text-center">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for form in formset %}
-                <tr class="border-b border-white/5">
-                    {{ form.id }}
-                    <td class="py-2 pr-2">
-                        {{ form.name }} {% for e in form.name.errors %}
-                        <div class="text-xs text-red-400">{{ e }}</div>
-                        {% endfor %}
-                    </td>
-                    <td class="py-2 pr-2">
-                        {{ form.max_score }} {% for e in form.max_score.errors
-                        %}
-                        <div class="text-xs text-red-400">{{ e }}</div>
-                        {% endfor %}
-                    </td>
-                    <td class="py-2 text-center">{{ form.is_exam }}</td>
-                    <td class="py-2 text-center">
-                        {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="flex gap-3 pt-5">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </form>
-</div>
+{% block settings_content %}
+<form method="post" class="ui-card overflow-hidden">
+	{% csrf_token %}
+	{{ formset.management_form }}
+	{% if formset.non_form_errors %}
+	<div class="p-md border-b border-border-light">
+		<div class="ui-alert ui-alert-error">{% for error in formset.non_form_errors %}<div>{{ error }}</div>{% endfor %}</div>
+	</div>
+	{% endif %}
+	<div class="overflow-x-auto"><table class="ui-table">
+		<thead>
+			<tr><th>Name</th><th class="w-40">Max score</th><th class="w-24 !text-center">Exam?</th><th class="w-24 !text-center">Delete</th></tr>
+		</thead>
+		<tbody>
+			{% for form in formset %}
+			<tr>
+				<td>
+					{{ form.id }}
+					{{ form.name|ui }}
+					{% for e in form.name.errors %}<p class="ui-error mt-1">{{ e }}</p>{% endfor %}
+					{% for e in form.non_field_errors %}<p class="ui-error mt-1">{{ e }}</p>{% endfor %}
+				</td>
+				<td>
+					{{ form.max_score|ui }}
+					{% for e in form.max_score.errors %}<p class="ui-error mt-1">{{ e }}</p>{% endfor %}
+				</td>
+				<td class="!text-center">{{ form.is_exam|ui }}</td>
+				<td class="!text-center">{% if form.instance.pk %}{{ form.DELETE|ui }}{% else %}<span class="text-dim text-[11px]">new</span>{% endif %}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table></div>
+	<div class="flex items-center justify-between gap-2 px-lg py-md border-t border-border-light">
+		<p class="ui-help">Fill the empty row to add a component. Components that already have scores can't be deleted.</p>
+		<button type="submit" class="ui-btn ui-btn-primary">Save Components</button>
+	</div>
+</form>
 {% endblock %}

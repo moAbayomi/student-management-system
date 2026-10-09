@@ -1,0 +1,15 @@
+{% extends "portals/partials/sidebar.html" %}
+{% load ui %}
+{% comment %}Admin sidebar. Despite the file name, this is just the left navigation.{% endcomment %}
+{% block nav %}
+	{% nav_link "portal:admin" "Dashboard" "dashboard" %}
+	{% nav_link "portal:manage-students" "Students" "users" badge=total_students_users also="portal:student-detail" %}
+	{% nav_link "portal:manage-teachers" "Teachers" "teacher" badge=total_teachers_users also="portal:teacher-detail" %}
+	{% nav_link "portal:class-console" "Classes" "layers" %}
+	{% nav_link "portal:admin-attendance" "Attendance" "attendance" %}
+	{% nav_link "portal:admin-result-view" "Results & Grades" "grades" %}
+	{% nav_link "portal:admin-announcements" "Announcements" "megaphone" %}
+	{% nav_link "portal:admin-fees" "Fees" "card" %}
+	{% include "portals/partials/nav_section.html" with title="System" %}
+	{% nav_link "portal:admin-settings" "Settings" "settings" also="portal:school-settings,portal:session-list,portal:term-edit,portal:grade-components" %}
+{% endblock %}

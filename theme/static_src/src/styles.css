@@ -1,15 +1,60 @@
 @import "tailwindcss";
-@plugin "daisyui";
+
+/*
+  daisyUI ships its own default theme, which redefines --color-primary
+  (a purple) and silently overrides the token below. We switch the
+  built-in themes off and give daisyUI one theme that uses the same
+  colours, so `bg-primary` and `btn-primary` always mean the same thing.
+*/
+@plugin "daisyui" {
+  themes: false;
+}
+
+@plugin "daisyui/theme" {
+  name: "school";
+  default: true;
+  color-scheme: light;
+  --color-base-100: #FFFFFF;
+  --color-base-200: #F5F5F0;
+  --color-base-300: #E5E7EB;
+  --color-base-content: #111827;
+  --color-primary: #4F46E5;
+  --color-primary-content: #FFFFFF;
+  --color-secondary: #7C3AED;
+  --color-secondary-content: #FFFFFF;
+  --color-accent: #4F46E5;
+  --color-accent-content: #FFFFFF;
+  --color-neutral: #111827;
+  --color-neutral-content: #FFFFFF;
+  --color-info: #3B82F6;
+  --color-info-content: #FFFFFF;
+  --color-success: #16A34A;
+  --color-success-content: #FFFFFF;
+  --color-warning: #D97706;
+  --color-warning-content: #FFFFFF;
+  --color-error: #DC2626;
+  --color-error-content: #FFFFFF;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.875rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
 
 @theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
   /* Main Surfaces */
   --color-background: #F5F5F0;
   --color-surface: #FFFFFF;
   --color-surface-dark: #0D1117;
 
-  /* Brand & Actions */
-  --color-primary: #2563EB;
-  --color-primary-dark: #1D4ED8;
+  /* Brand & Actions: the ONE brand colour. Change it here and everywhere follows. */
+  --color-primary: #4F46E5;
+  --color-primary-dark: #4338CA;
   --color-secondary: #7C3AED;
 
   /* Text Colors */
@@ -17,7 +62,7 @@
   --color-muted: #6B7280;
   --color-dim: #9CA3AF;
 
-  /* Feedback - Fixed naming for cleaner utility access */
+  /* Feedback */
   --color-success: #16A34A;
   --color-success-light: #DCFCE7;
   --color-info: #3B82F6;
@@ -45,10 +90,7 @@
   --tracking-tightest: 0.06em;
   --tracking-widest: 0.1em;
 
-  /* 
-     Spacing Scale 
-     In v4, these map to things like p-md, gap-lg, m-xs 
-  */
+  /* Spacing Scale: p-md, gap-lg, m-xs ... */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
@@ -63,7 +105,7 @@
 
 @layer base {
   *, ::after, ::before {
-    @apply border-border; /* Fixes the default border color for all elements */
+    @apply border-border; /* default border colour for all elements */
   }
 
   body {
@@ -74,17 +116,144 @@
   .scrollbar-thin::-webkit-scrollbar {
     width: 4px;
   }
-  
+
   .scrollbar-thin::-webkit-scrollbar-thumb {
     background: #e2e8f0;
     border-radius: 10px;
   }
 }
 
-/* 
-   Optimization: Combine your Django paths into more efficient globs 
-   to reduce the watcher load in production.
+/*
+  ─────────────────────────────────────────────────────────────
+  UI KIT: use these classes for anything new so every page matches.
+
+  Page:     .page-header  .page-title  .page-subtitle
+  Cards:    .ui-card  .ui-card-header  .ui-card-title  .ui-card-subtitle  .ui-card-body
+  Labels:   .ui-section-title (small uppercase heading)
+  Buttons:  .ui-btn + .ui-btn-primary | .ui-btn-secondary | .ui-btn-danger  (+ .ui-btn-sm)
+  Forms:    .ui-field  .ui-label  .ui-input (inputs, selects, textareas)  .ui-help  .ui-error
+  Tables:   .ui-table
+  Badges:   .ui-badge + .ui-badge-success | -warning | -danger | -info | -neutral
+  Alerts:   .ui-alert + .ui-alert-success | .ui-alert-error
+  ─────────────────────────────────────────────────────────────
 */
+@layer components {
+  /* Page header: the white bar at the top of every page */
+  .page-header {
+    @apply flex flex-wrap items-center justify-between gap-md bg-surface border border-border-light rounded-lg px-lg py-md mb-lg;
+  }
+  .page-title {
+    @apply text-xl font-black text-main leading-tight tracking-tight;
+  }
+  .page-subtitle {
+    @apply text-[11.5px] text-muted font-medium mt-1;
+  }
+
+  /* Cards */
+  .ui-card {
+    @apply bg-surface border border-border-light rounded-lg shadow-sm;
+  }
+  .ui-card-header {
+    @apply flex items-center justify-between gap-md px-lg py-md border-b border-border-light;
+  }
+  .ui-card-title {
+    @apply text-[13px] font-black text-main uppercase tracking-tight;
+  }
+  .ui-card-subtitle {
+    @apply text-[10.5px] text-dim font-bold uppercase tracking-wider mt-0.5;
+  }
+  .ui-card-body {
+    @apply p-lg;
+  }
+  .ui-section-title {
+    @apply text-[10.5px] font-bold uppercase tracking-widest text-dim;
+  }
+
+  /* Buttons */
+  .ui-btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md text-[11.5px] font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .ui-btn-sm {
+    @apply px-3 py-1.5 text-[10.5px];
+  }
+  .ui-btn-primary {
+    @apply bg-main text-white shadow-sm hover:bg-black;
+  }
+  .ui-btn-secondary {
+    @apply bg-surface text-main border border-border hover:bg-background;
+  }
+  .ui-btn-danger {
+    @apply bg-danger-light text-danger border border-danger/20 hover:bg-danger hover:text-white;
+  }
+
+  /* Forms */
+  .ui-field {
+    @apply flex flex-col gap-1.5;
+  }
+  .ui-label {
+    @apply text-[10.5px] font-bold uppercase tracking-widest text-muted;
+  }
+  .ui-input {
+    @apply w-full px-3 py-2 rounded-md border border-border bg-surface text-sm text-main placeholder:text-dim focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition-colors;
+  }
+  .ui-help {
+    @apply text-[10.5px] text-dim;
+  }
+  .ui-error {
+    @apply text-[10.5px] font-bold text-danger;
+  }
+
+  /* Tables */
+  .ui-table {
+    @apply w-full text-sm;
+  }
+  .ui-table thead th {
+    @apply text-left px-lg py-3 text-[10.5px] font-bold uppercase tracking-widest text-dim bg-background/60 border-b border-border-light;
+  }
+  .ui-table tbody td {
+    @apply px-lg py-3 border-b border-border-light text-main align-middle;
+  }
+  .ui-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .ui-table tbody tr:hover td {
+    @apply bg-background/40;
+  }
+
+  /* Badges */
+  .ui-badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-black uppercase tracking-wider border;
+  }
+  .ui-badge-success { @apply bg-success-light text-success border-success/20; }
+  .ui-badge-warning { @apply bg-warning-light text-warning border-warning/20; }
+  .ui-badge-danger  { @apply bg-danger-light text-danger border-danger/20; }
+  .ui-badge-info    { @apply bg-info-light text-info border-info/20; }
+  .ui-badge-neutral { @apply bg-background text-muted border-border-light; }
+
+  /* Alerts (Django messages) */
+  .ui-alert {
+    @apply px-4 py-3 rounded-md text-sm font-medium border;
+  }
+  .ui-alert-success { @apply bg-success-light text-success border-success/20; }
+  .ui-alert-error   { @apply bg-danger-light text-danger border-danger/20; }
+
+  /* Sidebar navigation (shared by admin, teacher and student) */
+  .nav-link {
+    @apply relative flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-white/60 hover:bg-white/5 hover:text-white transition-colors whitespace-nowrap;
+  }
+  .nav-link-active {
+    @apply bg-white/10 text-white;
+  }
+  .nav-link-active::before {
+    content: "";
+    @apply absolute left-0 top-2 bottom-2 w-[3px] rounded-r bg-primary;
+  }
+  .nav-link-disabled {
+    @apply opacity-40 pointer-events-none;
+  }
+}
+
 @source "../../../portals/templates/**/*.html";
 @source "../../../users/templates/**/*.html";
 @source "../../../public/templates/**/*.html";
+@source "../../../portals/templatetags/**/*.py";

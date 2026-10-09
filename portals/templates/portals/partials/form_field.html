@@ -1,0 +1,8 @@
+{% load ui %}
+{% comment %}Usage: {% include "portals/partials/form_field.html" with field=form.name %}{% endcomment %}
+<div class="ui-field">
+	<label for="{{ field.id_for_label }}" class="ui-label">{{ field.label }}{% if field.field.required %} <span class="text-danger">*</span>{% endif %}</label>
+	{{ field|ui }}
+	{% if field.help_text %}<p class="ui-help">{{ field.help_text }}</p>{% endif %}
+	{% for error in field.errors %}<p class="ui-error">{{ error }}</p>{% endfor %}
+</div>

@@ -138,6 +138,11 @@ urlpatterns = [
         name="term-edit",
     ),
     path(
+        "admin-portal/settings/grade-components/",
+        views.grade_component_list,
+        name="grade-components",
+    ),
+    path(
         "admin-portal/settings/terms/<int:term_id>/set-current/",
         views.term_set_current,
         name="term-set-current",

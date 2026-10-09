@@ -186,6 +186,15 @@ class AcademicTerm(models.Model):
 
     def __str__(self):
         return f"{self.get_term_type_display()} — {self.session.name}"
+
+    def make_current(self):
+        """Make this term current. If its session isn't current yet, switch that too."""
+        with transaction.atomic():
+            if not self.session.is_current:
+                # make_current() also marks the session's First Term current
+                self.session.make_current()
+            self.is_current = True
+            self.save(update_fields=['is_current'])  # save() unsets the other current term
     
 class ActivityLog(models.Model):
     class Category(models.TextChoices):

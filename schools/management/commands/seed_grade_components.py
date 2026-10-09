@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from schools.models import GradeComponent
+from academics.models import GradeComponent
 
 
 class Command(BaseCommand):

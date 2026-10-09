@@ -6,12 +6,12 @@
 	<div>
 		<p>{{arm}}</p>
 		{%if arm.class_teacher.id %}
-		<div class="text-sm font-bold text-slate-900">{{arm.class_teacher}}</div>
+		<div class="text-sm font-bold text-gray-900">{{arm.class_teacher}}</div>
 		{%else%}
 		<div>assign new teacher below!</div>
 		{%endif%}
 		<div x-show="classTeacher">
-			<div class="text-[12px] text-slate-500 font-medium">
+			<div class="text-[12px] text-gray-500 font-medium">
 				Mathematics · Sciences Dept.
 			</div>
 			<div class="text-[11px] text-emerald-700 font-semibold mt-0.5">

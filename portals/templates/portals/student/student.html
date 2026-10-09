@@ -1,0 +1,15 @@
+{% extends 'portals/base.html' %}
+
+{% block title %}Student Portal{% endblock %}
+
+{% block aside %}
+{% include 'portals/student/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+{% include 'portals/student/student_overview.html' %}
+{% endblock %}
+
+{% block right_sidebar %}
+{% include 'portals/student/right_sidebar.html' %}
+{% endblock %}

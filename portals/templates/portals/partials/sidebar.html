@@ -1,0 +1,52 @@
+{% load ui %}
+{% comment %}
+  The one sidebar shell used by every portal (admin, teacher, student).
+  Each role's file extends this and fills in {% block nav %} with nav_link tags.
+{% endcomment %}
+<aside
+	:class="leftSidebarOpen ? 'w-64' : 'w-16'"
+	class="bg-surface-dark text-white h-screen flex-shrink-0 flex flex-col transition-all duration-300 overflow-hidden">
+	<!-- Brand + collapse button -->
+	<div class="flex items-center gap-3 px-3 py-4 h-16">
+		<div x-show="leftSidebarOpen" class="flex items-center gap-3 min-w-0 flex-1">
+			{% if school.logo %}
+			<img src="{{ school.logo.url }}" alt="" class="w-8 h-8 rounded-lg object-cover shrink-0" />
+			{% else %}
+			<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shrink-0">{% icon "teacher" "w-[18px] h-[18px]" %}</div>
+			{% endif %}
+			<span class="font-bold text-sm truncate">{{ school.name|default:"School Portal" }}</span>
+		</div>
+		<button type="button" @click="leftSidebarOpen = !leftSidebarOpen"
+			class="p-1.5 rounded-md text-white/60 hover:bg-white/10 hover:text-white transition-colors"
+			:class="leftSidebarOpen ? '' : 'mx-auto'"
+			aria-label="Collapse sidebar">
+			<span x-show="leftSidebarOpen">{% icon "chevron-left" "w-5 h-5" %}</span>
+			<span x-show="!leftSidebarOpen">{% icon "chevron-right" "w-5 h-5" %}</span>
+		</button>
+	</div>
+
+	<nav class="flex-1 px-2 mt-2 space-y-1 overflow-y-auto scrollbar-thin">
+		{% block nav %}{% endblock %}
+	</nav>
+
+	<!-- Signed-in user + logout -->
+	<div class="border-t border-white/10 p-2">
+		<div x-show="leftSidebarOpen" class="flex items-center gap-3 px-3 py-2">
+			<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[11px] font-black shrink-0">
+				{{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper }}
+			</div>
+			<div class="min-w-0">
+				<div class="text-sm font-semibold truncate">{{ request.user.get_full_name|default:request.user.username }}</div>
+				<div class="text-[10.5px] text-white/50 uppercase tracking-wider">{{ request.user.get_role_display }}</div>
+			</div>
+		</div>
+		<form action="{% url 'users:logout' %}" method="post">
+			{% csrf_token %}
+			<button type="submit" class="nav-link w-full text-red-300 hover:text-red-200 hover:bg-red-500/10"
+				:class="leftSidebarOpen ? '' : 'justify-center'" title="Log out">
+				{% icon "logout" %}
+				<span x-show="leftSidebarOpen">Log out</span>
+			</button>
+		</form>
+	</div>
+</aside>

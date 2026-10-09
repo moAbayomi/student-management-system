@@ -1,0 +1,19 @@
+{% extends 'portals/base.html' %}
+{% comment %}
+  Use this for any normal portal page:
+
+      {% extends "portals/layout.html" %}
+      {% block title %}My Page{% endblock %}
+      {% block content %} ... {% endblock %}
+
+  It shows the right sidebar for whoever is logged in (admin, teacher or student).
+{% endcomment %}
+{% block aside %}
+{% if request.user.role == 'TEACHER' %}
+{% include 'portals/teacher/sidebar.html' %}
+{% elif request.user.role == 'STUDENT' %}
+{% include 'portals/student/sidebar.html' %}
+{% else %}
+{% include 'portals/admin/sidebar.html' %}
+{% endif %}
+{% endblock %}

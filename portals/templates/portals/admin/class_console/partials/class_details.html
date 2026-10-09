@@ -3,14 +3,14 @@
 
 
 <div
-  class="w-80 flex flex-col bg-white border-r border-slate-200 min-h-screen text-slate-800 font-sans select-none"
+  class="w-80 flex flex-col bg-white border-r border-gray-200 min-h-screen text-gray-800 font-sans select-none"
   x-data="{
     addArmOpen: false,
     newArmName: '',
     deleteArm: null,
   }">
 
-  <div class="bg-[#0D1117] px-4 pt-5 pb-4">
+  <div class="bg-surface-dark px-4 pt-5 pb-4">
     <div class="text-[10px] font-bold tracking-widest text-amber-500 uppercase mb-2">
       Class Level
     </div>
@@ -20,7 +20,7 @@
         <div class="text-3xl font-black text-white tracking-tight leading-none">
           {{ class.name }}
         </div>
-        <div class="text-xs text-slate-400 font-medium mt-1">
+        <div class="text-xs text-gray-400 font-medium mt-1">
           {{ class.get_name_display }}
         </div>
       </div>
@@ -35,7 +35,7 @@
         <div class="text-xl font-black text-white leading-tight">
           {{ class.class_arms.all.count }}
         </div>
-        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
+        <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">
           Arms
         </div>
       </div>
@@ -43,7 +43,7 @@
         <div class="text-xl font-black text-white leading-tight">
           {{ total_students|default:"—" }}
         </div>
-        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
+        <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">
           Students
         </div>
       </div>
@@ -51,7 +51,7 @@
         <div class="text-xl font-black text-amber-500 leading-tight">
           {{ total_teachers|default:"—" }}
         </div>
-        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
+        <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">
           Teachers
         </div>
       </div>
@@ -59,50 +59,50 @@
   </div>
 
   {# ── PERFORMANCE SNAPSHOT ── #}
-  <div class="px-4 py-3.5 border-b border-slate-100">
-    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">
+  <div class="px-4 py-3.5 border-b border-gray-100">
+    <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2.5">
       Performance Snapshot
     </div>
 
     <div class="grid grid-cols-2 gap-2 mb-3">
-      <div class="border border-slate-100 bg-slate-50/60 rounded-xl p-2.5">
+      <div class="border border-gray-100 bg-gray-50/60 rounded-xl p-2.5">
         <div class="text-base font-black text-emerald-700 leading-none">
           {{ avg_attendance|default:"—" }}
         </div>
-        <div class="text-[10.5px] font-semibold text-slate-500 mt-0.5">
+        <div class="text-[10.5px] font-semibold text-gray-500 mt-0.5">
           Avg Attendance
         </div>
-        <div class="w-full bg-slate-200 h-1 rounded-full mt-2 overflow-hidden">
+        <div class="w-full bg-gray-200 h-1 rounded-full mt-2 overflow-hidden">
           <div class="bg-emerald-500 h-full rounded-full" style="width: {{ avg_attendance|default:0 }}%"></div>
         </div>
       </div>
 
-      <div class="border border-slate-100 bg-slate-50/60 rounded-xl p-2.5">
+      <div class="border border-gray-100 bg-gray-50/60 rounded-xl p-2.5">
         <div class="text-base font-black text-blue-700 leading-none">
           {{ avg_score|default:"—" }}
         </div>
-        <div class="text-[10.5px] font-semibold text-slate-500 mt-0.5">
+        <div class="text-[10.5px] font-semibold text-gray-500 mt-0.5">
           Avg Score
         </div>
-        <div class="w-full bg-slate-200 h-1 rounded-full mt-2 overflow-hidden">
+        <div class="w-full bg-gray-200 h-1 rounded-full mt-2 overflow-hidden">
           <div class="bg-blue-500 h-full rounded-full" style="width: {{ avg_score|default:0 }}%"></div>
         </div>
       </div>
 
-      <div class="border border-slate-100 bg-slate-50/60 rounded-xl p-2.5">
+      <div class="border border-gray-100 bg-gray-50/60 rounded-xl p-2.5">
         <div class="text-base font-black text-amber-700 leading-none">
           {{ class.core_subjects.count|default:"0" }}
         </div>
-        <div class="text-[10.5px] font-semibold text-slate-500 mt-0.5">
+        <div class="text-[10.5px] font-semibold text-gray-500 mt-0.5">
           Core Subjects
         </div>
       </div>
 
-      <div class="border border-slate-100 bg-slate-50/60 rounded-xl p-2.5">
+      <div class="border border-gray-100 bg-gray-50/60 rounded-xl p-2.5">
         <div class="text-base font-black text-rose-700 leading-none">
           {{ unassigned_count|default:"0" }}
         </div>
-        <div class="text-[10.5px] font-semibold text-slate-500 mt-0.5">
+        <div class="text-[10.5px] font-semibold text-gray-500 mt-0.5">
           Unassigned
         </div>
       </div>
@@ -112,12 +112,12 @@
     {% if class.core_subjects.count %}
     <div>
       <div class="flex justify-between items-center mb-1.5">
-        <span class="text-[11px] font-bold text-slate-600">Subject Coverage</span>
+        <span class="text-[11px] font-bold text-gray-600">Subject Coverage</span>
         <span class="text-[11px] font-black text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded-md">
           {{ assigned_count|default:"0" }} / {{ class.core_subjects.count }} filled
         </span>
       </div>
-      <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+      <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
         <div
           class="bg-amber-500 h-full rounded-full transition-all duration-500"
           style="width: {{ coverage_pct|default:0 }}%">
@@ -134,8 +134,8 @@
   </div>
 
   {# ── QUICK ACTIONS ── #}
-  <div class="px-4 py-3.5 border-b border-slate-100">
-    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">
+  <div class="px-4 py-3.5 border-b border-gray-100">
+    <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2.5">
       Quick Actions
     </div>
     <div class="flex flex-col gap-1.5">
@@ -146,7 +146,7 @@
         hx-get="{% url 'portal:manage-arm-core-subjects' class.id %}"
         hx-target="#class-details-card"
         hx-swap="innerHTML"
-        class="group flex items-center justify-between text-left p-2.5 border border-slate-100 hover:border-blue-200 rounded-xl hover:bg-blue-50/40 bg-white transition-all duration-150 shadow-sm">
+        class="group flex items-center justify-between text-left p-2.5 border border-gray-100 hover:border-blue-200 rounded-xl hover:bg-blue-50/40 bg-white transition-all duration-150 shadow-sm">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100 group-hover:bg-blue-100 transition">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-linecap="round">
@@ -155,13 +155,13 @@
             </svg>
           </div>
           <div>
-            <div class="text-xs font-bold text-slate-800">Manage Core Subjects</div>
-            <div class="text-[10px] font-medium text-slate-400">
+            <div class="text-xs font-bold text-gray-800">Manage Core Subjects</div>
+            <div class="text-[10px] font-medium text-gray-400">
               {{ class.core_subjects.count }} subject{{ class.core_subjects.count|pluralize }} assigned
             </div>
           </div>
         </div>
-        <svg class="text-slate-300 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <svg class="text-gray-300 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
           <polyline points="9 18 15 12 9 6"/>
         </svg>
       </button>
@@ -172,7 +172,7 @@
         hx-get=""
         hx-target="#main-content"
         hx-swap="innerHTML"
-        class="group flex items-center justify-between text-left p-2.5 border border-slate-100 hover:border-emerald-200 rounded-xl hover:bg-emerald-50/40 bg-white transition-all duration-150 shadow-sm">
+        class="group flex items-center justify-between text-left p-2.5 border border-gray-100 hover:border-emerald-200 rounded-xl hover:bg-emerald-50/40 bg-white transition-all duration-150 shadow-sm">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0 border border-emerald-100 group-hover:bg-emerald-100 transition">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round">
@@ -183,13 +183,13 @@
             </svg>
           </div>
           <div>
-            <div class="text-xs font-bold text-slate-800">View All Students</div>
-            <div class="text-[10px] font-medium text-slate-400">
+            <div class="text-xs font-bold text-gray-800">View All Students</div>
+            <div class="text-[10px] font-medium text-gray-400">
               {{ total_students|default:"0" }} student{{ total_students|pluralize }} across {{ class.class_arms.count }} arm{{ class.class_arms.count|pluralize }}
             </div>
           </div>
         </div>
-        <svg class="text-slate-300 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <svg class="text-gray-300 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
           <polyline points="9 18 15 12 9 6"/>
         </svg>
       </button>
@@ -200,7 +200,7 @@
         hx-get=""
         hx-target="this"
         hx-swap="outerHTML"
-        class="group flex items-center justify-between text-left p-2.5 border border-slate-100 hover:border-purple-200 rounded-xl hover:bg-purple-50/40 bg-white transition-all duration-150 shadow-sm">
+        class="group flex items-center justify-between text-left p-2.5 border border-gray-100 hover:border-purple-200 rounded-xl hover:bg-purple-50/40 bg-white transition-all duration-150 shadow-sm">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center shrink-0 border border-purple-100 group-hover:bg-purple-100 transition">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round">
@@ -210,13 +210,13 @@
             </svg>
           </div>
           <div>
-            <div class="text-xs font-bold text-slate-800">Download Timetable</div>
-            <div class="text-[10px] font-medium text-slate-400">
+            <div class="text-xs font-bold text-gray-800">Download Timetable</div>
+            <div class="text-[10px] font-medium text-gray-400">
               All {{ class.class_arms.count }} arm{{ class.class_arms.count|pluralize }} as PDF
             </div>
           </div>
         </div>
-        <svg class="text-slate-300 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <svg class="text-gray-300 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
           <polyline points="9 18 15 12 9 6"/>
         </svg>
       </button>
@@ -229,7 +229,7 @@
 
     {# Arms header + Add button #}
     <div class="flex items-center justify-between mb-3">
-      <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+      <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
         Class Arms
       </div>
       <button
@@ -273,13 +273,13 @@
         <div class="flex gap-1.5 mt-2">
           <button
             type="submit"
-            class="flex-1 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition">
+            class="flex-1 py-1.5 bg-gray-900 hover:bg-gray-800 text-white rounded-lg text-xs font-bold transition">
             Create Arm
           </button>
           <button
             type="button"
             @click="addArmOpen = false; newArmName = ''"
-            class="py-1.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-500 transition">
+            class="py-1.5 px-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold text-gray-500 transition">
             Cancel
           </button>
         </div>
@@ -294,26 +294,26 @@
         {# Arm card #}
         <div
           class="flex items-start gap-3 p-3 rounded-xl border transition-all duration-150 shadow-sm relative
-                 {% if forloop.first %}border-amber-400/70 bg-amber-50/60 shadow-amber-100{% else %}border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50/60{% endif %}">
+                 {% if forloop.first %}border-amber-400/70 bg-amber-50/60 shadow-amber-100{% else %}border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50/60{% endif %}">
 
           {# Badge #}
           <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-black text-xs
-                      {% if forloop.first %}bg-amber-500 text-white shadow-sm shadow-amber-400/30{% else %}bg-slate-100 text-slate-600 border border-slate-200{% endif %}">
+                      {% if forloop.first %}bg-amber-500 text-white shadow-sm shadow-amber-400/30{% else %}bg-gray-100 text-gray-600 border border-gray-200{% endif %}">
             {{ arm.name|slice:"-1:" }}{{ forloop.counter|stringformat:"s" }}
           </div>
 
           {# Info #}
           <div class="flex-1 min-w-0">
-            <div class="text-xs font-black {% if forloop.first %}text-slate-900{% else %}text-slate-800{% endif %}">
+            <div class="text-xs font-black {% if forloop.first %}text-gray-900{% else %}text-gray-800{% endif %}">
               {{ arm.name }}
             </div>
-            <div class="text-[10.5px] font-medium text-slate-500 mt-0.5">
+            <div class="text-[10.5px] font-medium text-gray-500 mt-0.5">
               {{ arm.students.count }} student{{ arm.students.count|pluralize }}
               · {% if arm.class_teacher %}{{ arm.class_teacher.user.get_full_name }}{% else %}<span class="text-rose-600 font-semibold">No class teacher</span>{% endif %}
             </div>
             {# Capacity bar #}
             <div class="mt-1.5">
-              <div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+              <div class="w-full bg-gray-100 h-1 rounded-full overflow-hidden">
                 <div
                   class="h-full rounded-full transition-all
                          {% if arm.capacity_pct >= 100 %}bg-rose-500{% elif arm.capacity_pct >= 90 %}bg-amber-500{% else %}bg-emerald-500{% endif %}"
@@ -321,7 +321,7 @@
                 </div>
               </div>
               <div class="text-[9.5px] font-semibold mt-0.5
-                          {% if arm.capacity_pct >= 100 %}text-rose-600{% elif arm.capacity_pct >= 90 %}text-amber-600{% else %}text-slate-400{% endif %}">
+                          {% if arm.capacity_pct >= 100 %}text-rose-600{% elif arm.capacity_pct >= 90 %}text-amber-600{% else %}text-gray-400{% endif %}">
                 {{ arm.capacity_pct|default:0 }}% capacity{% if arm.capacity_pct >= 100 %} — arm is full{% endif %}
               </div>
             </div>
@@ -335,7 +335,7 @@
               hx-target="#modal-container"
               hx-swap="innerHTML"
               @click="$dispatch('open-modal')"
-              class="p-1.5 hover:bg-white rounded-lg text-slate-400 hover:text-slate-700 hover:shadow-sm transition"
+              class="p-1.5 hover:bg-white rounded-lg text-gray-400 hover:text-gray-700 hover:shadow-sm transition"
               title="Edit {{ arm.name }}">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -345,7 +345,7 @@
             <button
               type="button"
               @click="confirmDelete = !confirmDelete"
-              class="p-1.5 hover:bg-rose-50 rounded-lg text-slate-400 hover:text-rose-600 transition"
+              class="p-1.5 hover:bg-rose-50 rounded-lg text-gray-400 hover:text-rose-600 transition"
               title="Delete {{ arm.name }}">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                 <polyline points="3 6 5 6 21 6"/>
@@ -381,7 +381,7 @@
             <button
               type="button"
               @click="confirmDelete = false"
-              class="px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-500 transition">
+              class="px-3 py-1.5 bg-white hover:bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold text-gray-500 transition">
               Cancel
             </button>
           </div>
@@ -390,20 +390,20 @@
       </div>
       {% empty %}
       <div class="text-center py-6">
-        <div class="text-slate-300 text-3xl mb-2">⬡</div>
-        <div class="text-xs font-semibold text-slate-500">No arms yet</div>
-        <div class="text-[10.5px] text-slate-400 mt-0.5">Click "Add Arm" to get started</div>
+        <div class="text-gray-300 text-3xl mb-2">⬡</div>
+        <div class="text-xs font-semibold text-gray-500">No arms yet</div>
+        <div class="text-[10.5px] text-gray-400 mt-0.5">Click "Add Arm" to get started</div>
       </div>
       {% endfor %}
     </div>
   </div>
 
   {# ── RECENT ACTIVITY ── #}
-  <div class="px-4 py-3.5 border-t border-slate-100 bg-slate-50/40">
-    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+  <div class="px-4 py-3.5 border-t border-gray-100 bg-gray-50/40">
+    <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">
       Recent Activity
     </div>
-    <div class="flex flex-col divide-y divide-slate-100">
+    <div class="flex flex-col divide-y divide-gray-100">
       {% for log in recent_logs %}
       <div class="flex items-start gap-2.5 py-2.5">
         <div class="w-1.5 h-1.5 rounded-full shrink-0 mt-[5px]
@@ -411,20 +411,20 @@
                     {% elif log.type == 'info' %}bg-blue-500
                     {% elif log.type == 'warning' %}bg-amber-500
                     {% elif log.type == 'danger' %}bg-rose-500
-                    {% else %}bg-slate-400{% endif %}">
+                    {% else %}bg-gray-400{% endif %}">
         </div>
         <div class="flex-1 min-w-0">
-          <div class="text-xs text-slate-700 font-medium leading-relaxed">
+          <div class="text-xs text-gray-700 font-medium leading-relaxed">
             {{ log.message }}
           </div>
-          <div class="text-[10px] text-slate-400 font-medium mt-0.5">
+          <div class="text-[10px] text-gray-400 font-medium mt-0.5">
             {{ log.created_at|timesince }} ago
             {% if log.actor %} · {{ log.actor }}{% endif %}
           </div>
         </div>
       </div>
       {% empty %}
-      <div class="py-3 text-[11px] text-slate-400 text-center">No recent activity</div>
+      <div class="py-3 text-[11px] text-gray-400 text-center">No recent activity</div>
       {% endfor %}
     </div>
   </div>

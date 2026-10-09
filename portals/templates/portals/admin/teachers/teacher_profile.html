@@ -1,4 +1,4 @@
-<main class="flex-1 bg-background overflow-y-auto">
+<div class="flex-1">
 	<div
 		class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 bg-white border border-gray-200 rounded-xl p-3 shadow-sm">
 		<!-- Navigation Flow Line -->
@@ -243,7 +243,7 @@
 			type="radio"
 			name="my_tabs_2"
 			class="tab text-black"
-			aria-label="Overview" />
+			aria-label="Overview" checked="checked" />
 		<div
 			class="tab-content bg-base-100 p-10 py-3 text-[12px] font-black uppercase tracking-tight border-b-2 border-main text-main cursor-pointer transition-all">
 			{%include 'portals/admin/teachers/partials/t_profile/profile_overview.html' %}
@@ -299,4 +299,4 @@
 			{%include 'portals/admin/teachers/partials/t_profile/profile_notes_and_history.html'%}
 		</div>
 	</div>
-</main>
+</div>

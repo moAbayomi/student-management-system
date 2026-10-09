@@ -57,15 +57,11 @@
 	</div>
 	<!-- Actions -->
 	<div class="flex gap-2">
-		<button
-			{% if student %}
-			hx-get="{%url 'portal:student-detail' student.id%}"
-			hx-target="main"
-			hx-swap="innerHTML"
-			{%endif%}
-			class="flex-1 py-2 bg-surface-dark text-white rounded-md text-[11.5px] font-bold hover:opacity-90 transition-opacity">
+		<a
+			{% if student %}href="{% url 'portal:student-detail' student.id %}"{% endif %}
+			class="text-center flex-1 py-2 bg-surface-dark text-white rounded-md text-[11.5px] font-bold hover:opacity-90 transition-opacity">
 			View Profile
-		</button>
+		</a>
 		<button
 			class="flex-1 py-2 bg-surface border border-border text-main rounded-md text-[11.5px] font-bold hover:bg-background transition-colors">
 			Contact Parent

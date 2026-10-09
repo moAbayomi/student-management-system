@@ -1,57 +1,82 @@
-{% extends "portals/base.html" %}
+{% extends "portals/admin/settings/_layout.html" %}
+{% load ui %}
+{% block title %}Sessions & Terms{% endblock %}
+{% block page_title %}Sessions &amp; Terms{% endblock %}
+{% block page_subtitle %}The academic calendar. Only one session and one term can be current at a time.{% endblock %}
 
-{% block content %}
-<h2>Sessions</h2>
+{% block settings_content %}
+<div class="space-y-lg">
+	{% for s in sessions %}
+	<section class="ui-card overflow-hidden">
+		<div class="ui-card-header">
+			<div class="flex items-center gap-3">
+				<h2 class="text-base font-black text-main">{{ s.name }}</h2>
+				{% if s.is_current %}<span class="ui-badge ui-badge-success">Current</span>{% endif %}
+				<span class="ui-badge {% if s.status == 'ACTIVE' %}ui-badge-info{% elif s.status == 'ARCHIVED' %}ui-badge-neutral{% else %}ui-badge-warning{% endif %}">{{ s.get_status_display }}</span>
+			</div>
+			{% if not s.is_current %}
+			<form method="post" action="{% url 'portal:session-set-current' s.id %}">
+				{% csrf_token %}
+				<button type="submit" class="ui-btn ui-btn-secondary ui-btn-sm">Make current session</button>
+			</form>
+			{% endif %}
+		</div>
+		<div class="overflow-x-auto"><table class="ui-table">
+			<thead>
+				<tr><th>Term</th><th>Dates</th><th>Grading deadline</th><th>Next term begins</th><th></th></tr>
+			</thead>
+			<tbody>
+				{% for t in s.terms.all %}
+				<tr>
+					<td class="font-bold">
+						{{ t.get_term_type_display }}
+						{% if t.is_current %}<span class="ui-badge ui-badge-success ml-2">Current</span>{% endif %}
+					</td>
+					<td class="text-muted">{% if t.start_date %}{{ t.start_date|date:"j M Y" }} – {{ t.end_date|date:"j M Y"|default:"?" }}{% else %}<span class="text-dim">Not set</span>{% endif %}</td>
+					<td class="text-muted">{{ t.grading_deadline|date:"j M Y, H:i"|default:"—" }}</td>
+					<td class="text-muted">{{ t.next_term_begins|date:"j M Y"|default:"—" }}</td>
+					<td>
+						<div class="flex justify-end gap-2">
+							<a href="{% url 'portal:term-edit' t.id %}" class="ui-btn ui-btn-secondary ui-btn-sm">{% icon "pencil" "w-3 h-3" %} Edit</a>
+							{% if not t.is_current %}
+							<form method="post" action="{% url 'portal:term-set-current' t.id %}">
+								{% csrf_token %}
+								<button type="submit" class="ui-btn ui-btn-secondary ui-btn-sm">Make current</button>
+							</form>
+							{% endif %}
+						</div>
+					</td>
+				</tr>
+				{% empty %}
+				<tr><td colspan="5" class="text-dim">No terms in this session.</td></tr>
+				{% endfor %}
+			</tbody>
+		</table></div>
+	</section>
+	{% empty %}
+	<div class="ui-card ui-card-body text-center text-muted">No sessions yet. Create the first one below.</div>
+	{% endfor %}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Session</th>
-            <th>Years</th>
-            <th>Status</th>
-            <th>Terms</th>
-            <th>Current</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for s in sessions %}
-        <tr>
-            <td>{{ s.name }}</td>
-            <td>{{ s.start_year }}–{{ s.end_year }}</td>
-            <td>{{ s.get_status_display }}</td>
-            <td>
-                {% for t in s.terms.all %}
-                    {{ t.get_term_type_display }}{% if not forloop.last %}, {% endif %}
-                {% empty %}
-                    <em>No terms</em>
-                {% endfor %}
-            </td>
-            <td>
-                {% if s.is_current %}
-                    <span class="badge badge-success">Current</span>
-                {% else %}—{% endif %}
-            </td>
-            <td>
-                {% if not s.is_current %}
-                <form method="post" action="{% url 'portal:session-set-current' s.id %}" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-sm">Set as current</button>
-                </form>
-                {% endif %}
-            </td>
-        </tr>
-    {% empty %}
-        <tr><td colspan="6">No sessions yet.</td></tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-<h3>Create Session</h3>
-<form method="post" action="{% url 'portal:session-create' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Create Session</button>
-    <p class="help-text">Creating a session automatically creates First, Second, and Third Term.</p>
-</form>
+	<section class="ui-card">
+		<div class="ui-card-header">
+			<div>
+				<h2 class="ui-card-title">New Session</h2>
+				<p class="ui-card-subtitle">First, Second and Third Term are created automatically</p>
+			</div>
+		</div>
+		<form method="post" action="{% url 'portal:session-create' %}" class="ui-card-body space-y-md">
+			{% csrf_token %}
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+				{% include "portals/partials/form_field.html" with field=form.name %}
+				{% include "portals/partials/form_field.html" with field=form.start_year %}
+				{% include "portals/partials/form_field.html" with field=form.end_year %}
+				{% include "portals/partials/form_field.html" with field=form.start_date %}
+				{% include "portals/partials/form_field.html" with field=form.end_date %}
+			</div>
+			<div class="flex justify-end">
+				<button type="submit" class="ui-btn ui-btn-primary">{% icon "plus" "w-3.5 h-3.5" %} Create Session</button>
+			</div>
+		</form>
+	</section>
+</div>
 {% endblock %}

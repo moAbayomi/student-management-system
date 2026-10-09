@@ -1,0 +1,15 @@
+{% extends "portals/partials/sidebar.html" %}
+{% load ui %}
+{% comment %}Teacher sidebar. Links marked soon=True are pages that don't exist yet.{% endcomment %}
+{% block nav %}
+	{% nav_link "portal:teacher" "Dashboard" "dashboard" %}
+	{% nav_link "portal:my-students" "My Students" "users" %}
+	{% nav_link "portal:class-teacher-attendance" "Attendance" "attendance" %}
+	{% nav_link "portal:teacher" "My Timetable" "calendar" soon=True %}
+	{% include "portals/partials/nav_section.html" with title="Academic" %}
+	{% nav_link "portal:subject-assignments" "Subject Assignments" "clipboard" %}
+	{% nav_link "portal:results-view" "Results & Grades" "grades" %}
+	{% nav_link "portal:teacher" "Announcements" "megaphone" soon=True %}
+	{% include "portals/partials/nav_section.html" with title="Account" %}
+	{% nav_link "portal:teacher" "Profile" "user" soon=True %}
+{% endblock %}

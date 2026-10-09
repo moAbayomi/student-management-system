@@ -84,10 +84,9 @@
     }">
 	<!-- Attendance Header -->
 	 <input type="hidden" x-ref="csrf" value="{{ csrf_token }}">
-	<header
-		class="z-30 bg-surface/80 backdrop-blur border-b border-border-light px-lg h-16 flex items-center justify-between sticky top-0">
+	<header class="page-header">
 		<div>
-			<h1 class="text-[13px] font-black text-main uppercase tracking-tight">
+			<h1 class="page-title">
 				Mark Attendance
 			</h1>
 			<p class="text-[10px] text-dim uppercase tracking-widest font-bold">
@@ -95,7 +94,7 @@
 			</p>
 		</div>
 		<button
-			class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded text-[10.5px] font-black uppercase tracking-wider hover:bg-primary-dark transition-all shadow-sm">
+			class="ui-btn ui-btn-primary">
 			<svg
 				class="w-3.5 h-3.5"
 				fill="none"
@@ -109,12 +108,12 @@
 		</button>
 	</header>
 
-	<div class="p-md md:p-lg space-y-lg">
+	<div class="space-y-lg">
 		<!-- Date & Class Info Section -->
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
 			<!-- Date Selector Card -->
 			<div
-				class="bg-surface p-lg border border-border-light rounded-sm shadow-sm hover:shadow-md transition-all">
+				class="bg-surface p-lg border border-border-light rounded-lg shadow-sm hover:shadow-md transition-all">
 				<label
 					class="text-[10px] font-black text-dim uppercase tracking-widest block mb-3"
 					>Select Date</label
@@ -131,7 +130,7 @@
 
 			<!-- Form Class Info Card -->
 			<div
-				class="bg-surface p-lg border border-border-light rounded-sm shadow-sm">
+				class="bg-surface p-lg border border-border-light rounded-lg shadow-sm">
 				<label
 					class="text-[10px] font-black text-dim uppercase tracking-widest block mb-3"
 					>Form Class</label
@@ -154,7 +153,7 @@
 
 			<!-- Total Students Card -->
 			<div
-				class="bg-surface p-lg border border-border-light rounded-sm shadow-sm">
+				class="bg-surface p-lg border border-border-light rounded-lg shadow-sm">
 				<label
 					class="text-[10px] font-black text-dim uppercase tracking-widest block mb-3"
 					>Total Students</label
@@ -194,7 +193,7 @@
 
 		<!-- Quick Actions Bar -->
 		<div
-			class="bg-surface border border-border-light rounded-sm p-lg shadow-sm flex items-center justify-between flex-wrap gap-3">
+			class="bg-surface border border-border-light rounded-lg p-lg shadow-sm flex items-center justify-between flex-wrap gap-3">
 			<div class="flex items-center gap-2">
 				<button
 					@click="markAll('P')"
@@ -235,7 +234,7 @@
 
 		<!-- Attendance Table Section -->
 		<div
-			class="bg-surface border border-border-light rounded-sm shadow-sm overflow-hidden">
+			class="bg-surface border border-border-light rounded-lg shadow-sm overflow-hidden">
 			<div
 				class="px-lg py-md border-b border-border-light bg-gray-50/50 flex items-center justify-between">
 				<div>
@@ -376,7 +375,7 @@
 									<input
 										type="text"
 										placeholder="Optional…"
-										class="w-full max-w-xs px-2.5 py-1.5 text-xs text-main placeholder-muted bg-background border border-border-light focus:border-primary focus:outline-none rounded transition" />
+										class="w-full max-w-[20rem] px-2.5 py-1.5 text-xs text-main placeholder-muted bg-background border border-border-light focus:border-primary focus:outline-none rounded transition" />
 								</td>
 							</tr>
 						</template>
@@ -400,7 +399,7 @@
 					</button>
 					<button
 						@click="submitAttendance()"
-						class="flex items-center gap-2 px-4 py-2.5 text-[11px] font-black text-white bg-primary hover:bg-primary-dark rounded transition shadow-sm uppercase tracking-wider">
+						class="ui-btn ui-btn-primary">
 						<svg
 							class="w-4 h-4"
 							fill="none"

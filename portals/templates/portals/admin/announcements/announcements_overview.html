@@ -1,8 +1,8 @@
 <!-- ── TOPBAR ── -->
-<div class="flex items-center px-6 py-4 bg-white border-b border-gray-200">
+<div class="page-header">
     <div class="flex-1">
-      <div class="flex items-center text-[20px] font-bold leading-tight text-gray-900">Announcements</div>
-      <div class="text-[11.5px] text-gray-500 mt-0.5">Newsroom · 14 published · 3 drafts · 2 scheduled · 1 expired</div>
+      <h1 class="page-title">Announcements</h1>
+      <div class="page-subtitle">Newsroom · 14 published · 3 drafts · 2 scheduled · 1 expired</div>
     </div>
 </div>
 
@@ -46,7 +46,7 @@
     </div>
 
     <!-- CREATE — high visibility -->
-    <button class="ml-auto flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-[13px] font-bold shadow-sm transition-colors" onclick="document.getElementById('createModal').style.display='flex'">
+    <button class="ui-btn ui-btn-primary ml-auto" onclick="document.getElementById('createModal').style.display='flex'">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       New Announcement
     </button>
@@ -395,7 +395,7 @@
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           Schedule
         </button>
-        <button class="px-5 py-2 flex items-center gap-2 bg-amber-500 text-white rounded-lg text-[13px] font-bold hover:bg-amber-600 shadow-sm transition-colors">
+        <button class="ui-btn ui-btn-primary">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V6M5 12l7-7 7 7"/></svg>
           Publish Now
         </button>

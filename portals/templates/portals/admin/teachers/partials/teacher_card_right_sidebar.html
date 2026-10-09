@@ -82,15 +82,11 @@
 	</div>
 
 	<div class="flex gap-2">
-		<button
-			{%if teacher%}
-			hx-get="{%url 'portal:teacher-detail' teacher.id %}"
-			hx-target="main"
-			hx-swap="innerHTML"
-			{%endif%}
-			class="flex-1 py-2 bg-surface-dark text-white rounded-md text-[11.5px] font-bold hover:opacity-90 transition-opacity cursor-pointer">
+		<a
+			{% if teacher %}href="{% url 'portal:teacher-detail' teacher.id %}"{% endif %}
+			class="text-center flex-1 py-2 bg-surface-dark text-white rounded-md text-[11.5px] font-bold hover:opacity-90 transition-opacity cursor-pointer">
 			View Profile
-		</button>
+		</a>
 		<button
 			class="flex-1 py-2 bg-surface border border-border text-main rounded-md text-[11.5px] font-bold hover:bg-background transition-colors cursor-pointer">
 			Timetable
